@@ -1,4 +1,4 @@
-// Copright E.H Dost all rights reserved
+// A text based adventure/RPG game
 // main file for the game
 
 #include <iostream>
