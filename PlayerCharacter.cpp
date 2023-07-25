@@ -61,7 +61,7 @@ PlayerCharacter::PlayerCharacter()
 }
 
 // constructor with parameters
-PlayerCharacter::PlayerCharacter(std::string name, int health, int mana, int level, int experience, int gold, int pclass, std::map<std::string, int> statValues, std::map<std::string, int> inventory, std::map<std::string, bool> statusEffect)
+PlayerCharacter::PlayerCharacter(std::string name, int health, int mana, int level, int experience, int gold, int pclass, std::map<std::string, int> statValues, std::map<Item, int> inventory, std::map<std::string, bool> statusEffect)
 	: Name{ name }, Health{ health }, Mana{ mana }, Level{ level }, Experience{ experience }, Gold{ gold }, PlayerClass {pclass}, StatValues{statValues}, Inventory{inventory}, StatusEffect{statusEffect}, CurrentLocation { &TestTavern }
 {
 }
@@ -114,6 +114,18 @@ void PlayerCharacter::MoveTo(Location& CurrentLocation, Location& NewLocation)
 	//set current location to new location
 
 	CurrentLocation = NewLocation;
+}
+
+int PlayerCharacter::GetPlayerGold(PlayerCharacter& Player) const
+{
+	//get player gold and return the value as an int
+	return Player.Gold;
+}
+
+void PlayerCharacter::AddGold(PlayerCharacter& Player, int Gold)
+{
+	//add gold to player
+	Player.Gold += Gold;
 }
 
 PlayerCharacter PlayerCharacter::PlayerCreator()

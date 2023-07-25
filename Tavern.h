@@ -20,8 +20,8 @@ public:
 
     void Visit(PlayerCharacter& Player); // players can enter the Tavern with this command from anywhere in the game.  Takes in a pointer to the player character. Function should update the player's current location to the Tavern. 
     void TavernMenu(); // displays the menu of options for the player to choose from while in the Tavern.
-    void Rest(PlayerCharacter& Player,int PlayerGold); // players can rest in the Tavern to regain health, will cost gold.
-    void Drink(PlayerCharacter& Player, int PlayerGold); // players can drink in the Tavern, will cost gold.
+    void Rest(PlayerCharacter& Player); // players can rest in the Tavern to regain health, will cost gold.
+    void Drink(PlayerCharacter& Player); // players can drink in the Tavern, will cost gold.
     void ViewNpcs(std::vector<NPC> NPCList); // players can view the NPC's in the Tavern, some NPCs will sell items, others can upgrade gear, etc.
     void TalkToNpc(NPC& npc); // allows player to talk to selected NPC from the list of NPC's in the Tavern.
 };

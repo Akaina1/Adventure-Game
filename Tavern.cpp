@@ -22,6 +22,13 @@ void Tavern::OnEnter()
 {
     
 	// print out formatted text
+    TypeText(L"Welcome to the Tavern!\n", 10);
+    TypeText(L"Here you can rest to save your game...\n", 10);
+    TypeText(L"Grab a drink from the bar...\n", 10);
+    TypeText(L"Talk to various NPCs to purchase items and equipment...\n", 10);
+    TypeText(L"And you can venture into the Dungeons as well... If you dare...\n", 10);
+    TypeText(L"So what will it be stranger...?\n", 30);
+
     // print out the name of the location and description
     // do event checks
     
@@ -49,9 +56,41 @@ void Tavern::TavernMenu()
     // 3. Talk to NPCs (this will be a sub menu where the player can choose which NPC to talk to)
     // 4. Go to the Dungeon
     // 5. Exit the game
+
+    int choice = 0;
+    TypeText(L"------------------------------------------\n", 10);
+    TypeText(L"1. Rest\n", 10);
+    TypeText(L"2. Drink\n", 10);
+    TypeText(L"3. Talk to NPCs\n", 10);
+    TypeText(L"4. Go to the Dungeon\n", 10);
+    TypeText(L"5. Exit the game\n", 10);
+    TypeText(L"------------------------------------------\n", 10);
+
+    std::cin >> choice;
+
+	switch (choice)
+	{
+	case 1:
+		//Rest(Player, Player.GetGold());
+		break;
+	case 2:
+		//Drink(Player, Player.GetGold());
+		break;
+	case 3:
+		//ViewNpcs(NPCList);
+		break;
+	case 4:
+		// go to the dungeon
+		break;
+	case 5:
+		// exit the game
+		break;
+	default:
+		break;
+	}
 }
 
-void Tavern::Rest(PlayerCharacter& Player, int PlayerGold)
+void Tavern::Rest(PlayerCharacter& Player)
 {
 	// Rest will restore the player's health and mana to full
 	// Rest will also save the game
@@ -59,12 +98,54 @@ void Tavern::Rest(PlayerCharacter& Player, int PlayerGold)
     // do event checks
 }
 
-void Tavern::Drink(PlayerCharacter& Player, int PlayerGold)
+void Tavern::Drink(PlayerCharacter& Player)
 {
 	// Drink will allow the player to buy drinks
 	// Drinks will restore health and mana
 	// Drinks will cost gold
     // do event checks
+    int choice = 0;
+	int gold = Player.GetPlayerGold(Player);	
+
+    TypeText(L"------------------------------------------\n", 10);
+    TypeText(L" 'What would you like to drink stranger...?' \n", 10);
+    TypeText(L"------------------------------------------\n", 10);
+    TypeText(L"1. Ale - 10 Gold\n", 10);
+    TypeText(L"2. Mead - 15 Gold\n", 10);
+    TypeText(L"3. Wine - 20 Gold\n", 10);
+    TypeText(L"4. Water - 5 Gold\n", 10);
+    TypeText(L"5. Leave\n", 10);
+
+    while (choice != 5)
+	{
+		std::cin >> choice;
+
+		switch (choice)
+		{
+		case 1:
+			// buy ale
+
+
+
+			break;
+		case 2:
+			// buy mead
+			break;
+		case 3:
+			// buy wine
+			break;
+		case 4:
+			// buy water
+			break;
+		case 5:
+			// leave
+			break;
+		default:
+			break;
+		}
+	}
+
+
 }
 
 void Tavern::ViewNpcs(std::vector<NPC> NPCList)
