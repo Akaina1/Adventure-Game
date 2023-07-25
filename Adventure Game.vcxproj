@@ -129,7 +129,8 @@
   <ItemGroup>
     <ClCompile Include="Adventure Game.cpp" />
     <ClCompile Include="CharacterTemplate.cpp" />
-    <ClCompile Include="EventFlag.cpp" />
+    <ClCompile Include="Dungeon.cpp" />
+    <ClCompile Include="Event.cpp" />
     <ClCompile Include="I_Print.cpp" />
     <ClCompile Include="Location.cpp" />
     <ClCompile Include="MainMenu.cpp" />
@@ -140,7 +141,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CharacterTemplate.h" />
-    <ClInclude Include="EventFlag.h" />
+    <ClInclude Include="Dungeon.h" />
+    <ClInclude Include="Event.h" />
     <ClInclude Include="I_Print.h" />
     <ClInclude Include="Location.h" />
     <ClInclude Include="Main.h" />
