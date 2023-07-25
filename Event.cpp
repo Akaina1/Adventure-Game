@@ -12,19 +12,21 @@ Event::~Event()
 {
 }
 
-void Event::EventTrigger(PlayerCharacter* player)
+void EventUpdate(Event* event)
 {
-	// EventTrigger takes in the player character and checks for certain conditions based on EventFlags
-	// If the conditions are met, the event is triggered and the EventFlags are updated
-	// EventTrigger will call Eventinfo to print out the event's Description attribute
-	// EventFlags are used to prevent the same event from triggering multiple times
+	// Event update will update the event's eventStatus attribute
+    // This is used to update the event's status when the player completes an event or starts an event
 }
 
-void Event::EventComplete(PlayerCharacter* player)
+void Event::EventStart(Event& obj)
 {
-	// EventComplete takes in the player character and checks for certain conditions based on EventFlags
-	// EventTrigger will call Eventinfo to print out the event's Completion attribute
-    // If the conditions are met, the event is completed and the EventFlags are updated
+	//EventStart is called by EventTrigger and takes in a event object
+	//EventStart will update the event's eventStatus attribute to "Started" with the EventUpdate function
+}
+
+void Event::EventComplete(Event& obj)
+{
+	//EventComplete takes in an event object and updates the event's eventStatus attribute to "Completed" with the EventUpdate function
 }
 
 void Event::EventInfo(Event* event)
@@ -35,8 +37,3 @@ void Event::EventInfo(Event* event)
 }
 
 
-
-void Event1::EventTrigger(PlayerCharacter* player)
-{
-
-}

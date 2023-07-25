@@ -131,6 +131,8 @@
     <ClCompile Include="CharacterTemplate.cpp" />
     <ClCompile Include="Dungeon.cpp" />
     <ClCompile Include="Event.cpp" />
+    <ClCompile Include="EventsList.cpp" />
+    <ClCompile Include="Item.cpp" />
     <ClCompile Include="I_Print.cpp" />
     <ClCompile Include="Location.cpp" />
     <ClCompile Include="MainMenu.cpp" />
@@ -143,6 +145,8 @@
     <ClInclude Include="CharacterTemplate.h" />
     <ClInclude Include="Dungeon.h" />
     <ClInclude Include="Event.h" />
+    <ClInclude Include="EventsList.h" />
+    <ClInclude Include="Item.h" />
     <ClInclude Include="I_Print.h" />
     <ClInclude Include="Location.h" />
     <ClInclude Include="Main.h" />
