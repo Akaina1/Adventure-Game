@@ -106,6 +106,11 @@ void Tavern::Drink(PlayerCharacter& Player)
     // do event checks
     int choice = 0;
 	int gold = Player.GetPlayerGold(Player);	
+	Item ale("Ale", "A pint of ale", 001, 5, 1, 1);
+	Item mead("Mead", "A pint of mead", 002, 10, 1, 1);
+	Item wine("Wine", "A glass of wine", 003, 15, 1, 1);
+	Item water("Water", "A glass of water", 004, 1, 1, 1);
+
 
     TypeText(L"------------------------------------------\n", 10);
     TypeText(L" 'What would you like to drink stranger...?' \n", 10);
@@ -115,6 +120,7 @@ void Tavern::Drink(PlayerCharacter& Player)
     TypeText(L"3. Wine - 20 Gold\n", 10);
     TypeText(L"4. Water - 5 Gold\n", 10);
     TypeText(L"5. Leave\n", 10);
+	
 
     while (choice != 5)
 	{
@@ -123,9 +129,15 @@ void Tavern::Drink(PlayerCharacter& Player)
 		switch (choice)
 		{
 		case 1:
-			// buy ale
+			// check if player has enough gold
+			// if so, buy ale
+			// if not, print out message
 
-
+			if (gold >= ale.GetPrice())
+			{
+				Player.RemoveGold(Player, 5);
+				Player.AddItem(Player, ale, 1);
+			}
 
 			break;
 		case 2:

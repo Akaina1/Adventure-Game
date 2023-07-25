@@ -3,6 +3,7 @@
 #include "MainMenu.h"
 #include "Location.h"
 #include "Tavern.h"
+#include "Item.h"
 
 Tavern TestTavern;
 
@@ -31,10 +32,11 @@ void PlayerCharacter::Print(std::ostream& os) const
 	}
 	os << "-------------------------------------------" << std::endl;
 	os << "Inventory: " << std::endl;
+	//need to loop through the map and print the item names and quantities
 	for (auto item : Inventory)
 	{
 		os << item.first << ": " << item.second << std::endl;
-	}
+	}	
 	os << "-------------------------------------------" << std::endl;
 	os << "Status Effects: " << std::endl;
 	for (auto effect : StatusEffect)
@@ -126,6 +128,23 @@ void PlayerCharacter::AddGold(PlayerCharacter& Player, int Gold)
 {
 	//add gold to player
 	Player.Gold += Gold;
+}
+
+void PlayerCharacter::RemoveGold(PlayerCharacter& Player, int Gold)
+{
+	Player.Gold -= Gold;
+}
+
+void PlayerCharacter::AddItem(PlayerCharacter& Player, Item& item, int quantity)
+{
+	// add Item object into the inventory map
+    Player.Inventory.insert(std::pair<Item, int>(item, quantity));
+}
+
+void PlayerCharacter::RemoveItem(PlayerCharacter& Player, Item& item, int quantity)
+{
+	// remove Item object from the inventory map
+	Player.Inventory.erase(item);
 }
 
 PlayerCharacter PlayerCharacter::PlayerCreator()

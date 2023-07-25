@@ -39,5 +39,8 @@ public:
 	Location& GetCurrentLocation(Location& CurrentLocation) const; // returns the current location of the player character
 	int GetPlayerGold(PlayerCharacter& Player) const; // returns player gold value
 	void AddGold(PlayerCharacter& Player, int Gold); // adds gold to the player character
+	void RemoveGold(PlayerCharacter& Player, int Gold); // removes gold from the player character
+	void AddItem(PlayerCharacter& Player, Item& Item, int Quantity); // adds an item to the player character's inventory)
+	void RemoveItem(PlayerCharacter& Player, Item& Item, int Quantity); // removes an item from the player character's inventory
 };
 

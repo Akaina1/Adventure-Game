@@ -15,3 +15,13 @@ Item::Item(std::string name, std::string description, int id, int price, int qua
 	this->quantity = quantity;
 	this->type = type;
 }
+
+void Item::Print(std::ostream& os) const
+{
+	os << "Name: " << name << std::endl;
+	os << "Description: " << description << std::endl;
+	os << "ID: " << id << std::endl;
+	os << "Price: " << price << std::endl;
+	os << "Quantity: " << quantity << std::endl;
+	os << "Type: " << type << std::endl;
+}
