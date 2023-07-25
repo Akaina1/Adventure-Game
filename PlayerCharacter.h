@@ -44,5 +44,8 @@ public:
 	void RemoveGold(PlayerCharacter& Player, int Gold); // removes gold from the player character
 	//void AddItem(PlayerCharacter& Player, Item& Item, int Quantity); // adds an item to the player character's inventory)
 	//void RemoveItem(PlayerCharacter& Player, Item& Item, int Quantity); // removes an item from the player character's inventory
+	//void AddExperience(PlayerCharacter& Player, int Experience); // adds experience to the player character
+	void SetHealth(PlayerCharacter& Player, int Health); // adds health to the player character
+	int GetHealth(PlayerCharacter& Player); // returns the health of the player character
 };
 

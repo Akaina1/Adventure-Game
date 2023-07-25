@@ -131,6 +131,17 @@ void PlayerCharacter::RemoveGold(PlayerCharacter& Player, int Gold)
 	Player.Gold -= Gold;
 }
 
+void PlayerCharacter::SetHealth(PlayerCharacter& Player, int health)
+{
+	//set player health
+	Player.Health += health;
+}
+
+int PlayerCharacter::GetHealth(PlayerCharacter& Player)
+{
+	return Player.Health;
+}
+
 //void PlayerCharacter::AddItem(PlayerCharacter& Player, Item& item, int quantity)
 //{
 //	// add Item object into the inventory map

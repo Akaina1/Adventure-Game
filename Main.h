@@ -1,4 +1,4 @@
-//main header to include all other headers
+//main header for includes
 #pragma once
 
 #include <iostream>

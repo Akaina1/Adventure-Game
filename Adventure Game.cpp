@@ -22,6 +22,19 @@ int main()
     //MainMenu(); 
 
     //return 0;
+
+    PlayerCharacter player;
+
+    Item HealthPotion("Health Potion", "A potion that increases your health by 10", 002, 10, 1, 0);
+
+    HealthPotion.Print(HealthPotion);
+
+    HealthPotion.AddEffect([](PlayerCharacter &player) {player.SetHealth(player, 10); });
+
+    HealthPotion.UseItem(&player, HealthPotion); 
+
+    std::cout << player.GetHealth(player) << std::endl;
+
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
