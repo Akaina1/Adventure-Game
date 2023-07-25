@@ -8,6 +8,7 @@ void PlayerCharacter::Print(std::ostream& os) const
 {
 	std::cout << std::boolalpha;
 	os << "Player Character: " << std::endl;
+	os << "Location: "<< CurrentLocation << std::endl;
 	os << "-------------------------------------------" << std::endl;
 	os << "Name: " << Name << std::endl;
 	os << "Level: " << Level << std::endl;
@@ -96,6 +97,19 @@ void PlayerCharacter::ShowInventory() const
 	{
 		std::cout << item.first << ": " << item.second << std::endl;
 	}
+}
+
+Location& PlayerCharacter::GetCurrentLocation(Location& CurrentLocation) const
+{
+	//return reference to current location
+    return CurrentLocation;
+}
+
+void PlayerCharacter::MoveTo(Location& CurrentLocation, Location& NewLocation)
+{
+	//set current location to new location
+
+	CurrentLocation = NewLocation;
 }
 
 PlayerCharacter PlayerCharacter::PlayerCreator()

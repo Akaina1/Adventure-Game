@@ -1,6 +1,7 @@
 // definition for the PlayerCharacter class
 #pragma once
 #include "CharacterTemplate.h"
+#include "Location.h"
 
 class PlayerCharacter : public CharacterTemplate {
 private:
@@ -19,6 +20,7 @@ private:
 	};
 	std::map<std::string, int> Inventory;  //using a map to hold the inventory of Item objects as well as their quantity
 	std::map<std::string, bool> StatusEffect; // using a map to hold the status effects of the character and whether they are active or not
+	Location* CurrentLocation; // pointer to the current location of the character
 public:
 	virtual void Print(std::ostream& os) const override; // override the print function from the I_Print class
 	PlayerCharacter(); // default constructor
@@ -27,5 +29,7 @@ public:
 	std::string GetPlayerClassName(int PlayerClass) const;// returns the name of the player class
 	void ShowInventory() const; // prints the inventory of the player character
 	PlayerCharacter PlayerCreator(); // create a new custom player character
+	void MoveTo(Location& CurrentLocation, Location& NewLocation); // move the player character to a new location)
+	Location& GetCurrentLocation(Location& CurrentLocation) const; // returns the current location of the player character
 };
 
