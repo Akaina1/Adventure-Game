@@ -12,21 +12,28 @@ Event::~Event()
 {
 }
 
-void EventUpdate(Event* event)
+void EventHandler(Event* event, PlayerCharacter* player)
 {
-	// Event update will update the event's eventStatus attribute
-    // This is used to update the event's status when the player completes an event or starts an event
+	// Event Handler is the checker and updater for events
+    // This will be called often by the program to check if an event has been triggered or completed
+	// this will need to check all the events in the game to see if any have been triggered or completed
+	// if an event has been triggered, it will call EventStart
+    // if an event has been completed, it will call EventComplete
+
 }
 
-void Event::EventStart(Event& obj)
+void Event::EventStart(Event* event)
 {
-	//EventStart is called by EventTrigger and takes in a event object
+	//EventStart is called by EventHandler and takes in a event object
 	//EventStart will update the event's eventStatus attribute to "Started" with the EventUpdate function
+	//EventStart will also call EventInfo to print out the event's description attribute
 }
 
-void Event::EventComplete(Event& obj)
+void Event::EventComplete(Event* event)
 {
+	//EventStart is called by EventHandler and takes in a event object
 	//EventComplete takes in an event object and updates the event's eventStatus attribute to "Completed" with the EventUpdate function
+	//EventComplete will also call EventInfo to print out the event's completion attribute
 }
 
 void Event::EventInfo(Event* event)

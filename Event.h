@@ -9,25 +9,26 @@
 
 #include "PlayerCharacter.h"
 #include "Item.h"
+#include "Main.h"
 
 #pragma once
 class Event
 {
 private:
-	const int eventID {0};
-	bool eventStatus{ false };
-	std::string Description;
-	std::string Completion;
-	std::vector<Item> Reward;
-
+	const int eventID {0000}; // unique event ID
+	bool eventStatus{ false }; // event status
+	std::string Description; // event description gives background information about the event and completion details
+	std::string Completion; // event completion gives completion text as well as reward information
+	std::map<Item, int> Reward; // event reward stored in a map of items and quantity
 
 public:
 	Event();
 	~Event();
-	virtual void EventTrigger(PlayerCharacter* player) = 0;
-	virtual void EventComplete(PlayerCharacter* player) = 0;
+	virtual void EventStart(Event* obj) = 0;
+	virtual void EventComplete(Event* obj) = 0;
 	virtual void EventInfo(Event* event) = 0;
-	virtual void EventUpdate(Event* event) = 0;
+	virtual void RewardHandler(Event* event, PlayerCharacter* player) = 0;
+	virtual void EventHandler(Event* event, PlayerCharacter* player) = 0;
 };
 
 

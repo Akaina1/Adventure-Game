@@ -17,9 +17,11 @@ private:
 public:
 	Event1();
 	~Event1();
-	virtual void EventTrigger(PlayerCharacter* player) override;
-	virtual void EventComplete(PlayerCharacter* player) override;
+	virtual void EventStart(Event* obj) override;
+	virtual void EventComplete(Event* obj) override;
 	virtual void EventInfo(Event* event) override;
+	virtual void RewardHandler(Event* event, PlayerCharacter* player) = 0;
+	virtual void EventHandler(Event* event, PlayerCharacter* player) = 0;
 };
 
 class Event2 : public Event
@@ -32,9 +34,11 @@ private:
 public:
 	Event2();
 	~Event2();
-	virtual void EventTrigger(PlayerCharacter* player) override;
-	virtual void EventComplete(PlayerCharacter* player) override;
+	virtual void EventStart(Event* obj) override;
+	virtual void EventComplete(Event* obj) override;
 	virtual void EventInfo(Event* event) override;
+	virtual void RewardHandler(Event* event, PlayerCharacter* player) = 0;
+	virtual void EventHandler(Event* event, PlayerCharacter* player) = 0;
 };
 
 class Event3 : public Event
@@ -47,9 +51,11 @@ private:
 public:
 	Event3();
 	~Event3();
-	virtual void EventTrigger(PlayerCharacter* player) override;
-	virtual void EventComplete(PlayerCharacter* player) override;
+	virtual void EventStart(Event* obj) override;
+	virtual void EventComplete(Event* obj) override;
 	virtual void EventInfo(Event* event) override;
+	virtual void RewardHandler(Event* event, PlayerCharacter* player) = 0;
+	virtual void EventHandler(Event* event, PlayerCharacter* player) = 0;
 };
 
 class Event4 : public Event
@@ -62,9 +68,11 @@ private:
 public:
 	Event4();
 	~Event4();
-	virtual void EventTrigger(PlayerCharacter* player) override;
-	virtual void EventComplete(PlayerCharacter* player) override;
+	virtual void EventStart(Event* obj) override;
+	virtual void EventComplete(Event* obj) override;
 	virtual void EventInfo(Event* event) override;
+	virtual void RewardHandler(Event* event, PlayerCharacter* player) = 0;
+	virtual void EventHandler(Event* event, PlayerCharacter* player) = 0;
 };
 
 class Event5 : public Event
@@ -77,7 +85,9 @@ private:
 public:
 	Event5();
 	~Event5();
-	virtual void EventTrigger(PlayerCharacter* player) override;
-	virtual void EventComplete(PlayerCharacter* player) override;
+	virtual void EventStart(Event* obj) override;
+	virtual void EventComplete(Event* obj) override;
 	virtual void EventInfo(Event* event) override;
+	virtual void RewardHandler(Event* event, PlayerCharacter* player) = 0;
+	virtual void EventHandler(Event* event, PlayerCharacter* player) = 0;
 };
