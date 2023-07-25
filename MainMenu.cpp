@@ -62,14 +62,17 @@ void MainMenu()
     std::wcout << std::endl;
 	std::wcout << "Enter your Selection: ";
 	std::wcin >> Selection;
+   
 
     switch (Selection)
     {
     case 1:
     {
-        // reset mode to text for cin/cout
+        // reset mode to text for cin/cout 
+        system("cls");
         _setmode(_fileno(stdout), _O_TEXT);
-        std::cout << "Starting Character Creation..." << std::endl;
+        TypeText(L"Starting Character Creation...", 20);
+        std::wcout << std::endl;
 
         Player.PlayerCreator();
 

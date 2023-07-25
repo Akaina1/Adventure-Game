@@ -11,21 +11,10 @@
 
 int main()
 {
-    PlayerCharacter Player;
+  
     //call MainMenu function Test
-    MainMenu();
-    
-    //create new player character
-
-    //PlayerCharacter playertest("Frank", 100, 100, 1, 0, 1000, 3, { {"Strength", 10}, {"Dexterity", 10}, {"Wisdom", 10}, {"Charisma", 10} }, { {"Health Potion", 5}, {"Mana Potion", 5} }, { {"Poisoned", false}, {"Bleeding", true}, {"Burned", false} });
-    // print player character
-
-   
-    //std::cout << playertest << std::endl;
-
-    //playertest.ShowInventory();
-   
-    
+ 
+    MainMenu(); 
 
     return 0;
 }
