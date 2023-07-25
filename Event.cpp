@@ -1,8 +1,5 @@
 #include "Event.h"
-#include "PlayerCharacter.h"
-#include "Location.h"
-#include "Dungeon.h"
-#include "Room.h"
+
 
 Event::Event()
 {

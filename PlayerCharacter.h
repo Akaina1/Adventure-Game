@@ -3,10 +3,12 @@
 #include "CharacterTemplate.h"
 #include "Location.h"
 #include "Main.h"
-#include "Item.h"
+//#include "Item.h"
+#include "MainMenu.h"
+#include "Location.h"
+//#include "Tavern.h"
 
 class PlayerCharacter : public CharacterTemplate {
-
 private:
 	std::string Name = "Unnammed";
 	int Health = 100;
@@ -22,7 +24,7 @@ private:
 		{ "Charisma", 0 }
 	};
 
-	std::map<Item, int> Inventory;  //using a map to hold the inventory of Item objects as well as their quantity
+	//std::map<Item, int> Inventory;  //using a map to hold the inventory of Item objects as well as their quantity
 	std::map<std::string, bool> StatusEffect; // using a map to hold the status effects of the character and whether they are active or not
 	Location* CurrentLocation; // pointer to the current location of the character
 
@@ -30,17 +32,17 @@ private:
 public:
 	virtual void Print(std::ostream& os) const override; // override the print function from the I_Print class
 	PlayerCharacter(); // default constructor
-	PlayerCharacter(std::string name, int health,int mana, int level, int experience, int gold, int PlayerClass, std::map<std::string, int> statValues, std::map<Item, int> inventory, std::map<std::string, bool> statusEffect); // constructor with parameters
+	PlayerCharacter(std::string name, int health,int mana, int level, int experience, int gold, int PlayerClass, std::map<std::string, int> statValues, /*std::map<Item, int> inventory*/ std::map<std::string, bool> statusEffect); // constructor with parameters
 	virtual ~PlayerCharacter(); // destructor
 	std::string GetPlayerClassName(int PlayerClass) const;// returns the name of the player class
-	void ShowInventory() const; // prints the inventory of the player character
+	//void ShowInventory() const; // prints the inventory of the player character
 	PlayerCharacter PlayerCreator(); // create a new custom player character
 	void MoveTo(Location& CurrentLocation, Location& NewLocation); // move the player character to a new location)
 	Location& GetCurrentLocation(Location& CurrentLocation) const; // returns the current location of the player character
 	int GetPlayerGold(PlayerCharacter& Player) const; // returns player gold value
 	void AddGold(PlayerCharacter& Player, int Gold); // adds gold to the player character
 	void RemoveGold(PlayerCharacter& Player, int Gold); // removes gold from the player character
-	void AddItem(PlayerCharacter& Player, Item& Item, int Quantity); // adds an item to the player character's inventory)
-	void RemoveItem(PlayerCharacter& Player, Item& Item, int Quantity); // removes an item from the player character's inventory
+	//void AddItem(PlayerCharacter& Player, Item& Item, int Quantity); // adds an item to the player character's inventory)
+	//void RemoveItem(PlayerCharacter& Player, Item& Item, int Quantity); // removes an item from the player character's inventory
 };
 

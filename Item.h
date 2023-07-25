@@ -1,7 +1,9 @@
 #pragma once
 #include "Main.h"
+#include "I_Print.h"
+#include "PlayerCharacter.h"
 
-class Item : public I_Print 
+class Item
 {
 private:
 	std::string name;
@@ -13,6 +15,7 @@ private:
 
 public:
 
+	Item();	
 	Item(std::string name, std::string descrription, int id, int price, int quantity, int type);
 	~Item();
 
@@ -24,8 +27,8 @@ public:
 	void SetPrice(int price) { this->price = price; };
 	void SetQuantity(int quantity) { this->quantity = quantity; };
 
-	virtual void Print(std::ostream& os) const override;
+	void Print(Item& item);
 };
 
 // example "ale" item for tavern
-Item ale("Ale", "A pint of ale", 001, 5, 1, 1); // item name = Ale, item description = A pint of ale, item id = 001, item price = 5 gold, item quantity = 1, item type = 1
+//Item ale("Ale", "A pint of ale", 001, 5, 1, 1); // item name = Ale, item description = A pint of ale, item id = 001, item price = 5 gold, item quantity = 1, item type = 1

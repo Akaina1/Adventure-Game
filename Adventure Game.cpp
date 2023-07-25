@@ -2,11 +2,16 @@
 // main file for the game
 
 #include <iostream>
-#include "Main.h"
 #include "CharacterTemplate.h"
+#include "PlayerCharacter.h"
+#include "Main.h"
 #include "I_Print.h"
 #include "MainMenu.h"
-#include "PlayerCharacter.h"
+#include "Tavern.h"
+#include "Event.h"
+#include "NPC.h"
+#include "Room.h"
+#include "Item.h"
 
 
 int main()
@@ -14,9 +19,9 @@ int main()
   
     //call MainMenu function Test
  
-    MainMenu(); 
+    //MainMenu(); 
 
-    return 0;
+    //return 0;
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu

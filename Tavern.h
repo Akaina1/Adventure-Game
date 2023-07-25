@@ -1,8 +1,13 @@
 //definition of the Tavern class
 #pragma once
-#include "Room.h"
-#include "NPC.h"
 #include "PlayerCharacter.h"
+#include "NPC.h"
+#include "Room.h"
+#include "Location.h"
+#include "Main.h"
+#include "Item.h"
+ 
+
 
 class Tavern : public Location
 {
@@ -26,11 +31,10 @@ public:
     void TalkToNpc(NPC& npc); // allows player to talk to selected NPC from the list of NPC's in the Tavern.
 };
 
-
-
 // prototype the main tavern object that will be created when the game starts
 
-Tavern TheTavern;
+
+
 
 
 

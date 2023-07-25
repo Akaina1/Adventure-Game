@@ -3,10 +3,7 @@
 // The player will be able to return to the tavern at any time to rest and buy items. The player will also be able to upgrade their equipment at the tavern.
 // The player will be able to talk to NPCs in the tavern to gain information about the game world and the dungeon.
 #include "Tavern.h"
-#include "PlayerCharacter.h"
-#include "MainMenu.h"
-#include "Location.h"
-#include "Main.h"
+
 
 std::string Tavern::GetName() const
 {
@@ -136,7 +133,7 @@ void Tavern::Drink(PlayerCharacter& Player)
 			if (gold >= ale.GetPrice())
 			{
 				Player.RemoveGold(Player, 5);
-				Player.AddItem(Player, ale, 1);
+				//Player.AddItem(Player, ale, 1);
 			}
 
 			break;

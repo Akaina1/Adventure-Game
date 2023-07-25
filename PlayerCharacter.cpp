@@ -1,11 +1,7 @@
 // implementation file for PlayerCharacter class
 #include "PlayerCharacter.h"
-#include "MainMenu.h"
-#include "Location.h"
-#include "Tavern.h"
-#include "Item.h"
 
-Tavern TestTavern;
+
 
 // override the print function from the I_Print class
 
@@ -33,10 +29,11 @@ void PlayerCharacter::Print(std::ostream& os) const
 	os << "-------------------------------------------" << std::endl;
 	os << "Inventory: " << std::endl;
 	//need to loop through the map and print the item names and quantities
-	for (auto item : Inventory)
+	/*for (auto item : Inventory)
 	{
 		os << item.first << ": " << item.second << std::endl;
-	}	
+		
+	}*/	
 	os << "-------------------------------------------" << std::endl;
 	os << "Status Effects: " << std::endl;
 	for (auto effect : StatusEffect)
@@ -55,16 +52,15 @@ void PlayerCharacter::Print(std::ostream& os) const
 	}
 }
 
-
 // default constructor
 PlayerCharacter::PlayerCharacter()
-	: Name{ "Default" }, Health{ 100 }, Mana{ 100 }, Level{ 1 }, Experience{ 0 }, Gold{ 0 }, PlayerClass{}, StatValues{ {"Strength", 0}, {"Dexterity", 0}, {"Wisdom", 0}, {"Charisma", 0} }, Inventory{}, StatusEffect{}, CurrentLocation { &TestTavern }
+	: Name{ "Default" }, Health{ 100 }, Mana{ 100 }, Level{ 1 }, Experience{ 0 }, Gold{ 0 }, PlayerClass{}, StatValues{ {"Strength", 0}, {"Dexterity", 0}, {"Wisdom", 0}, {"Charisma", 0} }, /*Inventory{},*/ StatusEffect{}, CurrentLocation { }
 {
 }
 
 // constructor with parameters
-PlayerCharacter::PlayerCharacter(std::string name, int health, int mana, int level, int experience, int gold, int pclass, std::map<std::string, int> statValues, std::map<Item, int> inventory, std::map<std::string, bool> statusEffect)
-	: Name{ name }, Health{ health }, Mana{ mana }, Level{ level }, Experience{ experience }, Gold{ gold }, PlayerClass {pclass}, StatValues{statValues}, Inventory{inventory}, StatusEffect{statusEffect}, CurrentLocation { &TestTavern }
+PlayerCharacter::PlayerCharacter(std::string name, int health, int mana, int level, int experience, int gold, int pclass, std::map<std::string, int> statValues, /*std::map<Item, int> inventory,*/ std::map<std::string, bool> statusEffect)
+	: Name{ name }, Health{ health }, Mana{ mana }, Level{ level }, Experience{ experience }, Gold{ gold }, PlayerClass {pclass}, StatValues{statValues}, /*Inventory{inventory},*/ StatusEffect{statusEffect}, CurrentLocation { }
 {
 }
 
@@ -94,16 +90,16 @@ std::string PlayerCharacter::GetPlayerClassName(int PlayerClass) const
 }
 
 // prints the inventory of the player character
-void PlayerCharacter::ShowInventory() const
-{
-	std::cout << "-------------------------------------------" << std::endl;
-	std::cout << "Inventory: " << std::endl;
-	
-	for (auto item : Inventory)
-	{
-		std::cout << item.first << ": " << item.second << std::endl;
-	}
-}
+//void PlayerCharacter::ShowInventory() const
+//{
+//	std::cout << "-------------------------------------------" << std::endl;
+//	std::cout << "Inventory: " << std::endl;
+//	
+//	for (auto const item : Inventory)
+//	{
+//		std::cout << item.first << ": " << item.second << std::endl;
+//	}
+//}
 
 Location& PlayerCharacter::GetCurrentLocation(Location& CurrentLocation) const
 {
@@ -135,17 +131,17 @@ void PlayerCharacter::RemoveGold(PlayerCharacter& Player, int Gold)
 	Player.Gold -= Gold;
 }
 
-void PlayerCharacter::AddItem(PlayerCharacter& Player, Item& item, int quantity)
-{
-	// add Item object into the inventory map
-    Player.Inventory.insert(std::pair<Item, int>(item, quantity));
-}
-
-void PlayerCharacter::RemoveItem(PlayerCharacter& Player, Item& item, int quantity)
-{
-	// remove Item object from the inventory map
-	Player.Inventory.erase(item);
-}
+//void PlayerCharacter::AddItem(PlayerCharacter& Player, Item& item, int quantity)
+//{
+//	// add Item object into the inventory map
+//    Player.Inventory.insert(std::pair <Item, int> (item, quantity));
+//}
+//
+//void PlayerCharacter::RemoveItem(PlayerCharacter& Player, Item& item, int quantity)
+//{
+//	// remove Item object from the inventory map
+//	Player.Inventory.erase(item);
+//}
 
 PlayerCharacter PlayerCharacter::PlayerCreator()
 {
@@ -306,9 +302,8 @@ while (Selection < 1 || Selection > 4)
 			TypeText(L"You have no points remaining.", 10); std::wcout << std::endl;
 		}
 	}
-
-    Inventory = { {"Health Potion", 5}, { "Mana Potion", 5 } };
-
+	//Inventory = {};
+    
 	StatusEffect = 
 	{ {"Poisoned", false}, { "Bleeding", false }, { "Burned", false }, { "Frozen", false }, { "Stunned", false }, 
 	{ "Blinded", false }, { "Confused", false }, { "Charmed", false }, { "Enraged", false }, { "Blessed", false }, 

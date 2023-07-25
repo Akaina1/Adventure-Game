@@ -1,6 +1,9 @@
 #include "Item.h"
-#include "PlayerCharacter.h"
 
+
+Item::Item()
+{
+}
 
 Item::~Item()
 {
@@ -16,12 +19,14 @@ Item::Item(std::string name, std::string description, int id, int price, int qua
 	this->type = type;
 }
 
-void Item::Print(std::ostream& os) const
+void Item::Print(Item& item)
 {
-	os << "Name: " << name << std::endl;
-	os << "Description: " << description << std::endl;
-	os << "ID: " << id << std::endl;
-	os << "Price: " << price << std::endl;
-	os << "Quantity: " << quantity << std::endl;
-	os << "Type: " << type << std::endl;
+	std::cout << "Name: " << name << std::endl;
+	std::cout << "Description: " << description << std::endl;
+	std::cout << "ID: " << id << std::endl;
+	std::cout << "Price: " << price << std::endl;
+	std::cout << "Quantity: " << quantity << std::endl;
+	std::cout << "Type: " << type << std::endl;
 }
+
+

@@ -10,6 +10,9 @@
 #include "PlayerCharacter.h"
 #include "Item.h"
 #include "Main.h"
+#include "Location.h"
+#include "Dungeon.h"
+#include "Room.h"
 
 #pragma once
 class Event
