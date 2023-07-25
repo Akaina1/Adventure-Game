@@ -1,6 +1,10 @@
 // implementation file for PlayerCharacter class
 #include "PlayerCharacter.h"
 #include "MainMenu.h"
+#include "Location.h"
+#include "Tavern.h"
+
+Tavern TestTavern;
 
 // override the print function from the I_Print class
 
@@ -52,13 +56,13 @@ void PlayerCharacter::Print(std::ostream& os) const
 
 // default constructor
 PlayerCharacter::PlayerCharacter()
-	: Name{ "Default" }, Health{ 100 }, Mana{ 100 }, Level{ 1 }, Experience{ 0 }, Gold{ 0 }, PlayerClass {}, StatValues{ {"Strength", 0}, {"Dexterity", 0}, {"Wisdom", 0}, {"Charisma", 0} }, Inventory{}, StatusEffect{}
+	: Name{ "Default" }, Health{ 100 }, Mana{ 100 }, Level{ 1 }, Experience{ 0 }, Gold{ 0 }, PlayerClass{}, StatValues{ {"Strength", 0}, {"Dexterity", 0}, {"Wisdom", 0}, {"Charisma", 0} }, Inventory{}, StatusEffect{}, CurrentLocation { &TestTavern }
 {
 }
 
 // constructor with parameters
 PlayerCharacter::PlayerCharacter(std::string name, int health, int mana, int level, int experience, int gold, int pclass, std::map<std::string, int> statValues, std::map<std::string, int> inventory, std::map<std::string, bool> statusEffect)
-	: Name{ name }, Health{ health }, Mana{ mana }, Level{ level }, Experience{ experience }, Gold{ gold }, PlayerClass {pclass}, StatValues{statValues}, Inventory{inventory}, StatusEffect{statusEffect}
+	: Name{ name }, Health{ health }, Mana{ mana }, Level{ level }, Experience{ experience }, Gold{ gold }, PlayerClass {pclass}, StatValues{statValues}, Inventory{inventory}, StatusEffect{statusEffect}, CurrentLocation { &TestTavern }
 {
 }
 

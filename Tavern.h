@@ -7,8 +7,8 @@
 class Tavern : public Location
 {
 private:
-	std::string Name;
-    std::string Description;
+	std::string Name {"The Tavern"};
+    std::string Description {"A Place to Rest, Relax, Drink and forget about the monsters below us..."};
     std::vector<NPC> NPCList;
     std::vector<Room> RoomList;
 
@@ -25,4 +25,13 @@ public:
     void ViewNpcs(std::vector<NPC> NPCList); // players can view the NPC's in the Tavern, some NPCs will sell items, others can upgrade gear, etc.
     void TalkToNpc(NPC& npc); // allows player to talk to selected NPC from the list of NPC's in the Tavern.
 };
+
+
+
+// prototype the main tavern object that will be created when the game starts
+
+Tavern TheTavern;
+
+
+
 

@@ -23,12 +23,14 @@ void Tavern::OnEnter()
     
 	// print out formatted text
     // print out the name of the location and description
+    // do event checks
     
 }
 
 void Tavern::OnExit()
 {
 	std::cout << "Good luck...\n";
+    // do event checks
 }
 
 void Visit(PlayerCharacter& Player) // Visit function is used to Move the player to the Tavern
@@ -54,6 +56,7 @@ void Tavern::Rest(PlayerCharacter& Player, int PlayerGold)
 	// Rest will restore the player's health and mana to full
 	// Rest will also save the game
     // Rest will cost gold
+    // do event checks
 }
 
 void Tavern::Drink(PlayerCharacter& Player, int PlayerGold)
@@ -61,6 +64,7 @@ void Tavern::Drink(PlayerCharacter& Player, int PlayerGold)
 	// Drink will allow the player to buy drinks
 	// Drinks will restore health and mana
 	// Drinks will cost gold
+    // do event checks
 }
 
 void Tavern::ViewNpcs(std::vector<NPC> NPCList)
@@ -77,5 +81,6 @@ void Tavern::TalkToNpc(NPC& npc)
     // TalkToNPC will print out the NPC's options
     // TalkToNPC will allow the player to choose which option to choose
 	// TalkToNPC will call the NPC's function based on the player's choice
+    // do event checks
 
 }
