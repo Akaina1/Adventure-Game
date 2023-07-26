@@ -3,6 +3,8 @@
 #include "I_Print.h"
 #include "PlayerCharacter.h"
 
+class PlayerCharacter;
+
 class Item
 {
 private:
@@ -21,18 +23,25 @@ public:
 	Item(std::string name, std::string descrription, int id, int price, int quantity, int type, std::function<void(PlayerCharacter& player)> effect);
 	~Item();
 
+//getters
+	std::string GetName() const { return this->name; };
+	std::string GetDescription() const { return this->description; };
 	int GetId() { return this->id; };
 	int GetPrice() { return this->price; };
 	int GetQuantity() {return this->quantity;};
 	int GetType() { return this->type; };
-
+	//std::function<void(PlayerCharacter& player)> GetEffect() { return this->effect; };
+//setters
+	void SetName(std::string name) { this->name = name; };
+	void SetDescription(std::string description) { this->description = description; };
 	void SetId(int id) { this->id = id; };
 	void SetPrice(int price) { this->price = price; };
 	void SetQuantity(int quantity) { this->quantity = quantity; };
 	void SetType(int type) { this->type = type; };
+	//void SetEffect(std::function<void(PlayerCharacter& player)> effect) { this->effect = effect; };
 
-	//void AddEffect(std::function<void(PlayerCharacter& player)> effect); // add effect to item (for consumables))
-
+	
+//other functions
 	void UseItem(PlayerCharacter* player, Item &item);
 	void EquipItem(PlayerCharacter& player, Item& item);
 	void UnequipItem(PlayerCharacter& player, Item& item);
@@ -40,6 +49,18 @@ public:
 	void BuyItem(PlayerCharacter& player, Item& item);
 
 	void Print(Item& item);
+
+//overloads
+
+	bool operator==(const Item& other) const
+	{
+		return this->name == other.name;
+	}
+
+	bool operator<(const Item& other) const
+	{
+		return this->name < other.name;
+	}
 };
 
 // example "ale" item for tavern

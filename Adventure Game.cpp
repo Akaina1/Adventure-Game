@@ -12,29 +12,36 @@
 #include "NPC.h"
 #include "Room.h"
 #include "Item.h"
+// goal for today: get inventory working
 
-
+// Testing functions currently
 int main()
 {
-  
-    //call MainMenu function Test
- 
-    //MainMenu(); 
 
+    //call MainMenu function Test - PASS
+    //
+    //MainMenu(); 
     //return 0;
 
-    PlayerCharacter player("Player", 120, 100, 1, 0, 1000, 0, { {"Strength", 0}, {"Dexterity", 0}, {"Wisdom", 0}, {"Charisma", 0} }, {});
+    //player character & effects test - PASS
+    //
+    ///PlayerCharacter player("Player", 120, 100, 1, 0, 1000, 0, { {"Strength", 0}, {"Dexterity", 0}, {"Wisdom", 0}, {"Charisma", 0} }, {});
+    //Item HealthPotion("Health Potion", "A potion that increases your health by 10", 002, 10, 1, 0, ([](PlayerCharacter& player) {player.SetHealth(player, 10); }) );
+    //HealthPotion.Print(HealthPotion);
+    //HealthPotion.UseItem(&player, HealthPotion); 
+    //std::cout << player << std::endl;
 
-    Item HealthPotion("Health Potion", "A potion that increases your health by 10", 002, 10, 1, 0, ([](PlayerCharacter& player) {player.SetHealth(player, 10); }) );
+    //NOTE:- Do items need this function or can I just use a std::function as an attribute of the item class? (will need to create unique items for each effect?)
+    //HealthPotion.AddEffect([](PlayerCharacter &player) {player.SetHealth(player, 10); }); 
 
-    HealthPotion.Print(HealthPotion);
+    //player inventory test
 
-    //HealthPotion.AddEffect([](PlayerCharacter &player) {player.SetHealth(player, 10); });
+    Item HealthPotion("Health Potion", "A potion that increases your health by 10", 002, 10, 1, 0, ([](PlayerCharacter& player) {player.SetHealth(player, 10); }));
 
-    HealthPotion.UseItem(&player, HealthPotion); 
-
-    std::cout << player << std::endl;
+    PlayerCharacter player("Slayer", 200, 100, 1, 0, 1000, 2, { {"Strength", 0}, {"Dexterity", 0}, {"Wisdom", 0}, {"Charisma", 0} }, { { HealthPotion,5 } }, {});
     
+    std::cout << player << std::endl;
+
 
 }
 

@@ -28,12 +28,11 @@ void PlayerCharacter::Print(std::ostream& os) const
 	}
 	os << "-------------------------------------------" << std::endl;
 	os << "Inventory: " << std::endl;
-	//need to loop through the map and print the item names and quantities
-	/*for (auto item : Inventory)
+	//print inventory
+	for (auto item : Inventory)
 	{
-		os << item.first << ": " << item.second << std::endl;
-		
-	}*/	
+		os << item.first.GetName() << ": " << item.second << std::endl;
+	}	
 	os << "-------------------------------------------" << std::endl;
 	os << "Status Effects: " << std::endl;
 	for (auto effect : StatusEffect)
@@ -54,13 +53,13 @@ void PlayerCharacter::Print(std::ostream& os) const
 
 // default constructor
 PlayerCharacter::PlayerCharacter()
-	: Name{ "Default" }, Health{ 100 }, Mana{ 100 }, Level{ 1 }, Experience{ 0 }, Gold{ 0 }, PlayerClass{0}, StatValues{ {"Strength", 0}, {"Dexterity", 0}, {"Wisdom", 0}, {"Charisma", 0} }, /*Inventory{},*/ StatusEffect{}, CurrentLocation { }
+	: Name{ "Default" }, Health{ 100 }, Mana{ 100 }, Level{ 1 }, Experience{ 0 }, Gold{ 0 }, PlayerClass{0}, StatValues{ {"Strength", 0}, {"Dexterity", 0}, {"Wisdom", 0}, {"Charisma", 0} }, Inventory{}, StatusEffect{}, CurrentLocation { }
 {
 }
 
 // constructor with parameters
-PlayerCharacter::PlayerCharacter(std::string name, int health, int mana, int level, int experience, int gold, int pclass, std::map<std::string, int> statValues, /*std::map<Item, int> inventory,*/ std::map<std::string, bool> statusEffect)
-	: Name{ name }, Health{ health }, Mana{ mana }, Level{ level }, Experience{ experience }, Gold{ gold }, PlayerClass {pclass}, StatValues{statValues}, /*Inventory{inventory},*/ StatusEffect{statusEffect}, CurrentLocation { }
+PlayerCharacter::PlayerCharacter(std::string name, int health, int mana, int level, int experience, int gold, int pclass, std::map<std::string, int> statValues, std::map<Item, int> inventory, std::map<std::string, bool> statusEffect)
+	: Name{ name }, Health{ health }, Mana{ mana }, Level{ level }, Experience{ experience }, Gold{ gold }, PlayerClass {pclass}, StatValues{statValues}, Inventory{inventory}, StatusEffect{statusEffect}, CurrentLocation { }
 {
 }
 
@@ -96,17 +95,15 @@ std::string PlayerCharacter::GetPlayerClassName() const
 	}
 }
 
-// prints the inventory of the player character
-//void PlayerCharacter::ShowInventory() const
-//{
-//	std::cout << "-------------------------------------------" << std::endl;
-//	std::cout << "Inventory: " << std::endl;
-//	
-//	for (auto const item : Inventory)
-//	{
-//		std::cout << item.first << ": " << item.second << std::endl;
-//	}
-//}
+
+
+
+
+
+
+
+
+
 
 Location& PlayerCharacter::GetCurrentLocation(Location& CurrentLocation) const
 {
@@ -149,17 +146,69 @@ int PlayerCharacter::GetHealth(PlayerCharacter& Player)
 	return Player.Health;
 }
 
-//void PlayerCharacter::AddItem(PlayerCharacter& Player, Item& item, int quantity)
-//{
-//	// add Item object into the inventory map
-//    Player.Inventory.insert(std::pair <Item, int> (item, quantity));
-//}
-//
-//void PlayerCharacter::RemoveItem(PlayerCharacter& Player, Item& item, int quantity)
-//{
-//	// remove Item object from the inventory map
-//	Player.Inventory.erase(item);
-//}
+
+
+
+
+
+
+
+
+void PlayerCharacter::AddItem(Item& item, int quantity,PlayerCharacter* player) // adds an item to the player character's inventory
+{
+	if (Inventory.count(item) > 0)
+	{
+		Inventory[item] += quantity;
+	}
+	else
+	{
+		Inventory[item] = quantity;
+	}
+}
+
+void PlayerCharacter::RemoveItem(Item& item, int quantity, PlayerCharacter* player) // removes an item from the player character's inventory
+{
+	if (Inventory.count(item) > 0)
+	{
+		Inventory[item] -= quantity;
+	}
+	else
+	{
+		Inventory[item] = 0;
+	}
+}
+
+int PlayerCharacter::GetItemQuantity(Item& item, PlayerCharacter& player) // returns the quantity of an item in the player character's inventory
+{
+	if (Inventory.count(item) > 0)
+	{
+		return Inventory[item];
+	}
+	else
+	{
+		return 0;
+	}
+}
+
+void PlayerCharacter::PrintInventory()  // prints the inventory of the player character
+{
+	for ( auto &pair : Inventory)
+	{
+		std::cout << pair.first.GetName() << ": " << pair.second << std::endl;
+	}
+
+}
+
+
+
+
+
+
+
+
+
+
+
 
 PlayerCharacter PlayerCharacter::PlayerCreator()
 {
