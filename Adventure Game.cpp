@@ -12,7 +12,7 @@
 #include "NPC.h"
 #include "Room.h"
 #include "Item.h"
-// goal for today: get inventory working
+
 
 // Testing functions currently
 int main()
@@ -34,13 +34,13 @@ int main()
     //NOTE:- Do items need this function or can I just use a std::function as an attribute of the item class? (will need to create unique items for each effect?)
     //HealthPotion.AddEffect([](PlayerCharacter &player) {player.SetHealth(player, 10); }); 
 
-    //player inventory test
+    //player inventory test - PASS
 
-    Item HealthPotion("Health Potion", "A potion that increases your health by 10", 002, 10, 1, 0, ([](PlayerCharacter& player) {player.SetHealth(player, 10); }));
+    /*Item HealthPotion("Health Potion", "A potion that increases your health by 10", 002, 10, 1, 0, ([](PlayerCharacter& player) {player.SetHealth(player, 10); }));
 
     PlayerCharacter player("Slayer", 200, 100, 1, 0, 1000, 2, { {"Strength", 0}, {"Dexterity", 0}, {"Wisdom", 0}, {"Charisma", 0} }, { { HealthPotion,5 } }, {});
     
-    std::cout << player << std::endl;
+    std::cout << player << std::endl;*/
 
 
 }

@@ -13,8 +13,10 @@ class Item;
 class PlayerCharacter : public CharacterTemplate {
 private:
 	std::string Name = "Unnammed";
-	int Health = 100;
-	int Mana = 100;
+	int MaxHealth = 100;
+	int CurrentHealth = MaxHealth;
+	int MaxMana = 100;
+	int CurrentMana = MaxMana;
 	int Level = 1;
 	int Experience = 0;
 	int Gold = 0;
@@ -35,19 +37,19 @@ private:
 public:
 	PlayerCharacter(); // default constructor
 	virtual ~PlayerCharacter(); // destructor
-	PlayerCharacter(std::string name, int health, int mana, int level, int experience, int gold, int PlayerClass, std::map<std::string, int> statValues, std::map<Item, int> inventory, std::map<std::string, bool> statusEffect); // constructor with parameters
+	PlayerCharacter(std::string name, int maxhealth,int currenthealth, int maxmana, int currentmana, int level, int experience, int gold, int PlayerClass, std::map<std::string, int> statValues, std::map<Item, int> inventory, std::map<std::string, bool> statusEffect); // constructor with parameters
 
 	virtual void Print(std::ostream& os) const override; // override the print function from the I_Print class
 //getters
 	std::string GetPlayerClassName() const;// returns the name of the player class
 	Location& GetCurrentLocation(Location& CurrentLocation) const; // returns the current location of the player character
 	int GetPlayerGold(PlayerCharacter& Player) const; // returns player gold value
-	int GetHealth(PlayerCharacter& Player); // returns the health of the player character
+
 //setters
 	void AddGold(PlayerCharacter& Player, int Gold); // adds gold to the player character
-	void SetHealth(PlayerCharacter& Player, int Health); // adds health to the player character
 	//void SetExperience(PlayerCharacter& Player, int Experience); // adds experience to the player character
 	void RemoveGold(PlayerCharacter& Player, int Gold); // removes gold from the player character
+
 //other functions
 	void MoveTo(Location& CurrentLocation, Location& NewLocation); // move the player character to a new location)
 
@@ -58,5 +60,13 @@ public:
 	void RemoveItem(Item &item, int quantity, PlayerCharacter* player); // removes an item from the player character's inventory
 	int GetItemQuantity(Item &item, PlayerCharacter& player); // returns the quantity of an item in the player character's inventory
 	void PrintInventory(); // prints the inventory of the player character
+
+// health functions
+	int GetCurrentHealth(PlayerCharacter& Player) const { return CurrentHealth; }; // returns the current health of the player character
+	int GetMaxHealth(PlayerCharacter& Player) const { return MaxHealth; }; // returns the max health of the player character
+	void SetMaxHealth(PlayerCharacter& Player, int Health); // sets the max health of the player character
+	void heal(PlayerCharacter& Player, int Health); // heals the player character
+	void TakeDamage(PlayerCharacter& Player, int Damage); // damages the player character
+	bool IsDead(PlayerCharacter& Player); // checks if the player character is dead
 };
 

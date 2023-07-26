@@ -15,8 +15,8 @@ void PlayerCharacter::Print(std::ostream& os) const
 	os << "Level: " << Level << std::endl;
 	os << "Class: " << GetPlayerClassName() << std::endl;
 	os << "-------------------------------------------" << std::endl;
-	os << "Health: " << Health << std::endl;
-	os << "Mana: " << Mana << std::endl;
+	os << "Health: " << MaxHealth << std::endl;
+	os << "Mana: " << MaxMana << std::endl;
 	os << "-------------------------------------------" << std::endl;
 	os << "Experience: " << Experience << std::endl;
 	os << "Gold: " << Gold << std::endl;
@@ -53,13 +53,13 @@ void PlayerCharacter::Print(std::ostream& os) const
 
 // default constructor
 PlayerCharacter::PlayerCharacter()
-	: Name{ "Default" }, Health{ 100 }, Mana{ 100 }, Level{ 1 }, Experience{ 0 }, Gold{ 0 }, PlayerClass{0}, StatValues{ {"Strength", 0}, {"Dexterity", 0}, {"Wisdom", 0}, {"Charisma", 0} }, Inventory{}, StatusEffect{}, CurrentLocation { }
+	: Name{ "Default" }, MaxHealth{ 100 }, MaxMana{ 100 }, Level{ 1 }, Experience{ 0 }, Gold{ 0 }, PlayerClass{0}, StatValues{ {"Strength", 0}, {"Dexterity", 0}, {"Wisdom", 0}, {"Charisma", 0} }, Inventory{}, StatusEffect{}, CurrentLocation { }
 {
 }
 
 // constructor with parameters
-PlayerCharacter::PlayerCharacter(std::string name, int health, int mana, int level, int experience, int gold, int pclass, std::map<std::string, int> statValues, std::map<Item, int> inventory, std::map<std::string, bool> statusEffect)
-	: Name{ name }, Health{ health }, Mana{ mana }, Level{ level }, Experience{ experience }, Gold{ gold }, PlayerClass {pclass}, StatValues{statValues}, Inventory{inventory}, StatusEffect{statusEffect}, CurrentLocation { }
+PlayerCharacter::PlayerCharacter(std::string name, int maxhealth,int currenthealth, int maxmana, int currentmana, int level, int experience, int gold, int pclass, std::map<std::string, int> statValues, std::map<Item, int> inventory, std::map<std::string, bool> statusEffect)
+	: Name{ name }, MaxHealth{ maxhealth }, CurrentHealth{currenthealth}, MaxMana{maxmana},CurrentMana{currentmana}, Level{level}, Experience{experience}, Gold{gold}, PlayerClass{pclass}, StatValues{statValues}, Inventory{inventory}, StatusEffect{statusEffect}, CurrentLocation{}
 {
 }
 
@@ -133,17 +133,6 @@ void PlayerCharacter::AddGold(PlayerCharacter& Player, int Gold)
 void PlayerCharacter::RemoveGold(PlayerCharacter& Player, int Gold)
 {
 	Player.Gold -= Gold;
-}
-
-void PlayerCharacter::SetHealth(PlayerCharacter& Player, int health)
-{
-	//set player health
-	Player.Health += health;
-}
-
-int PlayerCharacter::GetHealth(PlayerCharacter& Player)
-{
-	return Player.Health;
 }
 
 

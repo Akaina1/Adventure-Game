@@ -93,6 +93,47 @@ void Tavern::Rest(PlayerCharacter& Player)
 	// Rest will also save the game
     // Rest will cost gold
     // do event checks
+
+	int choice = 0;
+	int gold = Player.GetPlayerGold(Player);
+
+	TypeText(L"------------------------------------------\n", 10);
+	TypeText(L" 'Would you like to rest stranger...?' \n", 10);
+	TypeText(L"------------------------------------------\n", 10);
+	TypeText(L"1. Yes - 10 Gold\n", 10);
+	TypeText(L"2. No\n", 10);
+
+	while (choice != 2)
+	{
+		std::cin >> choice;
+
+		switch (choice)
+		{
+		case 1:
+			// check if player has enough gold
+			// if so, rest
+			// if not, print out message
+
+			if (gold >= 10)
+			{
+				Player.RemoveGold(Player, 10);
+				Player.SetHealth(Player, Player.GetMaxHealth(Player));
+				Player.SetMana(Player, Player.GetMaxMana(Player));
+			}
+			else
+			{
+				TypeText(L"------------------------------------------\n", 10);
+				TypeText(L" 'You don't have enough gold stranger...'\n", 10);
+				TypeText(L"------------------------------------------\n", 10);
+			}
+			break;
+		case 2:
+			// exit the rest menu
+			break;
+		default:
+			break;
+		}
+	}
 }
 
 void Tavern::Drink(PlayerCharacter& Player)
@@ -104,7 +145,9 @@ void Tavern::Drink(PlayerCharacter& Player)
     int choice = 0;
 	int gold = Player.GetPlayerGold(Player);	
 	Item ale("Ale", "A pint of ale", 001, 5, 1, 1, ([](PlayerCharacter& player) {player.SetHealth(player, 10);}) );
-
+	Item mead("Mead", "A pint of mead", 002, 10, 1, 1, ([](PlayerCharacter& player) {player.SetHealth(player, 15);}) );
+	Item wine("Wine", "A glass of wine", 003, 15, 1, 1, ([](PlayerCharacter& player) {player.SetHealth(player, 20);}) );
+	Item water("Water", "A glass of water", 004, 5, 1, 1, ([](PlayerCharacter& player) {player.SetHealth(player, 5);}) );
 
 
     TypeText(L"------------------------------------------\n", 10);
@@ -131,21 +174,59 @@ void Tavern::Drink(PlayerCharacter& Player)
 			if (gold >= ale.GetPrice())
 			{
 				Player.RemoveGold(Player, 5);
-				//Player.AddItem(Player, ale, 1);
+				Player.AddItem(ale,1,&Player);
+			}
+			else
+			{
+				TypeText(L"You don't have enough gold...\n", 10);
 			}
 
 			break;
 		case 2:
 			// buy mead
+
+			if (gold >= mead.GetPrice())
+			{
+				Player.RemoveGold(Player, 10);
+				Player.AddItem(mead, 1, &Player);
+			}
+			else
+			{
+				TypeText(L"You don't have enough gold...\n", 10);
+			}
+
 			break;
 		case 3:
 			// buy wine
+
+			if (gold >= wine.GetPrice())
+			{
+				Player.RemoveGold(Player, 15);
+				Player.AddItem(wine, 1, &Player);
+			}
+			else
+			{
+				TypeText(L"You don't have enough gold...\n", 10);
+			}
+
 			break;
 		case 4:
 			// buy water
+
+			if (gold >= water.GetPrice())
+			{
+				Player.RemoveGold(Player, 5);
+				Player.AddItem(water, 1, &Player);
+			}
+			else
+			{
+				TypeText(L"You don't have enough gold...\n", 10);
+			}
+
 			break;
 		case 5:
 			// leave
+			TavernMenu(); // go back to the tavern menu
 			break;
 		default:
 			break;
