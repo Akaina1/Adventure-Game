@@ -141,6 +141,7 @@
     <ClCompile Include="NPC.cpp" />
     <ClCompile Include="PlayerCharacter.cpp" />
     <ClCompile Include="Room.cpp" />
+    <ClCompile Include="StatusEffect.cpp" />
     <ClCompile Include="Tavern.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -158,6 +159,7 @@
     <ClInclude Include="NPC.h" />
     <ClInclude Include="PlayerCharacter.h" />
     <ClInclude Include="Room.h" />
+    <ClInclude Include="StatusEffect.h" />
     <ClInclude Include="Tavern.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

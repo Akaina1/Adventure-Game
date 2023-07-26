@@ -38,7 +38,7 @@ void Tavern::OnExit(PlayerCharacter* player)
     // do event checks
 }
 
-void Visit(PlayerCharacter& Player) // Visit function is used to Move the player to the Tavern
+void Visit(PlayerCharacter* player) // Visit function is used to Move the player to the Tavern
 {
      // Visit updates player CurrentLocation to Tavern
 	 // Visit then calls the OnEnter function which prints the information for the Tavern
@@ -93,7 +93,7 @@ void Tavern::TavernMenu(PlayerCharacter& player)
 	}
 }
 
-void Tavern::Rest(PlayerCharacter& Player)
+void Tavern::Rest(PlayerCharacter& player)
 {
 	// Rest will restore the player's health and mana to full
 	// Rest will also save the game
@@ -101,7 +101,7 @@ void Tavern::Rest(PlayerCharacter& Player)
     // do event checks
 
 	int choice = 0;
-	int gold = Player.GetPlayerGold(Player);
+	int gold = player.GetPlayerGold(player);
 
 	TypeText(L"------------------------------------------\n", 10);
 	TypeText(L" 'Would you like to rest stranger...?' \n", 10);
@@ -123,9 +123,9 @@ void Tavern::Rest(PlayerCharacter& Player)
 
 			if (gold >= 10)
 			{
-				Player.RemoveGold(Player, 10);
-				Player.heal(Player.GetMaxHealth(Player), &Player); // heal player to full health
-				Player.RestoreMana(Player.GetMaxMana(Player), &Player); // restore player's mana to full
+				player.RemoveGold(player, 10);
+				player.heal(player.GetMaxHealth(player), &player); // heal player to full health
+				player.RestoreMana(player.GetMaxMana(player), &player); // restore player's mana to full
 
 				std::cout << "YOU HAVE RESTED\n";
 				choice = 2;
@@ -139,7 +139,7 @@ void Tavern::Rest(PlayerCharacter& Player)
 			break;
 		case 2:
 			// exit the rest menu
-			TavernMenu(Player);
+			TavernMenu(player);
 			break;
 		default:
 			break;

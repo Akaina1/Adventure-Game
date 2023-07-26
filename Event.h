@@ -6,7 +6,7 @@
 // eventTrigger will be used to trigger the event
 // eventComplete will be used to complete the event
 // eventInfo will be used to display the event information
-
+#pragma once
 #include "PlayerCharacter.h"
 #include "Item.h"
 #include "Main.h"
@@ -14,7 +14,8 @@
 #include "Dungeon.h"
 #include "Room.h"
 
-#pragma once
+class Item;
+
 class Event
 {
 private:

@@ -6,9 +6,14 @@
 #include "Item.h"
 #include "MainMenu.h"
 #include "Location.h"
+#include "Room.h"
+#include "NPC.h"
+#include "Event.h"
+#include "StatusEffect.h"
 //#include "Tavern.h"
 
 class Item;
+class StatusEffect;
 
 class PlayerCharacter : public CharacterTemplate {
 private:
@@ -30,14 +35,14 @@ private:
 
 	std::map<Item, int> Inventory;  //using a map to hold the inventory of Item objects as well as their quantity
 
-	std::map<std::string, bool> StatusEffect; // using a map to hold the status effects of the character and whether they are active or not
+	std::vector<StatusEffect> Afflictions; // using a map to hold the status effects of the character and whether they are active or not
 	Location* CurrentLocation; // pointer to the current location of the character
 
 
 public:
 	PlayerCharacter(); // default constructor
 	virtual ~PlayerCharacter(); // destructor
-	PlayerCharacter(std::string name, int maxhealth,int currenthealth, int maxmana, int currentmana, int level, int experience, int gold, int PlayerClass, std::map<std::string, int> statValues, std::map<Item, int> inventory, std::map<std::string, bool> statusEffect); // constructor with parameters
+	PlayerCharacter(std::string name, int maxhealth,int currenthealth, int maxmana, int currentmana, int level, int experience, int gold, int PlayerClass, std::map<std::string, int> statValues, std::map<Item, int> inventory, std::vector<StatusEffect> afflictions); // constructor with parameters
 
 	virtual void Print(std::ostream& os) const override; // override the print function from the I_Print class
 //getters
@@ -64,7 +69,8 @@ public:
 // health functions
 	int GetCurrentHealth(PlayerCharacter& player) const { return CurrentHealth; }; // returns the current health of the player character
 	int GetMaxHealth(PlayerCharacter& player) const { return MaxHealth; }; // returns the max health of the player character
-	void SetMaxHealth(int health, PlayerCharacter* player); // sets the max health of the player character
+	void IncreaseMaxHealth(int health, PlayerCharacter* player);// increase the max health of the player character
+	void DecreaseMaxHealth(int health, PlayerCharacter* player);// decrease the max health of the player character
 	void heal(int health, PlayerCharacter* player ); // heals the player character
 	void TakeDamage(int damage, PlayerCharacter* player); // damages the player character
 	bool IsDead(PlayerCharacter& player); // checks if the player character is dead

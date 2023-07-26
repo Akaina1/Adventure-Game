@@ -35,11 +35,11 @@ void PlayerCharacter::Print(std::ostream& os) const
 	}	
 	os << "-------------------------------------------" << std::endl;
 	os << "Status Effects: " << std::endl;
-	for (auto effect : StatusEffect)
+	for (auto effect : Afflictions)
 	{
-		if (effect.second == true)
+		if (effect.GetEffectState() == StatusEffect::State::Active)
 		{
-			os << effect.first << ": " << effect.second << std::endl;
+			os << effect.GetName() << ": " << effect.GetEffectState() << std::endl;
 			break;
 		}
 		else
@@ -53,13 +53,13 @@ void PlayerCharacter::Print(std::ostream& os) const
 
 // default constructor
 PlayerCharacter::PlayerCharacter()
-	: Name{ "Default" }, MaxHealth{ 100 }, MaxMana{ 100 }, Level{ 1 }, Experience{ 0 }, Gold{ 1000 }, PlayerClass{0}, StatValues{ {"Strength", 0}, {"Dexterity", 0}, {"Wisdom", 0}, {"Charisma", 0} }, Inventory{}, StatusEffect{ }, CurrentLocation { }
+	: Name{ "Default" }, MaxHealth{ 100 }, MaxMana{ 100 }, Level{ 1 }, Experience{ 0 }, Gold{ 1000 }, PlayerClass{0}, StatValues{ {"Strength", 0}, {"Dexterity", 0}, {"Wisdom", 0}, {"Charisma", 0} }, Inventory{}, Afflictions{ }, CurrentLocation { }
 {
 }
 
 // constructor with parameters
-PlayerCharacter::PlayerCharacter(std::string name, int maxhealth,int currenthealth, int maxmana, int currentmana, int level, int experience, int gold, int pclass, std::map<std::string, int> statValues, std::map<Item, int> inventory, std::map<std::string, bool> statusEffect)
-	: Name{ name }, MaxHealth{ maxhealth }, CurrentHealth{currenthealth}, MaxMana{maxmana},CurrentMana{currentmana}, Level{level}, Experience{experience}, Gold{gold}, PlayerClass{pclass}, StatValues{statValues}, Inventory{inventory}, StatusEffect{statusEffect}, CurrentLocation{}
+PlayerCharacter::PlayerCharacter(std::string name, int maxhealth,int currenthealth, int maxmana, int currentmana, int level, int experience, int gold, int pclass, std::map<std::string, int> statValues, std::map<Item, int> inventory, std::vector<StatusEffect> afflictions)
+	: Name{ name }, MaxHealth{ maxhealth }, CurrentHealth{currenthealth}, MaxMana{maxmana},CurrentMana{currentmana}, Level{level}, Experience{experience}, Gold{gold}, PlayerClass{pclass}, StatValues{statValues}, Inventory{inventory}, Afflictions{afflictions}, CurrentLocation{}
 {
 }
 
@@ -198,16 +198,14 @@ void PlayerCharacter::PrintInventory()  // prints the inventory of the player ch
 
 
 
-void PlayerCharacter::SetMaxHealth(int health, PlayerCharacter* player) // sets the max health of the player character
+void PlayerCharacter::IncreaseMaxHealth(int health, PlayerCharacter* player) // sets the max health of the player character
 {
-	if (MaxHealth < health ) // health can be negative to reduce max health
-	{
-	   MaxHealth = health;
-	}
-	else
-	{
-		MaxHealth = MaxHealth;
-	}
+	MaxHealth += health;
+}
+
+void PlayerCharacter::DecreaseMaxHealth(int health, PlayerCharacter* plaer)
+{
+	MaxHealth -= health;
 }
 
 void PlayerCharacter::heal(int health, PlayerCharacter* player) // heals the player character
@@ -451,10 +449,10 @@ while (Selection < 1 || Selection > 4)
 	}
 	//Inventory = {};
     
-	StatusEffect = 
+	/*Afflictions = 
 	{ {"Poisoned", false}, { "Bleeding", false }, { "Burned", false }, { "Frozen", false }, { "Stunned", false }, 
 	{ "Blinded", false }, { "Confused", false }, { "Charmed", false }, { "Enraged", false }, { "Blessed", false }, 
-	{ "Cursed", false }, { "Invisible", false }, { "Silenced", false }, { "Sleeping", false }, { " ", false } };
+	{ "Cursed", false }, { "Invisible", false }, { "Silenced", false }, { "Sleeping", false }, { " ", false } };*/
 
 	// show confirmation of character creation
 	std::wcout << "Press Enter to start the game..." << std::endl;
