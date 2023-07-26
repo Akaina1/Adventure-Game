@@ -62,18 +62,19 @@ int main()
 
     //StatusEffect test - 
     //
-    //
+    //create a status effect that increases the players max health by 50 with a default state set to inactive
     StatusEffect MaxHealthUp("Full Belly", "You ate a good meal and gained 50 max health temporarily", 001, [](PlayerCharacter& player) {player.IncreaseMaxHealth(50, &player); }, StatusEffect::State::Inactive);
 
-    PlayerCharacter Player(" Xander ", 100, 50, 100, 50, 1, 0, 1000, 2, { {"Strength", 10}, {"Dexterity", 10}, {"Wisdom", 20}, {"Charisma", 10} }, { }, { { MaxHealthUp, false } });
+    PlayerCharacter Player(" Xander ", 100, 50, 100, 50, 1, 0, 1000, 2, { {"Strength", 10}, {"Dexterity", 10}, {"Wisdom", 20}, {"Charisma", 10} }, { }, {MaxHealthUp} );
     std::cout << "------------------------------------------" << std::endl;
     std::cout << Player << std::endl;
     std::cout << "------------------------------------------" << std::endl;
 
-    //create a status effect that increases the players max health by 50 with a default state set to inactive
+    //call the status effect function to activate the effect
 
+    Player.UpdateEffects(MaxHealthUp, &Player);
 
-    MaxHealthUp.ApplyEffect(MaxHealthUp, &Player);
+   
     std::cout << "------------------------------------------" << std::endl;
     std::cout << Player << std::endl;
     std::cout << "------------------------------------------" << std::endl;

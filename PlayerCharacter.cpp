@@ -37,17 +37,21 @@ void PlayerCharacter::Print(std::ostream& os) const
 	os << "Status Effects: " << std::endl;
 	for (auto effect : Afflictions)
 	{
-		if (effect.GetEffectState() == StatusEffect::State::Active)
+		if (effect.state == StatusEffect::State::Active)
 		{
-			os << effect.GetName() << ": " << effect.GetEffectState() << std::endl;
+			os << effect.GetName() << ": " << effect.state << std::endl;
 			break;
 		}
-		else
+		else if (effect.state == StatusEffect::State::Inactive)
 		{
-			os << "No Status Effects" << std::endl;
+			os << effect.GetName() << ": " << effect.state << std::endl;
 			break;
 		}
-		
+		else if (effect.state == StatusEffect::State::Blocked)
+		{
+			os << effect.GetName() << ": " << effect.state << std::endl;
+			break;
+		}
 	}
 }
 
@@ -274,6 +278,68 @@ void PlayerCharacter::UseMana(int cost, PlayerCharacter* player) // uses mana fr
 	{
 		CurrentMana = 0;
 	}
+}
+
+
+
+
+
+
+
+
+
+void PlayerCharacter::ApplyEffect(StatusEffect& effect,PlayerCharacter* player) // applies a status effect to the player character
+{
+	
+
+	effect.state = StatusEffect::State::Active;
+
+	effect.StatusEffect::GetEffect()(*player);
+
+	Afflictions.push_back(effect);
+
+	std::cout << "EFFECT ADDED TO PLAYER" << std::endl;
+
+};
+
+
+void PlayerCharacter::UpdateEffects(StatusEffect& effect,PlayerCharacter* player) // takes in an effect to update, and a pointer to a character to access their Afflictions vector
+{
+	// check if the effect is in the vector
+
+	for (auto& affliction : Afflictions)
+	{
+		if (affliction.GetId() == effect.GetId() )
+		{
+			// if the effect is in the vector check if the effect is active or not
+
+			if (affliction.state == StatusEffect::State::Active)
+			{
+				affliction.state = StatusEffect::State::Inactive;
+				std::cout << "EFFECT REMOVED" << std::endl;
+			}
+			else if (affliction.state == StatusEffect::State::Inactive)
+			{
+				affliction.state = StatusEffect::State::Active;
+				effect.StatusEffect::GetEffect()(*player);
+				std::cout << "EFFECT ADDED" << std::endl;
+			}
+			else if (affliction.state == StatusEffect::State::Blocked)
+			{
+				std::cout << "CAN'T UPDATE BLOCKED EFFECT" << std::endl;
+			}	
+		}
+		// if the effect is not in the vector add the effect to the vector
+		else
+		{
+			ApplyEffect(effect, player);
+		}
+	}
+
+	
+
+
+	
 }
 
 

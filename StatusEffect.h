@@ -13,8 +13,10 @@
 #include "Item.h"
 #include "MainMenu.h"
 
+
 class StatusEffect
 {
+	
 private:
 	std::string Name; // name of the status effect
 	std::string Description; // description of the status effect
@@ -45,7 +47,7 @@ public:
 	std::string GetDescription() const { return Description; }; // returns the description of the status effect
 	int GetId() const { return Id; }; // returns the id of the status effect
 	//int GetDuration() const; // returns the duration of the status effect
-	//std::function<void(PlayerCharacter& player)> GetEffect() const; // returns the effect of the status effect
+	std::function<void(PlayerCharacter& player)> GetEffect() const { return Effects;}; // returns the effect of the status effect
 	State GetEffectState() const { return state;
 		// return the current state of the status effect
 		// if the state is active, the status effect is currently affecting the player character
@@ -61,8 +63,9 @@ public:
 	void SetEffectState(State newstate); // sets the state of the status effect
 
 	//other functions
-	void ApplyEffect(StatusEffect& effect, PlayerCharacter* player); // applies the effect of the status effect to the player character
-	void RemoveEffect(StatusEffect& effect, PlayerCharacter* player); // removes the effect of the status effect from the player character
-	void Print(StatusEffect& effect) const; // prints the status effect
+	//void ApplyEffect(StatusEffect& effect, PlayerCharacter* player); // applies the effect of the status effect to the player character
+	//void RemoveEffect(StatusEffect& effect, PlayerCharacter* player); // removes the effect of the status effect from the player character
+	void Print(const StatusEffect& effect) const; // prints the status effect
+	friend std::ostream& operator<<(std::ostream& os, const StatusEffect::State& state);
 };
 

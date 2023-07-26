@@ -81,5 +81,10 @@ public:
 	void SetMaxMana(int mana, PlayerCharacter* player); // sets the max mana of the player character
 	void RestoreMana(int mana, PlayerCharacter* player); // restores mana to the player character
 	void UseMana(int mana, PlayerCharacter* player); // uses mana from the player character
+
+// testing effect function rework 
+	void ApplyEffect(StatusEffect& effect, PlayerCharacter* player); // applies a status effect to the player character
+	void UpdateEffects(StatusEffect& effect,PlayerCharacter* player); // updates the status effects of the player character
+
 };
 
