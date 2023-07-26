@@ -62,11 +62,18 @@ public:
 	void PrintInventory(); // prints the inventory of the player character
 
 // health functions
-	int GetCurrentHealth(PlayerCharacter& Player) const { return CurrentHealth; }; // returns the current health of the player character
-	int GetMaxHealth(PlayerCharacter& Player) const { return MaxHealth; }; // returns the max health of the player character
-	void SetMaxHealth(PlayerCharacter& Player, int Health); // sets the max health of the player character
-	void heal(PlayerCharacter& Player, int Health); // heals the player character
-	void TakeDamage(PlayerCharacter& Player, int Damage); // damages the player character
-	bool IsDead(PlayerCharacter& Player); // checks if the player character is dead
+	int GetCurrentHealth(PlayerCharacter& player) const { return CurrentHealth; }; // returns the current health of the player character
+	int GetMaxHealth(PlayerCharacter& player) const { return MaxHealth; }; // returns the max health of the player character
+	void SetMaxHealth(int health, PlayerCharacter* player); // sets the max health of the player character
+	void heal(int health, PlayerCharacter* player ); // heals the player character
+	void TakeDamage(int damage, PlayerCharacter* player); // damages the player character
+	bool IsDead(PlayerCharacter& player); // checks if the player character is dead
+
+// mana functions
+	int GetCurrentMana(PlayerCharacter& player) const { return CurrentMana; }; // returns the current mana of the player character
+	int GetMaxMana(PlayerCharacter& player) const { return MaxMana; }; // returns the max mana of the player character
+	void SetMaxMana(int mana, PlayerCharacter* player); // sets the max mana of the player character
+	void RestoreMana(int mana, PlayerCharacter* player); // restores mana to the player character
+	void UseMana(int mana, PlayerCharacter* player); // uses mana from the player character
 };
 

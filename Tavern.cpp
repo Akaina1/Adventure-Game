@@ -4,7 +4,6 @@
 // The player will be able to talk to NPCs in the tavern to gain information about the game world and the dungeon.
 #include "Tavern.h"
 
-
 std::string Tavern::GetName() const
 {
     return "Tavern";
@@ -15,7 +14,7 @@ std::string Tavern::GetDescription() const
     return "The tavern is a place where you can rest, buy items, and upgrade your equipment.  From here you can venture into the Dungeons as well.";
 }
 
-void Tavern::OnEnter()
+void Tavern::OnEnter(PlayerCharacter* player)
 {
     
 	// print out formatted text
@@ -26,12 +25,14 @@ void Tavern::OnEnter()
     TypeText(L"And you can venture into the Dungeons as well... If you dare...\n", 10);
     TypeText(L"So what will it be stranger...?\n", 30);
 
+	TavernMenu(*player);
+
     // print out the name of the location and description
     // do event checks
     
 }
 
-void Tavern::OnExit()
+void Tavern::OnExit(PlayerCharacter* player)
 {
 	std::cout << "Good luck...\n";
     // do event checks
@@ -44,7 +45,7 @@ void Visit(PlayerCharacter& Player) // Visit function is used to Move the player
      // Visit then calls the TavernMenu function which allows the player to choose what they want to do in the Tavern
 }
 
-void Tavern::TavernMenu()
+void Tavern::TavernMenu(PlayerCharacter& player)
 {
     // TavernMenu will print out the options for the player to choose from
     // players can do the following:
@@ -53,6 +54,7 @@ void Tavern::TavernMenu()
     // 3. Talk to NPCs (this will be a sub menu where the player can choose which NPC to talk to)
     // 4. Go to the Dungeon
     // 5. Exit the game
+
 
     int choice = 0;
     TypeText(L"------------------------------------------\n", 10);
@@ -68,10 +70,14 @@ void Tavern::TavernMenu()
 	switch (choice)
 	{
 	case 1:
-		//Rest(Player, Player.GetGold());
+		
+		Rest(player);
+
 		break;
 	case 2:
-		//Drink(Player, Player.GetGold());
+		
+		Drink(player);
+
 		break;
 	case 3:
 		//ViewNpcs(NPCList);
@@ -105,9 +111,10 @@ void Tavern::Rest(PlayerCharacter& Player)
 
 	while (choice != 2)
 	{
-		std::cin >> choice;
+		int Selection = 0;
+		std::cin >> Selection;
 
-		switch (choice)
+		switch (Selection)
 		{
 		case 1:
 			// check if player has enough gold
@@ -117,8 +124,11 @@ void Tavern::Rest(PlayerCharacter& Player)
 			if (gold >= 10)
 			{
 				Player.RemoveGold(Player, 10);
-				Player.SetHealth(Player, Player.GetMaxHealth(Player));
-				Player.SetMana(Player, Player.GetMaxMana(Player));
+				Player.heal(Player.GetMaxHealth(Player), &Player); // heal player to full health
+				Player.RestoreMana(Player.GetMaxMana(Player), &Player); // restore player's mana to full
+
+				std::cout << "YOU HAVE RESTED\n";
+				choice = 2;
 			}
 			else
 			{
@@ -129,6 +139,7 @@ void Tavern::Rest(PlayerCharacter& Player)
 			break;
 		case 2:
 			// exit the rest menu
+			TavernMenu(Player);
 			break;
 		default:
 			break;
@@ -144,10 +155,10 @@ void Tavern::Drink(PlayerCharacter& Player)
     // do event checks
     int choice = 0;
 	int gold = Player.GetPlayerGold(Player);	
-	Item ale("Ale", "A pint of ale", 001, 5, 1, 1, ([](PlayerCharacter& player) {player.SetHealth(player, 10);}) );
-	Item mead("Mead", "A pint of mead", 002, 10, 1, 1, ([](PlayerCharacter& player) {player.SetHealth(player, 15);}) );
-	Item wine("Wine", "A glass of wine", 003, 15, 1, 1, ([](PlayerCharacter& player) {player.SetHealth(player, 20);}) );
-	Item water("Water", "A glass of water", 004, 5, 1, 1, ([](PlayerCharacter& player) {player.SetHealth(player, 5);}) );
+	Item ale("Ale", "A pint of ale", 001, 5, 1, 1, ([](PlayerCharacter& player) {player.heal(10, &player);}) );
+	Item mead("Mead", "A pint of mead", 002, 10, 1, 1, ([](PlayerCharacter& player) {player.heal(15, &player);}) );
+	Item wine("Wine", "A glass of wine", 003, 15, 1, 1, ([](PlayerCharacter& player) {player.heal(20, &player);}) );
+	Item water("Water", "A glass of water", 004, 5, 1, 1, ([](PlayerCharacter& player) {player.heal(5, &player);}) );
 
 
     TypeText(L"------------------------------------------\n", 10);
@@ -175,6 +186,8 @@ void Tavern::Drink(PlayerCharacter& Player)
 			{
 				Player.RemoveGold(Player, 5);
 				Player.AddItem(ale,1,&Player);
+
+				std::cout << "YOU BOUGHT ALE\n";
 			}
 			else
 			{
@@ -189,6 +202,8 @@ void Tavern::Drink(PlayerCharacter& Player)
 			{
 				Player.RemoveGold(Player, 10);
 				Player.AddItem(mead, 1, &Player);
+
+				std::cout << "YOU BOUGHT MEAD\n";
 			}
 			else
 			{
@@ -203,6 +218,8 @@ void Tavern::Drink(PlayerCharacter& Player)
 			{
 				Player.RemoveGold(Player, 15);
 				Player.AddItem(wine, 1, &Player);
+
+				std::cout << "YOU BOUGHT WINE\n";
 			}
 			else
 			{
@@ -217,6 +234,8 @@ void Tavern::Drink(PlayerCharacter& Player)
 			{
 				Player.RemoveGold(Player, 5);
 				Player.AddItem(water, 1, &Player);
+
+				std::cout << "YOU BOUGHT WATER\n";
 			}
 			else
 			{
@@ -226,7 +245,7 @@ void Tavern::Drink(PlayerCharacter& Player)
 			break;
 		case 5:
 			// leave
-			TavernMenu(); // go back to the tavern menu
+			TavernMenu(Player); // go back to the tavern menu
 			break;
 		default:
 			break;

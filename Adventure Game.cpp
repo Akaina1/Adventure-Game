@@ -35,12 +35,27 @@ int main()
     //HealthPotion.AddEffect([](PlayerCharacter &player) {player.SetHealth(player, 10); }); 
 
     //player inventory test - PASS
-
+    //
     /*Item HealthPotion("Health Potion", "A potion that increases your health by 10", 002, 10, 1, 0, ([](PlayerCharacter& player) {player.SetHealth(player, 10); }));
-
     PlayerCharacter player("Slayer", 200, 100, 1, 0, 1000, 2, { {"Strength", 0}, {"Dexterity", 0}, {"Wisdom", 0}, {"Charisma", 0} }, { { HealthPotion,5 } }, {});
-    
     std::cout << player << std::endl;*/
+
+
+
+
+    //Tavern Test
+    //
+    // create a player character that has 50/100 health
+
+    PlayerCharacter Player("Player", 100, 50, 100, 50, 1, 0, 1000, 2, { {"Strength", 0}, {"Dexterity", 0}, {"Wisdom", 0}, {"Charisma", 0} }, { }, { });
+
+    Tavern tavern;
+
+    std::cout << Player << std::endl;
+
+    tavern.OnEnter(&Player);
+
+    std::cout << Player << std::endl;
 
 
 }

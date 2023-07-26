@@ -15,8 +15,8 @@ void PlayerCharacter::Print(std::ostream& os) const
 	os << "Level: " << Level << std::endl;
 	os << "Class: " << GetPlayerClassName() << std::endl;
 	os << "-------------------------------------------" << std::endl;
-	os << "Health: " << MaxHealth << std::endl;
-	os << "Mana: " << MaxMana << std::endl;
+	os << "Health: " << CurrentHealth << "/" << MaxHealth << std::endl;
+	os << "Mana: " << CurrentMana << "/" << MaxMana << std::endl;
 	os << "-------------------------------------------" << std::endl;
 	os << "Experience: " << Experience << std::endl;
 	os << "Gold: " << Gold << std::endl;
@@ -53,7 +53,7 @@ void PlayerCharacter::Print(std::ostream& os) const
 
 // default constructor
 PlayerCharacter::PlayerCharacter()
-	: Name{ "Default" }, MaxHealth{ 100 }, MaxMana{ 100 }, Level{ 1 }, Experience{ 0 }, Gold{ 0 }, PlayerClass{0}, StatValues{ {"Strength", 0}, {"Dexterity", 0}, {"Wisdom", 0}, {"Charisma", 0} }, Inventory{}, StatusEffect{}, CurrentLocation { }
+	: Name{ "Default" }, MaxHealth{ 100 }, MaxMana{ 100 }, Level{ 1 }, Experience{ 0 }, Gold{ 1000 }, PlayerClass{0}, StatValues{ {"Strength", 0}, {"Dexterity", 0}, {"Wisdom", 0}, {"Charisma", 0} }, Inventory{}, StatusEffect{ }, CurrentLocation { }
 {
 }
 
@@ -198,6 +198,97 @@ void PlayerCharacter::PrintInventory()  // prints the inventory of the player ch
 
 
 
+void PlayerCharacter::SetMaxHealth(int health, PlayerCharacter* player) // sets the max health of the player character
+{
+	if (MaxHealth < health ) // health can be negative to reduce max health
+	{
+	   MaxHealth = health;
+	}
+	else
+	{
+		MaxHealth = MaxHealth;
+	}
+}
+
+void PlayerCharacter::heal(int health, PlayerCharacter* player) // heals the player character
+{
+	CurrentHealth += health;
+
+	if (CurrentHealth > MaxHealth)
+	{
+		CurrentHealth = MaxHealth;
+	}
+}
+
+void PlayerCharacter::TakeDamage(int damage, PlayerCharacter* player) // damages the player character
+{
+	CurrentHealth -= damage;
+
+	if (CurrentHealth < 0)
+	{
+		CurrentHealth = 0;
+	}
+}
+
+bool PlayerCharacter::IsDead(PlayerCharacter& player) // checks if the player character is dead
+{
+	return CurrentHealth <= 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+void PlayerCharacter::SetMaxMana(int mana, PlayerCharacter* player) // sets the max mana of the player character
+{
+	if (MaxMana < mana)
+	{
+		MaxMana += mana;
+	}
+	else
+	{
+		MaxMana = MaxMana;
+	}
+}
+
+void PlayerCharacter::RestoreMana(int mana, PlayerCharacter* player) // restores mana to the player character
+{
+	CurrentMana += mana;
+
+	if (CurrentMana > MaxMana)
+	{
+		CurrentMana = MaxMana;
+	}
+}
+
+void PlayerCharacter::UseMana(int cost, PlayerCharacter* player) // uses mana from the player character
+{
+	CurrentMana -= cost;
+
+	if (CurrentMana < 0)
+	{
+		CurrentMana = 0;
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 PlayerCharacter PlayerCharacter::PlayerCreator()
 {
@@ -259,30 +350,30 @@ while (Selection < 1 || Selection > 4)
 		else if (Selection == 1)
 		{ 
 		PlayerClass = 1;
-		Health = 500;
-		Mana = 30;
+		MaxHealth = 500;
+		MaxMana = 30;
 		ClassStatValues = { {"Strength", 15}, { "Dexterity", 10 }, { "Wisdom", 10 }, { "Charisma", 10 } };
 		continue;
 		}
 
 	case 2: //Scourge
 		PlayerClass = 2;
-		Health = 125;
-		Mana = 200;
+		MaxHealth = 125;
+		MaxMana = 200;
 		ClassStatValues = { {"Strength", 10}, { "Dexterity", 10 }, { "Wisdom", 15 }, { "Charisma", 10 } };
 		break;
 
 	case 3://Swindler
 		PlayerClass = 3;
-		Health = 125;
-		Mana = 20;
+		MaxHealth = 125;
+		MaxMana = 20;
 		ClassStatValues = { {"Strength", 10}, { "Dexterity", 15 }, { "Wisdom", 10 }, { "Charisma", 10 } };
 		break;
 
 	case 4://Jester
 		PlayerClass = 4;
-		Health = 150;
-		Mana = 100;
+		MaxHealth = 150;
+		MaxMana = 100;
 		ClassStatValues = { {"Strength", 10}, { "Dexterity", 10 }, { "Wisdom", 10 }, { "Charisma", 15 } };
 		break;
 	}
