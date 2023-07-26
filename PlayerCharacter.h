@@ -34,7 +34,7 @@ public:
 	PlayerCharacter(); // default constructor
 	PlayerCharacter(std::string name, int health,int mana, int level, int experience, int gold, int PlayerClass, std::map<std::string, int> statValues, /*std::map<Item, int> inventory*/ std::map<std::string, bool> statusEffect); // constructor with parameters
 	virtual ~PlayerCharacter(); // destructor
-	std::string GetPlayerClassName(int PlayerClass) const;// returns the name of the player class
+	std::string GetPlayerClassName() const ;// returns the name of the player class
 	//void ShowInventory() const; // prints the inventory of the player character
 	PlayerCharacter PlayerCreator(); // create a new custom player character
 	void MoveTo(Location& CurrentLocation, Location& NewLocation); // move the player character to a new location)

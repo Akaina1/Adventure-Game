@@ -103,10 +103,8 @@ void Tavern::Drink(PlayerCharacter& Player)
     // do event checks
     int choice = 0;
 	int gold = Player.GetPlayerGold(Player);	
-	Item ale("Ale", "A pint of ale", 001, 5, 1, 1);
-	Item mead("Mead", "A pint of mead", 002, 10, 1, 1);
-	Item wine("Wine", "A glass of wine", 003, 15, 1, 1);
-	Item water("Water", "A glass of water", 004, 1, 1, 1);
+	Item ale("Ale", "A pint of ale", 001, 5, 1, 1, ([](PlayerCharacter& player) {player.SetHealth(player, 10);}) );
+
 
 
     TypeText(L"------------------------------------------\n", 10);

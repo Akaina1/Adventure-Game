@@ -9,11 +9,11 @@ void PlayerCharacter::Print(std::ostream& os) const
 {
 	std::cout << std::boolalpha;
 	os << "Player Character: " << std::endl;
-	os << "Location: "<< CurrentLocation << std::endl;
+	//os << "Location: "<< CurrentLocation << std::endl;
 	os << "-------------------------------------------" << std::endl;
 	os << "Name: " << Name << std::endl;
 	os << "Level: " << Level << std::endl;
-	os << "Class: " << GetPlayerClassName(PlayerClass) << std::endl;
+	os << "Class: " << GetPlayerClassName() << std::endl;
 	os << "-------------------------------------------" << std::endl;
 	os << "Health: " << Health << std::endl;
 	os << "Mana: " << Mana << std::endl;
@@ -54,7 +54,7 @@ void PlayerCharacter::Print(std::ostream& os) const
 
 // default constructor
 PlayerCharacter::PlayerCharacter()
-	: Name{ "Default" }, Health{ 100 }, Mana{ 100 }, Level{ 1 }, Experience{ 0 }, Gold{ 0 }, PlayerClass{}, StatValues{ {"Strength", 0}, {"Dexterity", 0}, {"Wisdom", 0}, {"Charisma", 0} }, /*Inventory{},*/ StatusEffect{}, CurrentLocation { }
+	: Name{ "Default" }, Health{ 100 }, Mana{ 100 }, Level{ 1 }, Experience{ 0 }, Gold{ 0 }, PlayerClass{0}, StatValues{ {"Strength", 0}, {"Dexterity", 0}, {"Wisdom", 0}, {"Charisma", 0} }, /*Inventory{},*/ StatusEffect{}, CurrentLocation { }
 {
 }
 
@@ -70,22 +70,29 @@ PlayerCharacter::~PlayerCharacter()
 }
 
 // returns the name of the player class
-std::string PlayerCharacter::GetPlayerClassName(int PlayerClass) const
+std::string PlayerCharacter::GetPlayerClassName() const
 {
-	switch (PlayerClass)
+    int Class = PlayerClass;
+	
+	if (Class == 0)
 	{
-	case 1:
 		return "Brawler";
-		break;
-	case 2:
+	}
+	else if (Class == 1)
+	{
 		return "Scourge";
-		break;
-	case 3:
-		return "Swindler";
-		break;
-	case 4:
-		return "Jester";
-		break;
+	}
+	else if (Class == 2)
+	{
+		return "Sorcerer";
+	}
+	else if (Class == 3)
+	{
+		return "Ranger";
+	}
+	else
+	{
+		return "Invalid Class";
 	}
 }
 

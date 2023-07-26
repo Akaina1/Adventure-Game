@@ -23,17 +23,18 @@ int main()
 
     //return 0;
 
-    PlayerCharacter player;
+    PlayerCharacter player("Player", 120, 100, 1, 0, 1000, 0, { {"Strength", 0}, {"Dexterity", 0}, {"Wisdom", 0}, {"Charisma", 0} }, {});
 
-    Item HealthPotion("Health Potion", "A potion that increases your health by 10", 002, 10, 1, 0);
+    Item HealthPotion("Health Potion", "A potion that increases your health by 10", 002, 10, 1, 0, ([](PlayerCharacter& player) {player.SetHealth(player, 10); }) );
 
     HealthPotion.Print(HealthPotion);
 
-    HealthPotion.AddEffect([](PlayerCharacter &player) {player.SetHealth(player, 10); });
+    //HealthPotion.AddEffect([](PlayerCharacter &player) {player.SetHealth(player, 10); });
 
     HealthPotion.UseItem(&player, HealthPotion); 
 
-    std::cout << player.GetHealth(player) << std::endl;
+    std::cout << player << std::endl;
+    
 
 }
 

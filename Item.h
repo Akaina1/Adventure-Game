@@ -12,13 +12,13 @@ private:
 	int price;
 	int quantity;
 	int type; // 0 - consumable, 1 - weapon, 2 - armor, 3 - event item 4 - junk item (sellable for gold)
-	std::vector<std::function<void(PlayerCharacter& player)>> effects; // vector of effects for consumables
+	std::function<void(PlayerCharacter& player)> effect; // effect of the item (for consumables)
 	
 
 public:
 
 	Item();	
-	Item(std::string name, std::string descrription, int id, int price, int quantity, int type);
+	Item(std::string name, std::string descrription, int id, int price, int quantity, int type, std::function<void(PlayerCharacter& player)> effect);
 	~Item();
 
 	int GetId() { return this->id; };
@@ -31,7 +31,7 @@ public:
 	void SetQuantity(int quantity) { this->quantity = quantity; };
 	void SetType(int type) { this->type = type; };
 
-	void AddEffect(std::function<void(PlayerCharacter& player)> effect); // add effect to item (for consumables))
+	//void AddEffect(std::function<void(PlayerCharacter& player)> effect); // add effect to item (for consumables))
 
 	void UseItem(PlayerCharacter* player, Item &item);
 	void EquipItem(PlayerCharacter& player, Item& item);

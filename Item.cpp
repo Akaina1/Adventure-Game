@@ -9,7 +9,7 @@ Item::~Item()
 {
 }
 
-Item::Item(std::string name, std::string description, int id, int price, int quantity, int type)
+Item::Item(std::string name, std::string description, int id, int price, int quantity, int type, std::function<void(PlayerCharacter& player)> effect)
 {
 	this->name = name;
 	this->description = description;
@@ -17,6 +17,7 @@ Item::Item(std::string name, std::string description, int id, int price, int qua
 	this->price = price;
 	this->quantity = quantity;
 	this->type = type;
+	this->effect = effect;
 }
 
 void Item::Print(Item& item)
@@ -29,9 +30,9 @@ void Item::Print(Item& item)
 	std::cout << "Type: " << type << std::endl;
 }
 
-void Item::AddEffect(std::function<void(PlayerCharacter& player)> effect)
-{
-}
+//void Item::AddEffect(std::function<void(PlayerCharacter& player)> effect)
+//{
+//}
 
 void Item::UseItem(PlayerCharacter* player, Item& item)
 {
@@ -42,11 +43,8 @@ void Item::UseItem(PlayerCharacter* player, Item& item)
 	if (item.GetType() == 0)
 	{
 		//add item effect to player
+		effect(*player);
 		
-		for (auto& effect : item.effects)
-		{
-			effect(*player);
-		}
 		std::cout << "Item effect added to player" << std::endl;
 	}
 }
