@@ -77,19 +77,19 @@ std::string PlayerCharacter::GetPlayerClassName() const
 {
     int Class = PlayerClass;
 	
-	if (Class == 0)
+	if (Class == 1)
 	{
 		return "Brawler";
 	}
-	else if (Class == 1)
+	else if (Class == 2)
 	{
 		return "Scourge";
 	}
-	else if (Class == 2)
-	{
-		return "Sorcerer";
-	}
 	else if (Class == 3)
+	{
+		return "Swindler";
+	}
+	else if (Class == 4)
 	{
 		return "Ranger";
 	}
@@ -547,6 +547,8 @@ void PlayerCharacter::CharacterCreator()
 	while (!confirmed)
 	{
 		int choice;
+		system("cls");
+		TypeText(L"Welcome ", 1); std::cout << inputname << std::endl;
 		TypeText(L"Choose your class: ", 1); std::wcout << std::endl;
 		TypeText(L"-------------------------------------------", 1); std::wcout << std::endl;
 		TypeText(L"1. Brawler", 1); std::wcout << std::endl;
@@ -555,6 +557,8 @@ void PlayerCharacter::CharacterCreator()
 		TypeText(L"4. Jester", 1); std::wcout << std::endl;
 		TypeText(L"-------------------------------------------", 1); std::wcout << std::endl;
 		std::cin >> choice;
+
+		ChosenClass = choice;
 
 		switch (choice)
 		{ 
@@ -658,6 +662,145 @@ void PlayerCharacter::CharacterCreator()
 			std::cin >> Confirm4;
 			confirmed = Confirm4 == 'Y' || Confirm4 == 'y';
 			break;
+
 		}
+
+		// set player stats according to the class they chose
+		if (ChosenClass == 1)
+		{
+			PlayerClass = 1;
+			MaxHealth = 150;
+			MaxMana = 50;
+			CurrentHealth = MaxHealth;
+			CurrentMana = MaxMana;
+			StatValues = { {"Strength",15},{"Dexterity",10},{"Wisdom",5},{"Charisma",10} };
+			Level = 1;
+			Experience = 0;
+			Gold = 1000;
+		}
+		else if (ChosenClass == 2)
+		{
+			PlayerClass = 2;
+			MaxHealth = 100;
+			MaxMana = 150;
+			CurrentHealth = MaxHealth;
+			CurrentMana = MaxMana;
+			StatValues = { {"Strength",5},{"Dexterity",10},{"Wisdom",15},{"Charisma",10} };
+			Level = 1;
+			Experience = 0;
+			Gold = 1000;
+		}
+		else if (ChosenClass == 3)
+		{
+			PlayerClass = 3;
+			MaxHealth = 125;
+			MaxMana = 75;
+			CurrentHealth = MaxHealth;
+			CurrentMana = MaxMana;
+			StatValues = { {"Strength",10},{"Dexterity",15},{"Wisdom",5},{"Charisma",10} };
+			Level = 1;
+			Experience = 0;
+			Gold = 1000;
+		}
+		else if (ChosenClass == 4)
+		{
+			PlayerClass = 4;
+			MaxHealth = 100;
+			MaxMana = 100;
+			CurrentHealth = MaxHealth;
+			CurrentMana = MaxMana;
+			StatValues = { {"Strength",5},{"Dexterity",10},{"Wisdom",10},{"Charisma",15} };
+			Level = 1;
+			Experience = 0;
+			Gold = 1000;
+		}
+		system("cls");
+
+		//allocate 10 stat points
+
+		int StatPoints = 10;
+		TypeText(L"Points to spend: ", 1); std::wcout << StatPoints << std::endl;
+		TypeText(L"-------------------------------------------", 1); std::wcout << std::endl;
+		TypeText(L"1. Strength", 0); std::wcout << std::endl;
+		TypeText(L"2. Dexterity", 0); std::wcout << std::endl;
+		TypeText(L"3. Wisdom", 0); std::wcout << std::endl;
+		TypeText(L"4. Charisma", 0); std::wcout << std::endl;
+		TypeText(L"-------------------------------------------", 1); std::wcout << std::endl;
+		TypeText(L"Choose a stat to increase: ", 1); std::wcout << std::endl;
+
+		while (StatPoints > 0)
+		{
+			TypeText(L"Points to spend: ", 1); std::wcout << StatPoints << std::endl;
+			TypeText(L"-------------------------------------------", 1); std::wcout << std::endl;
+			TypeText(L"Current Stats: ", 0); std::wcout << std::endl;
+			TypeText(L"Strength: ", 0); std::wcout << StatValues["Strength"] << std::endl;
+			TypeText(L"Dexterity: ", 0); std::wcout << StatValues["Dexterity"] << std::endl;
+			TypeText(L"Wisdom: ", 0); std::wcout << StatValues["Wisdom"] << std::endl;
+			TypeText(L"Charisma: ", 0); std::wcout << StatValues["Charisma"] << std::endl;
+			TypeText(L"-------------------------------------------", 1); std::wcout << std::endl;
+			int ChosenStat;
+			std::cin >> ChosenStat;
+
+			switch (ChosenStat)
+			{
+			case 1:
+				StatValues["Strength"] += 1;
+				StatPoints -= 1;
+				continue;
+
+			case 2:
+				StatValues["Dexterity"] += 1;
+				StatPoints -= 1;
+				continue;
+
+			case 3:
+				StatValues["Wisdom"] += 1;
+				StatPoints -= 1;
+				continue;
+
+			case 4:
+				StatValues["Charisma"] += 1;
+				StatPoints -= 1;
+				continue;
+			}
+		}
+
+		// give starting inventory based on class
+
+		//if (PlayerClass == 1)
+		//{
+		//	// need to create actual items to give to player
+		//	// then insert them into the inventory
+		//}
+		//else if (PlayerClass == 2)
+		//{
+		//	
+		//}
+		//else if (PlayerClass == 3)
+		//{
+		//	
+		//}
+		//else if (PlayerClass == 4)
+		//{
+		//	
+		//}
+
+		// print out player sheet for confirmation
+
+		system("cls");
+		TypeText(L"Character Sheet: ", 1); std::wcout << std::endl;
+		TypeText(L"-------------------------------------------", 1); std::wcout << std::endl;
+		TypeText(L"Name: ", 1); std::cout << Name << std::endl;
+		TypeText(L"Class: ", 1); std::cout << GetPlayerClassName() << std::endl;
+		TypeText(L"Level: ", 1); std::cout << Level << std::endl;
+		TypeText(L"Experience: ", 1); std::cout << Experience << std::endl;
+		TypeText(L"Gold: ", 1); std::cout << Gold << std::endl;
+		TypeText(L"-------------------------------------------", 1); std::wcout << std::endl;
+		TypeText(L"Strength: ", 1); std::wcout << StatValues["Strength"] << std::endl;
+		TypeText(L"Dexterity: ", 1); std::wcout << StatValues["Dexterity"] << std::endl;
+		TypeText(L"Wisdom: ", 1); std::wcout << StatValues["Wisdom"] << std::endl;
+		TypeText(L"Charisma: ", 1); std::wcout << StatValues["Charisma"] << std::endl;
+		TypeText(L"-------------------------------------------", 1); std::wcout << std::endl;
+
 	}	
 }
