@@ -12,7 +12,7 @@
 
 // 2. expand on the Room class 
 // 3. begin working on Dungeon class
-// 4. include experience system for player character
+
 
 
 
@@ -203,17 +203,20 @@ int main()
 
 //leveling and experience functions test - PASS
 //
-
-PlayerCharacter Player(" Xander ", 100, 50, 100, 50, 1, 0, 1000, 2, { {"Strength", 10}, {"Dexterity", 10}, {"Wisdom", 20}, {"Charisma", 10} }, { }, { });
-std::cout << "------------------------------------------" << std::endl;
-std::cout << Player << std::endl;
-std::cout << "------------------------------------------" << std::endl;
-
-//Player.AddExperience(968500); - level 50
-//Player.AddExperience(20023525); - level 100
-std::cout << "------------------------------------------" << std::endl;
-std::cout << Player << std::endl;
-std::cout << "------------------------------------------" << std::endl;
+//
+//PlayerCharacter Player(" Xander ", 100, 50, 100, 50, 1, 0, 1000, 2, { {"Strength", 10}, {"Dexterity", 10}, {"Wisdom", 20}, {"Charisma", 10} }, { }, { });
+//std::cout << "------------------------------------------" << std::endl;
+//std::cout << Player << std::endl;
+//std::cout << "------------------------------------------" << std::endl;
+//
+////Player.AddExperience(968500); - level 50
+////Player.AddExperience(20023525); - level 100
+////Player.AddExperience(2147483647); - level 659 (max int size)
+////Player.AddExperience(102036854775806); - Level 142,853 - after this calculation slows down
+////Player.AddExperience(202036854775806); - Level 201,015 - after this calculation slows down exponentially
+//std::cout << "------------------------------------------" << std::endl;
+//std::cout << Player << std::endl;
+//std::cout << "------------------------------------------" << std::endl;
 
 
 

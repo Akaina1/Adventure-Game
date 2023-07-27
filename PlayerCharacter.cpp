@@ -275,7 +275,11 @@ long long PlayerCharacter::ExpToNextLevel() const
 	{
 		expneeded = 9100 * nextlevel;
 	}
-	else
+	else if (Level > 100)
+	{
+		expneeded = 10000 * nextlevel;
+	}
+	else 
 	{
 		std::cout << "Invalid Level - ExpToNextLevel() FUNCTION" << std::endl;
 	}
@@ -283,7 +287,7 @@ long long PlayerCharacter::ExpToNextLevel() const
 	return expneeded;
 }
 
-void PlayerCharacter::AddExperience(int exp) 
+void PlayerCharacter::AddExperience(long long exp) 
 { 
 	Experience += exp; 
 	LevelUp();

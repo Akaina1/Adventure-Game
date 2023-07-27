@@ -23,7 +23,7 @@ private:
 	int MaxMana = 100;
 	int CurrentMana = MaxMana;
 	int Level = 1;
-	int Experience = 0;
+	long long Experience = 0;
 	int Gold = 0;
 	int PlayerClass = 0;                     // 0 = Brawler, 1 = Scourge, 2 = Swindler, 3 = Jester
 	std::map<std::string, int> StatValues {  // using a map to hold the stats of the character
@@ -69,7 +69,7 @@ public:
 
 
 //Experience functions
-	void AddExperience(int exp);                            // adds experience to the player character
+	void AddExperience(long long exp);                            // adds experience to the player character
 	void RemoveExperience(int exp) { Experience -= exp; };  // removes experience from the player character
 	int GetExperience() const { return Experience; }        // returns the experience of the player character
 	void LevelUp();                                         // levels up the player character
