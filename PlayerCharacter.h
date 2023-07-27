@@ -34,7 +34,7 @@ private:
 	};
 	std::map<Item, int> Inventory;            //using a map to hold the inventory of Item objects as well as their quantity
 	std::vector<StatusEffect> Afflictions;    // using a map to hold the status effects of the character and whether they are active or not
-	Location* CurrentLocation;                // pointer to the current location of the character
+	std::shared_ptr<Location> CurrentLocation;                // pointer to the current location of the character
 
 public:
 //default functions
@@ -49,9 +49,11 @@ public:
 	virtual void Print(std::ostream& os) const override;                                    // override the print function from the I_Print class
 
 //location functions
-	Location& GetCurrentLocation() const { return *CurrentLocation; };                                             // returns the current location of the player character
-	Location& SetCurrentLocation(Location& location) { CurrentLocation = &location; return *CurrentLocation; };    // sets the current location of the player character
-	void MoveTo (Location& newlocation);                                                                           // move the player character to a new location)
+	std::shared_ptr<Location> GetCurrentLocation() const {return CurrentLocation;}                                            // returns the current location of the player character
+	void SetCurrentLocation(std::shared_ptr<Location> location) { CurrentLocation = location; }    // sets the current location of the player character
+	void MoveTo(std::shared_ptr<Location> newlocation);                                                                           // move the player character to a new location)
+
+	void ChooseMove();                                                                                              // show where the valid locations to move are 
 
 // name funtions
 	void SetName(std::string name) { Name = name; };       // sets the name of the player character

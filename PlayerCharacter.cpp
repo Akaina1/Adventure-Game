@@ -74,29 +74,79 @@ void PlayerCharacter::Print(std::ostream& os) const     // override the print fu
 
 ////////////////////////////////// Location functions //////////////////////////////////
 
-void PlayerCharacter::MoveTo(Location& newlocation)
+void PlayerCharacter::MoveTo(std::shared_ptr<Location> newlocation)
 {
-	Location& currentlocation = this->GetCurrentLocation(); // get the current location of the player character
+	std::shared_ptr<Location> currentLocation = this->GetCurrentLocation();		
 
-	
-	if (&currentlocation)
+	if (CurrentLocation)
 	{
-		currentlocation.OnExit(this); // call the exit function of the current location
+		CurrentLocation->OnExit(this);
 	}
 
 	this->SetCurrentLocation(newlocation);
-	
-	system("pause"); //set a delay for the console (psedo loading screen - might implement later?)
+	system("cls");
+	std::cout << "You are now moving to... " << newlocation->GetName() << std::endl;
+	system("pause");
 
-
-	if (&newlocation)
+	if (newlocation)
 	{
-		newlocation.OnEnter(this); // call the enter function of the new location
+		newlocation->OnEnter(this);
 	}
 	
 }
 
+void PlayerCharacter::ChooseMove()
+{
+	std::shared_ptr<Location> currentLocation = GetCurrentLocation();
+	std::cout << "You are currently in " << currentLocation->GetName() << std::endl;
 
+	if (currentLocation->GetConnectedRoomsCount() == 0 && currentLocation->GetConnectedLocationsCount() > 0)
+	{
+		std::cout << "There are no Rooms connected to this location.\n";
+	}
+	else if (currentLocation->GetConnectedLocationsCount() == 0 && currentLocation->GetConnectedRoomsCount() > 0)
+	{
+		std::cout << "There are no Locations connected to this location.\n";
+	}
+	else if (currentLocation->GetConnectedRoomsCount() == 0 && currentLocation->GetConnectedLocationsCount() == 0)
+	{
+		std::cout << "There are no Rooms or Locations connected to this location.\n";
+		return;
+	}
+
+	std::cout << "You can move to the following Locations: \n";
+	int count = 0;
+	for (int i = 0; i < currentLocation->GetConnectedLocationsCount(); i++)
+	{
+		std::shared_ptr<Location> connectedLocation = currentLocation->GetConnectedLocation(i);
+		std::cout << ++count << ": " << connectedLocation->GetName() << "\n";
+	}
+
+	std::cout << "You can move to the following Rooms: \n";
+	for (int i = 0; i < currentLocation->GetConnectedRoomsCount(); i++)
+	{
+		std::shared_ptr<Room> connectedLocation = currentLocation->GetConnectedRoom(i);
+		std::cout << ++count << ": " << connectedLocation->GetName() << "\n";
+	}
+
+	std::cout << "Enter the number of the Location or Room you want to move to: ";
+	int choice;
+	std::cin >> choice;
+	choice--;
+
+
+	if(choice < currentLocation->GetConnectedLocationsCount())
+	{
+		// Move to the chosen location
+		MoveTo((currentLocation->GetConnectedLocation(choice)));
+	}
+	else
+	{
+		// Adjust the choice index to account for locations, then move to the chosen room
+		choice -= currentLocation->GetConnectedLocationsCount();
+		MoveTo((currentLocation->GetConnectedRoom(choice)));
+	}
+}
 
 
 

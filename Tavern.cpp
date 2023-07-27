@@ -274,3 +274,23 @@ void Tavern::TalkToNpc(NPC& npc)
     // do event checks
 
 }
+
+std::shared_ptr<Room> Tavern::GetConnectedRoom(int index) const
+{
+	if (index < 0 || index >= connectedRooms.size())
+	{
+		throw std::out_of_range("ERROR - Room::GetConnectedRoom() - INDEX IS OUT OF RANGE");
+	}
+
+	return connectedRooms[index];
+}
+
+std::shared_ptr<Location> Tavern::GetConnectedLocation(int index) const
+{
+	if (index < 0 || index >= connectedLocations.size())
+	{
+		throw std::out_of_range("ERROR - Room::GetConnectedLocation() - INDEX IS OUT OF RANGE");
+	}
+
+	return connectedLocations[index];
+}

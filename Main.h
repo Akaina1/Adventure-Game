@@ -28,6 +28,7 @@
 #include <iterator>
 #include <fcntl.h>
 #include <io.h>
+#include <memory>
 
 
 
