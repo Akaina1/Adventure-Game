@@ -30,44 +30,22 @@ void Item::Print(Item& item) // print item info
 	std::cout << "Type: " << type << std::endl;
 }
 
-//void Item::AddEffect(std::function<void(PlayerCharacter& player)> effect)
-//{
-//}
-
-void Item::UseItem(PlayerCharacter* player, Item& item)
-{
-	// add item effect to player
-	// decrease quantity by 1 if consumable
-	// remove item from inventory if quantity is 0
-	if (item.GetType() == 0)
-	{
-		//add item effect to player
-		effect(*player);
-		
-		std::cout << "**ITEM EFFECT ADDED TO PLAYER**" << std::endl;
-	}
-	else
-	{
-		std::cout << "**THIS ITEM CANNOT BE USED**" << std::endl;
-	}
-}
-
-void Item::EquipItem(PlayerCharacter& player, Item& item)
+void Item::EquipItem(PlayerCharacter& player)
 {
 
 }
 
-void Item::UnequipItem(PlayerCharacter& player, Item& item)
+void Item::UnequipItem(PlayerCharacter& player)
 {
 
 }
 
-void Item::SellItem(PlayerCharacter& player, Item& item)
+void Item::SellItem(PlayerCharacter& player)
 {
 
 }
 
-void Item::BuyItem(PlayerCharacter& player, Item& item)
+void Item::BuyItem(PlayerCharacter& player)
 {
 
 }

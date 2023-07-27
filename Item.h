@@ -30,7 +30,8 @@ public:
 	int GetPrice() { return this->price; };
 	int GetQuantity() {return this->quantity;};
 	int GetType() { return this->type; };
-	//std::function<void(PlayerCharacter& player)> GetEffect() { return this->effect; };
+	std::function<void(PlayerCharacter& player)> GetEffect() { return this->effect; };
+
 //setters
 	void SetName(std::string name) { this->name = name; };
 	void SetDescription(std::string description) { this->description = description; };
@@ -38,15 +39,14 @@ public:
 	void SetPrice(int price) { this->price = price; };
 	void SetQuantity(int quantity) { this->quantity = quantity; };
 	void SetType(int type) { this->type = type; };
-	//void SetEffect(std::function<void(PlayerCharacter& player)> effect) { this->effect = effect; };
+	void SetEffect(std::function<void(PlayerCharacter& player)> effect) { this->effect = effect; };
 
 	
 //other functions
-	void UseItem(PlayerCharacter* player, Item &item);
-	void EquipItem(PlayerCharacter& player, Item& item);
-	void UnequipItem(PlayerCharacter& player, Item& item);
-	void SellItem(PlayerCharacter& player, Item& item);
-	void BuyItem(PlayerCharacter& player, Item& item);
+	void EquipItem(PlayerCharacter& player);
+	void UnequipItem(PlayerCharacter& player);
+	void SellItem(PlayerCharacter& player);
+	void BuyItem(PlayerCharacter& player);
 
 	void Print(Item& item);
 

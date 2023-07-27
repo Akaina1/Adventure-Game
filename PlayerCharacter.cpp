@@ -14,7 +14,7 @@ PlayerCharacter::~PlayerCharacter() // destructor
 // constructor with parameters
 PlayerCharacter::PlayerCharacter(std::string name, int maxhealth, int currenthealth, int maxmana,
 	int currentmana, int level, int experience, int gold, int pclass,
-	std::map<std::string, int> statValues, std::map<Item, int> inventory,
+	std::map<std::string, int> statValues, std::unordered_map<int, std::pair<std::shared_ptr<Item>, int>> inventory,
 	std::vector<StatusEffect> afflictions)
 	: Name{ name }, MaxHealth{ maxhealth }, CurrentHealth{ currenthealth }, MaxMana{ maxmana }, CurrentMana{ currentmana }, Level{ level }, Experience{ experience }, Gold{ gold }, PlayerClass{ pclass }, StatValues{ statValues }, Inventory{ inventory }, Afflictions{ afflictions }, CurrentLocation{}
 {
@@ -348,38 +348,47 @@ void PlayerCharacter::AddExperience(long long exp)
 
 ////////////////////////////////// Inventory functions /////////////////////////////////
 
-void PlayerCharacter::AddItem(Item& item, int quantity) // adds an item to the player character's inventory
+void PlayerCharacter::AddItem(std::shared_ptr<Item> item, int quantity) // adds an item to the player character's inventory
 {
-	if (Inventory.count(item) > 0)
+	int id = item->GetId();
+
+	if (Inventory.count(id) > 0)
 	{
-		Inventory[item] += quantity;
+		Inventory[id].second += quantity;
 	}
 	else
 	{
-		Inventory[item] = quantity;
+		Inventory[id] = std::make_pair(item, quantity);
 	}
 }
 
-void PlayerCharacter::RemoveItem(Item& item, int quantity) // removes an item from the player character's inventory
+void PlayerCharacter::RemoveItem(std::shared_ptr<Item> item, int quantity) // removes an item from the player character's inventory
 {
-	if (Inventory.count(item) > 0)
+	auto it = Inventory.find(item->GetId());
+	if (it != Inventory.end())
 	{
-		Inventory[item] -= quantity;
+		it->second.second -= quantity;
+		if (it->second.second <= 0)
+		{
+			Inventory.erase(it);
+		}
 	}
 	else
 	{
-		Inventory[item] = 0;
+		std::cout << "Item not found in inventory.\n";
 	}
 }
 
-int PlayerCharacter::GetItemQuantity(Item& item) // returns the quantity of an item in the player character's inventory
+int PlayerCharacter::GetItemQuantity(std::shared_ptr<Item> item) // returns the quantity of an item in the player character's inventory
 {
-	if (Inventory.count(item) > 0)
+	auto it = Inventory.find(item->GetId());
+	if (it != Inventory.end())
 	{
-		return Inventory[item];
+		return it->second.second;
 	}
 	else
 	{
+		std::cout << "Item not found in inventory.\n";
 		return 0;
 	}
 }
@@ -391,6 +400,30 @@ void PlayerCharacter::PrintInventory()  // prints the inventory of the player ch
 		std::cout << pair.first.GetName() << ": " << pair.second << std::endl;
 	}
 
+}
+
+void PlayerCharacter::UseItem(int itemId)
+{
+	if (Inventory.count(itemId) > 0 && Inventory[itemId].second > 0)
+	{
+		auto& item = Inventory[itemId].first;
+		switch (item->GetType())
+		{
+		case 0:// Consumable
+
+			item->GetEffect()(*this);
+			Inventory[itemId].second--;  // decrease quantity by 1
+			if (Inventory[itemId].second == 0) {
+				Inventory.erase(itemId);  // remove from inventory if quantity is 0
+			}
+			break;
+
+		case 1:// Weapon
+			break;
+		case 2:// Armor
+			break;
+		}
+	}
 }
 
 
@@ -774,6 +807,47 @@ void PlayerCharacter::CharacterCreator()
 	}
 }
 
+
+
+
+
+////////////////////////////////// Stat functions    //////////////////////////////////
+
+std::map<std::string, int> PlayerCharacter::GetPlayerStats() const
+{
+	return StatValues;
+}
+
+void PlayerCharacter::SetPlayerStats(std::map<std::string, int> newstats)
+{
+	StatValues = newstats;
+}
+
+void PlayerCharacter::AddStat(const std::string statName, int value)
+{
+	auto it = StatValues.find(statName);
+	if (it != StatValues.end()) 
+	{
+		it->second += value;
+	}
+	else
+	{
+		std::cout << "Stat not found" << std::endl;
+	}
+}
+
+void PlayerCharacter::RemoveStat(std::string statName, int value)
+{
+	auto it = StatValues.find(statName);
+	if (it != StatValues.end())
+	{
+		it->second = (std::max)(it->second - value, 0);
+	}
+	else
+	{
+		std::cout << "Stat not found" << std::endl;
+	}
+}
 
 
 

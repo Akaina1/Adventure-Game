@@ -10,7 +10,8 @@
 #include "NPC.h"
 #include "Event.h"
 #include "StatusEffect.h"
-//#include "Tavern.h"
+#include "Tavern.h"
+#include <algorithm>
 
 class Item;
 class StatusEffect;
@@ -32,7 +33,7 @@ private:
 		{ "Wisdom", 0 },
 		{ "Charisma", 0 }
 	};
-	std::map<Item, int> Inventory;            //using a map to hold the inventory of Item objects as well as their quantity
+	std::unordered_map<int, std::pair<std::shared_ptr<Item>, int>> Inventory;           //using a map to hold the inventory of Item objects as well as their quantity and id
 	std::vector<StatusEffect> Afflictions;    // using a map to hold the status effects of the character and whether they are active or not
 	std::shared_ptr<Location> CurrentLocation;                // pointer to the current location of the character
 
@@ -44,7 +45,8 @@ public:
 	PlayerCharacter(std::string name, int maxhealth,int currenthealth, 
 				    int maxmana, int currentmana, int level, int experience, 
 				    int gold, int PlayerClass, std::map<std::string, int> statValues, 
-				    std::map<Item, int> inventory, std::vector<StatusEffect> afflictions);  // constructor with parameters
+		            std::unordered_map<int, std::pair<std::shared_ptr<Item>, int>> inventory, 
+		            std::vector<StatusEffect> afflictions);  // constructor with parameters
 
 	virtual void Print(std::ostream& os) const override;                                    // override the print function from the I_Print class
 
@@ -82,11 +84,18 @@ public:
 //other functions
 	void CharacterCreator();     //character creator
 
+//Stat functions
+	std::map<std::string, int> GetPlayerStats() const ;                  // gets the player Stats from the StatValues map
+	void SetPlayerStats(std::map<std::string, int> newstats);         // sets the player Stats from the StatValues map
+	void AddStat(const std::string statName, int value);                        // adds a stat to the player character
+	void RemoveStat(std::string statName, int value);                                // removes a stat from the player character
+
 //inventory functions
-	void AddItem(Item &item, int quantity);      // adds an item to the player character's inventory
-	void RemoveItem(Item &item, int quantity);   // removes an item from the player character's inventory
-	int GetItemQuantity(Item &item);             // returns the quantity of an item in the player character's inventory
+	void AddItem(std::shared_ptr<Item> item, int quantity);      // adds an item to the player character's inventory
+	void RemoveItem(std::shared_ptr<Item> item, int quantity);   // removes an item from the player character's inventory
+	int GetItemQuantity(std::shared_ptr<Item> item);             // returns the quantity of an item in the player character's inventory
 	void PrintInventory();                       // prints the inventory of the player character
+	void UseItem(int itemId);                    // uses an item from the player character's inventory
 
 // health functions
 	int GetCurrentHealth() const { return CurrentHealth; };        // returns the current health of the player character

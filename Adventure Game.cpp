@@ -12,10 +12,9 @@
 #include "Dungeon.h"
 #include "Room.h"
 #include "GameSetup.h"
-// goals for today:
 
-// 2. expand on the Room class 
-// 3. begin working on Dungeon class
+
+
 
 
 
@@ -254,65 +253,63 @@ int main()
 
 
 
-// testing game setup
+// testing game setup - PASS!!!
 //
-
-PlayerCharacter MainCharacter;
-std::shared_ptr<Location> startingLocation = SetupGame();
-
-TypeText(L"Starting a game...\n", 50);
-TypeText(L"...\n", 200);
-TypeText(L"Yes... I said...A...game\n", 50);
-TypeText(L"...\n", 200);
-TypeText(L"...\n", 200);
-TypeText(L"...\n", 200);
-TypeText(L"Seriously...don't expect much...\n", 50);
-TypeText(L"...\n", 200);
-TypeText(L"Anyways...Let's start I guess...\n", 50);
-TypeText(L"------------------------------------------\n", 50);
-system("pause");
-system("cls");
-
-//call MainMenu function Test
-
-int Selection = MainMenu();
-
-switch (Selection)
-{
-case 1:
-{
-    // reset mode to text for cin/cout 
-    system("cls");
-    _setmode(_fileno(stdout), _O_TEXT);
-    TypeText(L"Starting Character Creation...\n", 20);
-    system("pause");
-
-    Player.CharacterCreator(); // works as intended
-
-    system("cls");
-    std::cout << "--------START GAME--------" << std::endl;
-
-    Player.MoveTo(startingLocation); // works as intended - includes a pause
-}
-break;
-
-case 2:
-    _setmode(_fileno(stdout), _O_TEXT);
-    std::wcout << "You have selected Load Game" << std::endl;
-    break;
-
-case 3:
-    _setmode(_fileno(stdout), _O_TEXT);
-    std::wcout << "You have selected Quit Game" << std::endl;
-    exit;
-}
-
-std::cout << "OUTSIDE SWITCH CASE 1 - PLAYER DATA:" << std::endl; // data outside of switch case 1 is still good
-std::cout << "-------------------------------------------" << std::endl;
-std::cout << Player << std::endl;
-std::cout << "-------------------------------------------" << std::endl;
-
-return 0;
+//
+//PlayerCharacter MainCharacter;
+//std::shared_ptr<Location> startingLocation = SetupGame();
+//
+//TypeText(L"Starting a game...\n", 50);
+//TypeText(L"...\n", 200);
+//TypeText(L"Yes... I said...A...game\n", 50);
+//TypeText(L"...\n", 200);
+//TypeText(L"...\n", 200);
+//TypeText(L"...\n", 200);
+//TypeText(L"Seriously...don't expect much...\n", 50);
+//TypeText(L"...\n", 200);
+//TypeText(L"Anyways...Let's start I guess...\n", 50);
+//TypeText(L"------------------------------------------\n", 50);
+//system("pause");
+//system("cls");
+//
+//int Selection = MainMenu();
+//
+//switch (Selection)
+//{
+//case 1:
+//{
+//    // reset mode to text for cin/cout 
+//    system("cls");
+//    _setmode(_fileno(stdout), _O_TEXT);
+//    TypeText(L"Starting Character Creation...\n", 20);
+//    system("pause");
+//
+//    Player.CharacterCreator(); // works as intended
+//
+//    system("cls");
+//    std::cout << "--------START GAME--------" << std::endl;
+//
+//    Player.MoveTo(startingLocation); // works as intended - includes a pause
+//}
+//break;
+//
+//case 2:
+//    _setmode(_fileno(stdout), _O_TEXT);
+//    std::wcout << "You have selected Load Game" << std::endl;
+//    break;
+//
+//case 3:
+//    _setmode(_fileno(stdout), _O_TEXT);
+//    std::wcout << "You have selected Quit Game" << std::endl;
+//    exit;
+//}
+//
+//std::cout << "OUTSIDE SWITCH CASE 1 - PLAYER DATA:" << std::endl; // data outside of switch case 1 is still good
+//std::cout << "-------------------------------------------" << std::endl;
+//std::cout << Player << std::endl;
+//std::cout << "-------------------------------------------" << std::endl;
+//
+//return 0;
    
 
 
@@ -321,6 +318,47 @@ return 0;
 
 
 
+
+
+
+
+
+
+
+// item + status effect test
+//
+
+
+
+std::shared_ptr<Item> potion =  std::make_shared<Item> ("Health Potion", "Heals 10 HP and grants temporary strength boost.", 1591 , 50, 1, 0, [&](PlayerCharacter& player) { // need to use make_shared with shared pointers
+    // Heal the player
+    player.heal(10);
+    // Apply the status effect
+    StatusEffect boost = StatusEffect("Strength Boost", "Temporary strength increase.", 1,
+        [&](PlayerCharacter& affectedPlayer) {
+            
+            player.AddStat("Strength", 10);
+        },
+        [&](PlayerCharacter& affectedPlayer) {
+           
+            player.RemoveStat("Strength", 10);
+
+        }, StatusEffect::State::Active);
+
+    player.ApplyEffect(boost);
+
+    });
+
+std::cout << "------------------------------------------" << std::endl;
+std::cout << Player << std::endl;
+std::cout << "------------------------------------------" << std::endl;
+
+Player.AddItem(potion, 1);
+Player.UseItem(potion->GetId());
+
+std::cout << "------------------------------------------" << std::endl;
+std::cout << Player << std::endl;
+std::cout << "------------------------------------------" << std::endl;
 
 
 

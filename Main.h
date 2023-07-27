@@ -29,6 +29,9 @@
 #include <fcntl.h>
 #include <io.h>
 #include <memory>
+#include <locale>
+#include <unordered_map>
+
 
 
 
