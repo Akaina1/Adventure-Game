@@ -93,7 +93,7 @@ void Tavern::Rest(PlayerCharacter& player)
     // do event checks
 
 	int choice = 0;
-	int gold = player.GetPlayerGold(player);
+	int gold = player.GetPlayerGold();
 
 	TypeText(L"------------------------------------------\n", 10);
 	TypeText(L" 'Would you like to rest stranger...?' \n", 10);
@@ -115,12 +115,13 @@ void Tavern::Rest(PlayerCharacter& player)
 
 			if (gold >= 10)
 			{
-				player.RemoveGold(player, 10);
-				player.heal(player.GetMaxHealth(player), &player); // heal player to full health
-				player.RestoreMana(player.GetMaxMana(player), &player); // restore player's mana to full
+				player.RemoveGold(10);
+				player.heal(player.GetMaxHealth()); // heal player to full health
+				player.RestoreMana(player.GetMaxMana()); // restore player's mana to full
 
 				std::cout << "YOU HAVE RESTED\n";
 				choice = 2;
+				TavernMenu(player);
 			}
 			else
 			{
@@ -146,11 +147,11 @@ void Tavern::Drink(PlayerCharacter& Player)
 	// Drinks will cost gold
     // do event checks
     int choice = 0;
-	int gold = Player.GetPlayerGold(Player);	
-	Item ale("Ale", "A pint of ale", 001, 5, 1, 1, ([](PlayerCharacter& player) {player.heal(10, &player);}) );
-	Item mead("Mead", "A pint of mead", 002, 10, 1, 1, ([](PlayerCharacter& player) {player.heal(15, &player);}) );
-	Item wine("Wine", "A glass of wine", 003, 15, 1, 1, ([](PlayerCharacter& player) {player.heal(20, &player);}) );
-	Item water("Water", "A glass of water", 004, 5, 1, 1, ([](PlayerCharacter& player) {player.heal(5, &player);}) );
+	int gold = Player.GetPlayerGold();	
+	Item ale("Ale", "A pint of ale", 001, 5, 1, 1, ([](PlayerCharacter& player) {player.heal(10);}) );
+	Item mead("Mead", "A pint of mead", 002, 10, 1, 1, ([](PlayerCharacter& player) {player.heal(15);}) );
+	Item wine("Wine", "A glass of wine", 003, 15, 1, 1, ([](PlayerCharacter& player) {player.heal(20);}) );
+	Item water("Water", "A glass of water", 004, 5, 1, 1, ([](PlayerCharacter& player) {player.heal(5);}) );
 
 
     TypeText(L"------------------------------------------\n", 10);
@@ -176,8 +177,8 @@ void Tavern::Drink(PlayerCharacter& Player)
 
 			if (gold >= ale.GetPrice())
 			{
-				Player.RemoveGold(Player, 5);
-				Player.AddItem(ale,1,&Player);
+				Player.RemoveGold(5);
+				Player.AddItem(ale,1);
 
 				std::cout << "YOU BOUGHT ALE\n";
 			}
@@ -192,8 +193,8 @@ void Tavern::Drink(PlayerCharacter& Player)
 
 			if (gold >= mead.GetPrice())
 			{
-				Player.RemoveGold(Player, 10);
-				Player.AddItem(mead, 1, &Player);
+				Player.RemoveGold(10);
+				Player.AddItem(mead, 1);
 
 				std::cout << "YOU BOUGHT MEAD\n";
 			}
@@ -208,8 +209,8 @@ void Tavern::Drink(PlayerCharacter& Player)
 
 			if (gold >= wine.GetPrice())
 			{
-				Player.RemoveGold(Player, 15);
-				Player.AddItem(wine, 1, &Player);
+				Player.RemoveGold(15);
+				Player.AddItem(wine, 1);
 
 				std::cout << "YOU BOUGHT WINE\n";
 			}
@@ -224,8 +225,8 @@ void Tavern::Drink(PlayerCharacter& Player)
 
 			if (gold >= water.GetPrice())
 			{
-				Player.RemoveGold(Player, 5);
-				Player.AddItem(water, 1, &Player);
+				Player.RemoveGold(5);
+				Player.AddItem(water, 1);
 
 				std::cout << "YOU BOUGHT WATER\n";
 			}

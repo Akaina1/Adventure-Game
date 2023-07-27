@@ -137,7 +137,7 @@ std::string PlayerCharacter::GetPlayerClassName() const // returns the name of t
 	}
 	else
 	{
-		return "Invalid Class";
+		return "Invalid Class - GetPlayerClassName() FUNCTION";
 	}
 }
 
@@ -162,6 +162,51 @@ std::string PlayerCharacter::GetPlayerClassName() const // returns the name of t
 
 ////////////////////////////////// Experience functions ////////////////////////////////
 
+void PlayerCharacter::LevelUp() // increases the level of the player character
+{
+	Level++;
+
+	// increase the stats of the player character dependant on their class
+	// each level up will increase the 4 stats by 1 plus an extra 1 point for the classes main stat as follows:
+	// Brawler - strength
+	// Scourge - wisdom
+	// Swindler - Dexterity
+	// Jester - Charisma
+
+	if (PlayerClass == 1) // Brawler
+	{
+		StatValues["Strength"] += 2;
+		StatValues["Dexterity"] += 1;
+		StatValues["Wisdom"] += 1;
+		StatValues["Charisma"] += 1;
+		this->IncreaseMaxHealth(5);
+	}
+	else if (PlayerClass == 2) // Scourge
+	{
+		StatValues["Strength"] += 1;
+		StatValues["Dexterity"] += 1;
+		StatValues["Wisdom"] += 2;
+		StatValues["Charisma"] += 1;
+	}
+	else if (PlayerClass == 3) // Swindler
+	{
+		StatValues["Strength"] += 1;
+		StatValues["Dexterity"] += 2;
+		StatValues["Wisdom"] += 1;
+		StatValues["Charisma"] += 1;
+	}
+	else if (PlayerClass == 4) // Jester
+	{
+		StatValues["Strength"] += 1;
+		StatValues["Dexterity"] += 1;
+		StatValues["Wisdom"] += 1;
+		StatValues["Charisma"] += 2;
+	}
+	else
+	{
+		std::cout << "Invalid Class - LEVEL UP FUNCTION" << std::endl;
+	}
+}
 
 
 
@@ -172,7 +217,7 @@ std::string PlayerCharacter::GetPlayerClassName() const // returns the name of t
 
 ////////////////////////////////// Inventory functions /////////////////////////////////
 
-void PlayerCharacter::AddItem(Item& item, int quantity, PlayerCharacter* player) // adds an item to the player character's inventory
+void PlayerCharacter::AddItem(Item& item, int quantity) // adds an item to the player character's inventory
 {
 	if (Inventory.count(item) > 0)
 	{
@@ -184,7 +229,7 @@ void PlayerCharacter::AddItem(Item& item, int quantity, PlayerCharacter* player)
 	}
 }
 
-void PlayerCharacter::RemoveItem(Item& item, int quantity, PlayerCharacter* player) // removes an item from the player character's inventory
+void PlayerCharacter::RemoveItem(Item& item, int quantity) // removes an item from the player character's inventory
 {
 	if (Inventory.count(item) > 0)
 	{
@@ -196,7 +241,7 @@ void PlayerCharacter::RemoveItem(Item& item, int quantity, PlayerCharacter* play
 	}
 }
 
-int PlayerCharacter::GetItemQuantity(Item& item, PlayerCharacter& player) // returns the quantity of an item in the player character's inventory
+int PlayerCharacter::GetItemQuantity(Item& item) // returns the quantity of an item in the player character's inventory
 {
 	if (Inventory.count(item) > 0)
 	{
@@ -220,17 +265,7 @@ void PlayerCharacter::PrintInventory()  // prints the inventory of the player ch
 
 ////////////////////////////////// Health functions   //////////////////////////////////
 
-void PlayerCharacter::IncreaseMaxHealth(int health, PlayerCharacter* player) // sets the max health of the player character
-{
-	MaxHealth += health;
-}
-
-void PlayerCharacter::DecreaseMaxHealth(int health, PlayerCharacter* plaer)
-{
-	MaxHealth -= health;
-}
-
-void PlayerCharacter::heal(int health, PlayerCharacter* player) // heals the player character
+void PlayerCharacter::heal(int health) // heals the player character
 {
 	CurrentHealth += health;
 
@@ -240,7 +275,7 @@ void PlayerCharacter::heal(int health, PlayerCharacter* player) // heals the pla
 	}
 }
 
-void PlayerCharacter::TakeDamage(int damage, PlayerCharacter* player) // damages the player character
+void PlayerCharacter::TakeDamage(int damage) // damages the player character
 {
 	CurrentHealth -= damage;
 
@@ -250,7 +285,7 @@ void PlayerCharacter::TakeDamage(int damage, PlayerCharacter* player) // damages
 	}
 }
 
-bool PlayerCharacter::IsDead(PlayerCharacter& player) // checks if the player character is dead
+bool PlayerCharacter::IsDead() // checks if the player character is dead
 {
 	return CurrentHealth <= 0;
 }
@@ -258,17 +293,7 @@ bool PlayerCharacter::IsDead(PlayerCharacter& player) // checks if the player ch
 
 ////////////////////////////////// Mana functions     //////////////////////////////////
 
-void PlayerCharacter::IncreaseMaxMana(int mana, PlayerCharacter* player) // sets the max mana of the player character
-{
-	MaxMana += mana;
-}
-
-void PlayerCharacter::DecreaseMaxMana(int mana, PlayerCharacter* player)
-{
-	MaxMana -= mana;
-}
-
-void PlayerCharacter::RestoreMana(int mana, PlayerCharacter* player) // restores mana to the player character
+void PlayerCharacter::RestoreMana(int mana) // restores mana to the player character
 {
 	CurrentMana += mana;
 
@@ -278,7 +303,7 @@ void PlayerCharacter::RestoreMana(int mana, PlayerCharacter* player) // restores
 	}
 }
 
-void PlayerCharacter::UseMana(int cost, PlayerCharacter* player) // uses mana from the player character
+void PlayerCharacter::UseMana(int cost) // uses mana from the player character
 {
 	CurrentMana -= cost;
 
@@ -291,27 +316,27 @@ void PlayerCharacter::UseMana(int cost, PlayerCharacter* player) // uses mana fr
 
 ////////////////////////////////// Effect functions   //////////////////////////////////
 
-void PlayerCharacter::ApplyEffect(StatusEffect& effect, PlayerCharacter* player) // applies a status effect to the player character
+void PlayerCharacter::ApplyEffect(StatusEffect& effect) // applies a status effect to the player character
 {
 
 	effect.state = StatusEffect::State::Active;
 
-	effect.StatusEffect::GetAddEffect()(*player);
+	effect.StatusEffect::GetAddEffect()(*this);
 
 	std::cout << "EFFECT ADDED TO PLAYER" << std::endl;
 
 };
 
-void PlayerCharacter::RemoveEffect(StatusEffect& effect, PlayerCharacter* player) // removes a status effect from the player character
+void PlayerCharacter::RemoveEffect(StatusEffect& effect) // removes a status effect from the player character
 {
 	effect.state = StatusEffect::State::Inactive;
 
-	effect.StatusEffect::GetRemoveEffect()(*player);
+	effect.StatusEffect::GetRemoveEffect()(*this);
 
 	std::cout << "EFFECT REMOVED FROM PLAYER" << std::endl;
 }
 
-void PlayerCharacter::UpdateEffects(StatusEffect& effect, PlayerCharacter* player) // takes in an effect to update, and a pointer to a character to access their Afflictions vector
+void PlayerCharacter::UpdateEffects(StatusEffect& effect) // takes in an effect to update, and a pointer to a character to access their Afflictions vector
 {
 	bool foundEffect = false;
 	// check if the effect is in the vector
@@ -323,11 +348,11 @@ void PlayerCharacter::UpdateEffects(StatusEffect& effect, PlayerCharacter* playe
 			// if the effect is in the vector check if the effect is active or not
 			if (affliction.state == StatusEffect::State::Active)
 			{
-				RemoveEffect(affliction, player);
+				RemoveEffect(affliction);
 			}
 			else if (affliction.state == StatusEffect::State::Inactive)
 			{
-				ApplyEffect(affliction, player);
+				ApplyEffect(affliction);
 			}
 			else if (affliction.state == StatusEffect::State::Blocked)
 			{
@@ -339,7 +364,7 @@ void PlayerCharacter::UpdateEffects(StatusEffect& effect, PlayerCharacter* playe
 
 	if (!foundEffect) //don't want to edit vector while iterating through it, so add effect after iterating through vector
 	{
-		ApplyEffect(effect, player);
+		ApplyEffect(effect);
 		Afflictions.push_back(effect);
 	}
 }
@@ -537,27 +562,21 @@ void PlayerCharacter::CharacterCreator()
 		//allocate 10 stat points
 
 		int StatPoints = 10;
-		TypeText(L"Points to spend: ", 1); std::wcout << StatPoints << std::endl;
-		TypeText(L"-------------------------------------------", 1); std::wcout << std::endl;
-		TypeText(L"1. Strength", 0); std::wcout << std::endl;
-		TypeText(L"2. Dexterity", 0); std::wcout << std::endl;
-		TypeText(L"3. Wisdom", 0); std::wcout << std::endl;
-		TypeText(L"4. Charisma", 0); std::wcout << std::endl;
-		TypeText(L"-------------------------------------------", 1); std::wcout << std::endl;
-		TypeText(L"Choose a stat to increase: ", 1); std::wcout << std::endl;
 
 		while (StatPoints > 0)
 		{
-			TypeText(L"Points to spend: ", 1); std::wcout << StatPoints << std::endl;
-			TypeText(L"-------------------------------------------", 1); std::wcout << std::endl;
+			TypeText(L"Points to spend: ", 0); std::wcout << StatPoints << std::endl;
+			TypeText(L"Choose a stat to increase: ", 0); std::wcout << std::endl;
+			TypeText(L"-------------------------------------------", 0); std::wcout << std::endl;
 			TypeText(L"Current Stats: ", 0); std::wcout << std::endl;
-			TypeText(L"Strength: ", 0); std::wcout << StatValues["Strength"] << std::endl;
-			TypeText(L"Dexterity: ", 0); std::wcout << StatValues["Dexterity"] << std::endl;
-			TypeText(L"Wisdom: ", 0); std::wcout << StatValues["Wisdom"] << std::endl;
-			TypeText(L"Charisma: ", 0); std::wcout << StatValues["Charisma"] << std::endl;
-			TypeText(L"-------------------------------------------", 1); std::wcout << std::endl;
+			TypeText(L"[1] Strength: ", 0); std::wcout << StatValues["Strength"] << std::endl;
+			TypeText(L"[2] Dexterity: ", 0); std::wcout << StatValues["Dexterity"] << std::endl;
+			TypeText(L"[3] Wisdom: ", 0); std::wcout << StatValues["Wisdom"] << std::endl;
+			TypeText(L"[4] Charisma: ", 0); std::wcout << StatValues["Charisma"] << std::endl;
+			TypeText(L"-------------------------------------------", 0); std::wcout << std::endl;
 			int ChosenStat;
 			std::cin >> ChosenStat;
+			system("cls");
 
 			switch (ChosenStat)
 			{

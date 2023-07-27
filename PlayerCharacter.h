@@ -59,48 +59,52 @@ public:
 
 //class functions
 	std::string GetPlayerClassName() const;                                       // returns the name of the player class
-	int GetPlayerClass(PlayerCharacter& Player) const { return PlayerClass; };    // returns the player class of the player character
+	int GetPlayerClass() const { return PlayerClass; };    // returns the player class of the player character
 	void SetPlayerClass(int Class) {PlayerClass = Class;};                        // sets the player class of the player character
 
 //gold functions
-	void AddGold(PlayerCharacter& Player, int Gold) { Player.Gold += Gold;};       // adds gold to the player character
-	void RemoveGold(PlayerCharacter& Player, int Gold) { Player.Gold -= Gold; };   // removes gold from the player character
-	int GetPlayerGold(PlayerCharacter& Player) const { return Player.Gold; };      // returns player gold value
+	void AddGold(int gold) { Gold += gold;};       // adds gold to the player character
+	void RemoveGold(int gold) { Gold -= gold; };   // removes gold from the player character
+	int GetPlayerGold() const { return Gold; };      // returns player gold value
 
 
 //Experience functions
-	void SetExperience(PlayerCharacter& Player, int Experience);     // adds experience to the player character
-	int GetExperience(PlayerCharacter& Player) const;                // returns the experience of the player character
+	void AddExperience(int exp) { Experience += exp; };     // adds experience to the player character
+	void RemoveExperience(int exp) { Experience -= exp; };  // removes experience from the player character
+	int GetExperience() const { return Experience; }        // returns the experience of the player character
+	void LevelUp();                                         // levels up the player character
+	int GetPlayerLevel() const { return Level; };           // returns the level of the player character
+	void SetPlayerLevel(int level) { Level = level; };      // sets the level of the player character
 
 //other functions
 	void CharacterCreator();     //character creator
 
 //inventory functions
-	void AddItem(Item &item, int quantity, PlayerCharacter* player);      // adds an item to the player character's inventory
-	void RemoveItem(Item &item, int quantity, PlayerCharacter* player);   // removes an item from the player character's inventory
-	int GetItemQuantity(Item &item, PlayerCharacter& player);             // returns the quantity of an item in the player character's inventory
+	void AddItem(Item &item, int quantity);      // adds an item to the player character's inventory
+	void RemoveItem(Item &item, int quantity);   // removes an item from the player character's inventory
+	int GetItemQuantity(Item &item);             // returns the quantity of an item in the player character's inventory
 	void PrintInventory();                                                // prints the inventory of the player character
 
 // health functions
-	int GetCurrentHealth(PlayerCharacter& player) const { return CurrentHealth; };        // returns the current health of the player character
-	int GetMaxHealth(PlayerCharacter& player) const { return MaxHealth; };                // returns the max health of the player character
-	void IncreaseMaxHealth(int health, PlayerCharacter* player);                          // increase the max health of the player character
-	void DecreaseMaxHealth(int health, PlayerCharacter* player);                          // decrease the max health of the player character
-	void heal(int health, PlayerCharacter* player );                                      // heals the player character
-	void TakeDamage(int damage, PlayerCharacter* player);                                 // damages the player character
-	bool IsDead(PlayerCharacter& player);                                                 // checks if the player character is dead
+	int GetCurrentHealth() const { return CurrentHealth; };        // returns the current health of the player character
+	int GetMaxHealth() const { return MaxHealth; };                // returns the max health of the player character
+	void IncreaseMaxHealth(int health) { MaxHealth += health; };   // increase the max health of the player character
+	void DecreaseMaxHealth(int health) { MaxHealth -= health; };   // decrease the max health of the player character
+	void heal(int health);                                         // heals the player character
+	void TakeDamage(int damage);                                   // damages the player character
+	bool IsDead();                                                 // checks if the player character is dead
 
 // mana functions
-	int GetCurrentMana(PlayerCharacter& player) const { return CurrentMana; };   // returns the current mana of the player character
-	int GetMaxMana(PlayerCharacter& player) const { return MaxMana; };           // returns the max mana of the player character
-	void IncreaseMaxMana(int mana, PlayerCharacter* player);                     // increases the max mana of the player character
-	void DecreaseMaxMana(int mana, PlayerCharacter* player);                     // decreases the max mana of the player character
-	void RestoreMana(int mana, PlayerCharacter* player);                         // restores mana to the player character
-	void UseMana(int mana, PlayerCharacter* player);                             // uses mana from the player character
+	int GetCurrentMana() const { return CurrentMana; };   // returns the current mana of the player character
+	int GetMaxMana() const { return MaxMana; };           // returns the max mana of the player character
+	void IncreaseMaxMana(int mana) { MaxMana += mana; };  // increases the max mana of the player character
+	void DecreaseMaxMana(int mana) { MaxMana -= mana; };  // decreases the max mana of the player character
+	void RestoreMana(int mana);                           // restores mana to the player character
+	void UseMana(int mana);                               // uses mana from the player character
 
 // Effect functions
-	void ApplyEffect(StatusEffect& effect, PlayerCharacter* player);   // applies a status effect to the player character
-	void RemoveEffect(StatusEffect& effect, PlayerCharacter* player);  // removes a status effect from the player character
-	void UpdateEffects(StatusEffect& effect,PlayerCharacter* player);  // updates the status effects of the player character
+	void ApplyEffect(StatusEffect& effect);   // applies a status effect to the player character
+	void RemoveEffect(StatusEffect& effect);  // removes a status effect from the player character
+	void UpdateEffects(StatusEffect& effect);  // updates the status effects of the player character
 };
 
