@@ -7,6 +7,13 @@
 #include "MainMenu.h"
 #include "Tavern.h"
 #include "Item.h"
+// goals for today:
+// 1. create location system for moving the player around the game world
+// 2. expand on the Room class 
+// 3. begin working on Dungeon class
+// 4. include experience system for player character
+
+
 
 
 

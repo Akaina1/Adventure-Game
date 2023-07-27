@@ -1,11 +1,27 @@
 // implementation file for PlayerCharacter class
 #include "PlayerCharacter.h"
+////////////////////////////////// Default functions //////////////////////////////////
 
+PlayerCharacter::PlayerCharacter() // default constructor
+	: Name{ "Default" }, MaxHealth{ 100 }, MaxMana{ 100 }, Level{ 1 }, Experience{ 0 }, Gold{ 1000 }, PlayerClass{ 0 }, StatValues{ {"Strength", 0}, {"Dexterity", 0}, {"Wisdom", 0}, {"Charisma", 0} }, Inventory{}, Afflictions{ }, CurrentLocation{ }
+{
+}
 
+PlayerCharacter::~PlayerCharacter() // destructor
+{
+}
 
-// override the print function from the I_Print class
+// constructor with parameters
+PlayerCharacter::PlayerCharacter(std::string name, int maxhealth, int currenthealth, int maxmana,
+	int currentmana, int level, int experience, int gold, int pclass,
+	std::map<std::string, int> statValues, std::map<Item, int> inventory,
+	std::vector<StatusEffect> afflictions)
+	: Name{ name }, MaxHealth{ maxhealth }, CurrentHealth{ currenthealth }, MaxMana{ maxmana }, CurrentMana{ currentmana }, Level{ level }, Experience{ experience }, Gold{ gold }, PlayerClass{ pclass }, StatValues{ statValues }, Inventory{ inventory }, Afflictions{ afflictions }, CurrentLocation{}
+{
+}
 
-void PlayerCharacter::Print(std::ostream& os) const
+void PlayerCharacter::Print(std::ostream& os) const     // override the print function from the I_Print class
+
 {
 	std::cout << std::boolalpha;
 	os << "Player Character: " << std::endl;
@@ -32,7 +48,7 @@ void PlayerCharacter::Print(std::ostream& os) const
 	for (auto item : Inventory)
 	{
 		os << item.first.GetName() << ": " << item.second << std::endl;
-	}	
+	}
 	os << "-------------------------------------------" << std::endl;
 	os << "Status Effects: " << std::endl;
 	for (auto& effect : Afflictions)
@@ -40,47 +56,48 @@ void PlayerCharacter::Print(std::ostream& os) const
 		if (effect.state == StatusEffect::State::Active)
 		{
 			os << effect.GetName() << ": " << effect.state << std::endl;
-			
+
 		}
 		else if (effect.state == StatusEffect::State::Inactive)
 		{
 			os << effect.GetName() << ": " << effect.state << std::endl;
-			
+
 		}
 		else if (effect.state == StatusEffect::State::Blocked)
 		{
 			os << effect.GetName() << ": " << effect.state << std::endl;
-			
+
 		}
 	}
 }
 
 
+////////////////////////////////// Location functions //////////////////////////////////
 
 
 
-// default constructor
-PlayerCharacter::PlayerCharacter()
-	: Name{ "Default" }, MaxHealth{ 100 }, MaxMana{ 100 }, Level{ 1 }, Experience{ 0 }, Gold{ 1000 }, PlayerClass{0}, StatValues{ {"Strength", 0}, {"Dexterity", 0}, {"Wisdom", 0}, {"Charisma", 0} }, Inventory{}, Afflictions{ }, CurrentLocation { }
+
+
+
+
+
+
+
+////////////////////////////////// Name functions     //////////////////////////////////
+
+
+
+
+
+
+
+
+////////////////////////////////// Class functions    //////////////////////////////////
+
+std::string PlayerCharacter::GetPlayerClassName() const // returns the name of the player class
 {
-}
+	int Class = PlayerClass;
 
-// constructor with parameters
-PlayerCharacter::PlayerCharacter(std::string name, int maxhealth,int currenthealth, int maxmana, int currentmana, int level, int experience, int gold, int pclass, std::map<std::string, int> statValues, std::map<Item, int> inventory, std::vector<StatusEffect> afflictions)
-	: Name{ name }, MaxHealth{ maxhealth }, CurrentHealth{currenthealth}, MaxMana{maxmana},CurrentMana{currentmana}, Level{level}, Experience{experience}, Gold{gold}, PlayerClass{pclass}, StatValues{statValues}, Inventory{inventory}, Afflictions{afflictions}, CurrentLocation{}
-{
-}
-
-// destructor
-PlayerCharacter::~PlayerCharacter()
-{
-}
-
-// returns the name of the player class
-std::string PlayerCharacter::GetPlayerClassName() const
-{
-    int Class = PlayerClass;
-	
 	if (Class == 1)
 	{
 		return "Brawler";
@@ -111,37 +128,7 @@ std::string PlayerCharacter::GetPlayerClassName() const
 
 
 
-
-
-Location& PlayerCharacter::GetCurrentLocation(Location& CurrentLocation) const
-{
-	//return reference to current location
-    return CurrentLocation;
-}
-
-void PlayerCharacter::MoveTo(Location& CurrentLocation, Location& NewLocation)
-{
-	//set current location to new location
-
-	CurrentLocation = NewLocation;
-}
-
-int PlayerCharacter::GetPlayerGold(PlayerCharacter& Player) const
-{
-	//get player gold and return the value as an int
-	return Player.Gold;
-}
-
-void PlayerCharacter::AddGold(PlayerCharacter& Player, int Gold)
-{
-	//add gold to player
-	Player.Gold += Gold;
-}
-
-void PlayerCharacter::RemoveGold(PlayerCharacter& Player, int Gold)
-{
-	Player.Gold -= Gold;
-}
+////////////////////////////////// Gold functions     //////////////////////////////////
 
 
 
@@ -151,7 +138,20 @@ void PlayerCharacter::RemoveGold(PlayerCharacter& Player, int Gold)
 
 
 
-void PlayerCharacter::AddItem(Item& item, int quantity,PlayerCharacter* player) // adds an item to the player character's inventory
+
+////////////////////////////////// Experience functions ////////////////////////////////
+
+
+
+
+
+
+
+
+
+////////////////////////////////// Inventory functions /////////////////////////////////
+
+void PlayerCharacter::AddItem(Item& item, int quantity, PlayerCharacter* player) // adds an item to the player character's inventory
 {
 	if (Inventory.count(item) > 0)
 	{
@@ -189,7 +189,7 @@ int PlayerCharacter::GetItemQuantity(Item& item, PlayerCharacter& player) // ret
 
 void PlayerCharacter::PrintInventory()  // prints the inventory of the player character
 {
-	for ( auto &pair : Inventory)
+	for (auto& pair : Inventory)
 	{
 		std::cout << pair.first.GetName() << ": " << pair.second << std::endl;
 	}
@@ -197,14 +197,7 @@ void PlayerCharacter::PrintInventory()  // prints the inventory of the player ch
 }
 
 
-
-
-
-
-
-
-
-
+////////////////////////////////// Health functions   //////////////////////////////////
 
 void PlayerCharacter::IncreaseMaxHealth(int health, PlayerCharacter* player) // sets the max health of the player character
 {
@@ -242,15 +235,7 @@ bool PlayerCharacter::IsDead(PlayerCharacter& player) // checks if the player ch
 }
 
 
-
-
-
-
-
-
-
-
-
+////////////////////////////////// Mana functions     //////////////////////////////////
 
 void PlayerCharacter::IncreaseMaxMana(int mana, PlayerCharacter* player) // sets the max mana of the player character
 {
@@ -283,16 +268,11 @@ void PlayerCharacter::UseMana(int cost, PlayerCharacter* player) // uses mana fr
 }
 
 
+////////////////////////////////// Effect functions   //////////////////////////////////
 
-
-
-
-
-
-
-void PlayerCharacter::ApplyEffect(StatusEffect& effect,PlayerCharacter* player) // applies a status effect to the player character
+void PlayerCharacter::ApplyEffect(StatusEffect& effect, PlayerCharacter* player) // applies a status effect to the player character
 {
-	
+
 	effect.state = StatusEffect::State::Active;
 
 	effect.StatusEffect::GetAddEffect()(*player);
@@ -310,8 +290,7 @@ void PlayerCharacter::RemoveEffect(StatusEffect& effect, PlayerCharacter* player
 	std::cout << "EFFECT REMOVED FROM PLAYER" << std::endl;
 }
 
-
-void PlayerCharacter::UpdateEffects(StatusEffect& effect,PlayerCharacter* player) // takes in an effect to update, and a pointer to a character to access their Afflictions vector
+void PlayerCharacter::UpdateEffects(StatusEffect& effect, PlayerCharacter* player) // takes in an effect to update, and a pointer to a character to access their Afflictions vector
 {
 	bool foundEffect = false;
 	// check if the effect is in the vector
@@ -320,7 +299,7 @@ void PlayerCharacter::UpdateEffects(StatusEffect& effect,PlayerCharacter* player
 		if (affliction.GetId() == effect.GetId())
 		{
 			foundEffect = true;
-		// if the effect is in the vector check if the effect is active or not
+			// if the effect is in the vector check if the effect is active or not
 			if (affliction.state == StatusEffect::State::Active)
 			{
 				RemoveEffect(affliction, player);
@@ -333,8 +312,8 @@ void PlayerCharacter::UpdateEffects(StatusEffect& effect,PlayerCharacter* player
 			{
 				std::cout << "CAN'T UPDATE BLOCKED EFFECT" << std::endl;
 			}
-			
-		}					
+
+		}
 	}
 
 	if (!foundEffect) //don't want to edit vector while iterating through it, so add effect after iterating through vector
@@ -344,196 +323,8 @@ void PlayerCharacter::UpdateEffects(StatusEffect& effect,PlayerCharacter* player
 	}
 }
 
-void PlayerCharacter::SetName(std::string name) // sets the name of the player character
-{
-	Name = name;
-}
 
-
-
-
-
-
-
-
-
-
-
-//PlayerCharacter PlayerCharacter::PlayerCreator()
-//{
-//	//create new player character
-//	PlayerCharacter Player;
-//
-//	int BaseStatPoints = 10;
-//
-//	std::cin.ignore();
-//	TypeText(L"Enter your Character's Name: ", 10);
-//	std::getline(std::cin, Name);
-//	TypeText(L"-------------------------------------------", 1); std::wcout << std::endl;
-//
-//	// loop class selection to allow for re-selection
-//
-//int Selection = 0;
-//std::map<std::string, int> ClassStatValues { {"Strength", 0}, { "Dexterity", 0 }, { "Wisdom", 0 }, { "Charisma", 0 }};
-//
-//
-//while (Selection < 1 || Selection > 4)
-//{
-//	TypeText(L"Select your Character's Class: ", 10); std::wcout << std::endl;
-//	TypeText(L"1. Brawler", 10); std::wcout << std::endl;
-//	TypeText(L"2. Scourge", 10); std::wcout << std::endl;
-//	TypeText(L"3. Swindler", 10); std::wcout << std::endl;
-//	TypeText(L"4. Jester", 10); std::wcout << std::endl;
-//	std::cin >> Selection;
-//
-//	//std::map<std::string, int> ClassStatValues { {"Strength", 0}, { "Dexterity", 0 }, { "Wisdom", 0 }, { "Charisma", 0 }};
-//
-//	switch (Selection)
-//	{
-//	case 1: //Brawler
-//
-//		system("cls");
-//
-//		//print a formated class description using TypeText function
-//		TypeText(L"-------------------------------------------", 1); std::wcout << std::endl;
-//		TypeText(L"Brawler", 10); std::wcout << std::endl;
-//		TypeText(L"-------------------------------------------", 1); std::wcout << std::endl;
-//		TypeText(L"Health: 500", 10); std::wcout << std::endl;
-//		TypeText(L"Mana: 30", 10); std::wcout << std::endl;
-//		TypeText(L"-------------------------------------------", 1); std::wcout << std::endl;
-//		TypeText(L"Strength: 15", 10); std::wcout << std::endl;
-//		TypeText(L"Dexterity: 10", 10); std::wcout << std::endl;
-//		TypeText(L"Wisdom: 10", 10); std::wcout << std::endl;
-//		TypeText(L"Charisma: 10", 10); std::wcout << std::endl;
-//		TypeText(L"-------------------------------------------", 1); std::wcout << std::endl;
-//		TypeText(L"Description: A brawler is a fighter who uses\ntheir fists to fight. They are strong and\ncan take a lot of damage, but they lack\nthe ability to use magic and have a weakness\nto magic.\n", 10); std::wcout << std::endl;
-//		TypeText(L"-------------------------------------------", 1); std::wcout << std::endl;
-//
-//		TypeText(L"Press 1 to confirm class, or 0 to\nselect a different class: ", 10);
-//		std::cin >> Selection;
-//
-//		if (Selection == 0)
-//		{
-//			Selection = 0;
-//		}
-//		else if (Selection == 1)
-//		{ 
-//		PlayerClass = 1;
-//		MaxHealth = 500;
-//		MaxMana = 30;
-//		ClassStatValues = { {"Strength", 15}, { "Dexterity", 10 }, { "Wisdom", 10 }, { "Charisma", 10 } };
-//		continue;
-//		}
-//
-//	case 2: //Scourge
-//		PlayerClass = 2;
-//		MaxHealth = 125;
-//		MaxMana = 200;
-//		ClassStatValues = { {"Strength", 10}, { "Dexterity", 10 }, { "Wisdom", 15 }, { "Charisma", 10 } };
-//		break;
-//
-//	case 3://Swindler
-//		PlayerClass = 3;
-//		MaxHealth = 125;
-//		MaxMana = 20;
-//		ClassStatValues = { {"Strength", 10}, { "Dexterity", 15 }, { "Wisdom", 10 }, { "Charisma", 10 } };
-//		break;
-//
-//	case 4://Jester
-//		PlayerClass = 4;
-//		MaxHealth = 150;
-//		MaxMana = 100;
-//		ClassStatValues = { {"Strength", 10}, { "Dexterity", 10 }, { "Wisdom", 10 }, { "Charisma", 15 } };
-//		break;
-//	}
-//}
-//
-//
-//	TypeText(L"Allocate your Stat Points: ", 1); std::wcout << std::endl;
-//	TypeText(L"You have " + std::to_wstring(BaseStatPoints) + L" points remaining.", 1); std::wcout << std::endl;
-//	int AddPoint;
-//
-//	while (BaseStatPoints > 0)
-//	{
-//		if (BaseStatPoints >= 1)
-//		{
-//			TypeText(L"-------------------------------------------", 1); std::wcout << std::endl;
-//			TypeText(L"Strength: ", 1); std::wcout << std::endl;
-//			std::cin >> AddPoint;
-//			if (AddPoint > BaseStatPoints)
-//			{
-//				std::cout << "nice try, but you don't have that many points left" << std::endl;
-//				continue;
-//			}
-//			StatValues["Strength"] = (ClassStatValues["Strength"] + AddPoint);
-//			BaseStatPoints -= AddPoint;
-//			TypeText(L"You have " + std::to_wstring(BaseStatPoints) + L" points remaining.", 1); std::wcout << std::endl;
-//		}
-//
-//		if (BaseStatPoints >= 1)
-//		{
-//			TypeText(L"Dexterity: ", 1); std::wcout << std::endl;
-//			std::cin >> AddPoint;
-//			if (AddPoint > BaseStatPoints)
-//			{
-//				std::cout << "nice try, but you don't have that many points left" << std::endl;
-//				continue; 
-//			}
-//			StatValues["Dexterity"] = (ClassStatValues["Dexterity"] + AddPoint);
-//			BaseStatPoints -= AddPoint;
-//			TypeText(L"You have " + std::to_wstring(BaseStatPoints) + L" points remaining.", 1); std::wcout << std::endl;
-//		}
-//
-//		if (BaseStatPoints >= 1)
-//		{
-//			TypeText(L"Wisdom: ", 1); std::wcout << std::endl;
-//			std::cin >> AddPoint;
-//			if (AddPoint > BaseStatPoints)
-//			{
-//				std::cout << "nice try, but you don't have that many points left" << std::endl;
-//				continue;
-//			}
-//			StatValues["Wisdom"] = (ClassStatValues["Wisdom"] + AddPoint);
-//			BaseStatPoints -= AddPoint;
-//			TypeText(L"You have " + std::to_wstring(BaseStatPoints) + L" points remaining.", 1); std::wcout << std::endl;
-//		}
-//
-//		if (BaseStatPoints >= 1)
-//		{
-//			TypeText(L"Charisma: ", 1); std::wcout << std::endl;
-//			std::cin >> AddPoint;
-//			if (AddPoint > BaseStatPoints)
-//			{
-//				std::cout << "nice try, but you don't have that many points left" << std::endl;
-//				continue;
-//			}
-//			StatValues["Charisma"] = (ClassStatValues["Charisma"] + AddPoint);
-//			BaseStatPoints -= AddPoint;
-//			TypeText(L"You have " + std::to_wstring(BaseStatPoints) + L" points remaining.", 1); std::wcout << std::endl;
-//		}
-//		TypeText(L"-------------------------------------------", 1); std::wcout << std::endl;
-//		if (BaseStatPoints == 0)
-//
-//		{
-//			TypeText(L"You have no points remaining.", 10); std::wcout << std::endl;
-//		}
-//	}
-//	//Inventory = {};
-//    
-//	/*Afflictions = 
-//	{ {"Poisoned", false}, { "Bleeding", false }, { "Burned", false }, { "Frozen", false }, { "Stunned", false }, 
-//	{ "Blinded", false }, { "Confused", false }, { "Charmed", false }, { "Enraged", false }, { "Blessed", false }, 
-//	{ "Cursed", false }, { "Invisible", false }, { "Silenced", false }, { "Sleeping", false }, { " ", false } };*/
-//
-//	// show confirmation of character creation
-//	std::wcout << "Press Enter to start the game..." << std::endl;
-//	std::wcin.ignore();
-//	std::wcin.get();
-//	
-//	// return the newly created player character  
-//	return Player;
-//}
-
+////////////////////////////////// Other functions    //////////////////////////////////
 
 void PlayerCharacter::CharacterCreator()
 {
@@ -567,7 +358,7 @@ void PlayerCharacter::CharacterCreator()
 		ChosenClass = choice;
 
 		switch (choice)
-		{ 
+		{
 		case 1:
 			system("cls");
 			TypeText(L"Brawler", 1); std::wcout << std::endl;
@@ -808,5 +599,9 @@ void PlayerCharacter::CharacterCreator()
 		TypeText(L"Charisma: ", 1); std::wcout << StatValues["Charisma"] << std::endl;
 		TypeText(L"-------------------------------------------", 1); std::wcout << std::endl;*/
 
-	}	
+	}
 }
+
+
+
+
