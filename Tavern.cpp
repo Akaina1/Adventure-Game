@@ -143,10 +143,10 @@ void Tavern::Drink(PlayerCharacter& Player)
     // do event checks
     int choice = 0;
 	int gold = Player.GetPlayerGold();	
-	Item ale("Ale", "A pint of ale", 001, 5, 1, 1, ([](PlayerCharacter& player) {player.heal(10);}) );
-	Item mead("Mead", "A pint of mead", 002, 10, 1, 1, ([](PlayerCharacter& player) {player.heal(15);}) );
-	Item wine("Wine", "A glass of wine", 003, 15, 1, 1, ([](PlayerCharacter& player) {player.heal(20);}) );
-	Item water("Water", "A glass of water", 004, 5, 1, 1, ([](PlayerCharacter& player) {player.heal(5);}) );
+	std::shared_ptr<Item> Ale = std::make_shared<Item>("Ale", "A pint of ale", 001, 5, 1, 1, ([](PlayerCharacter& player) {player.heal(10); }));
+	std::shared_ptr<Item> Mead = std::make_shared<Item>("Mead", "A pint of mead", 002, 10, 1, 1, ([](PlayerCharacter& player) {player.heal(15); }));
+	std::shared_ptr<Item> Wine = std::make_shared<Item>("Wine", "A glass of wine", 003, 15, 1, 1, ([](PlayerCharacter& player) {player.heal(20); }));
+	std::shared_ptr<Item> Water = std::make_shared<Item>("Water", "A glass of water", 004, 5, 1, 1, ([](PlayerCharacter& player) {player.heal(5); }));
 
 	system("cls");
     TypeText(L"------------------------------------------\n", 10);
@@ -170,10 +170,10 @@ void Tavern::Drink(PlayerCharacter& Player)
 			// if so, buy ale
 			// if not, print out message
 
-			if (gold >= ale.GetPrice())
+			if (gold >= Ale->GetPrice())
 			{
 				Player.RemoveGold(5);
-				Player.AddItem(ale,1);
+				Player.AddItem(Ale,1);
 
 				std::cout << "YOU BOUGHT ALE\n";
 				std::cout << "Gold: " << Player.GetPlayerGold() << std::endl;
@@ -187,10 +187,10 @@ void Tavern::Drink(PlayerCharacter& Player)
 		case 2:
 			// buy mead
 
-			if (gold >= mead.GetPrice())
+			if (gold >= Mead->GetPrice())
 			{
 				Player.RemoveGold(10);
-				Player.AddItem(mead, 1);
+				Player.AddItem(Mead, 1);
 
 				std::cout << "YOU BOUGHT MEAD\n";
 				std::cout << "Gold: " << Player.GetPlayerGold() << std::endl;
@@ -205,10 +205,10 @@ void Tavern::Drink(PlayerCharacter& Player)
 		case 3:
 			// buy wine
 
-			if (gold >= wine.GetPrice())
+			if (gold >= Wine->GetPrice())
 			{
 				Player.RemoveGold(15);
-				Player.AddItem(wine, 1);
+				Player.AddItem(Wine, 1);
 
 				std::cout << "YOU BOUGHT WINE\n";
 				std::cout << "Gold: " << Player.GetPlayerGold() << std::endl;
@@ -223,10 +223,10 @@ void Tavern::Drink(PlayerCharacter& Player)
 		case 4:
 			// buy water
 
-			if (gold >= water.GetPrice())
+			if (gold >= Water->GetPrice())
 			{
 				Player.RemoveGold(5);
-				Player.AddItem(water, 1);
+				Player.AddItem(Water, 1);
 
 				std::cout << "YOU BOUGHT WATER\n";
 				std::cout << "Gold: " << Player.GetPlayerGold() << std::endl;

@@ -328,13 +328,11 @@ int main()
 // item + status effect test
 //
 
-
-
 std::shared_ptr<Item> potion =  std::make_shared<Item> ("Health Potion", "Heals 10 HP and grants temporary strength boost.", 1591 , 50, 1, 0, [&](PlayerCharacter& player) { // need to use make_shared with shared pointers
     // Heal the player
-    player.heal(10);
+    player.heal(25);
     // Apply the status effect
-    StatusEffect boost = StatusEffect("Strength Boost", "Temporary strength increase.", 1,
+    StatusEffect boost = StatusEffect("Boost", "Temporary strength increase.", 123,
         [&](PlayerCharacter& affectedPlayer) {
             
             player.AddStat("Strength", 10);
@@ -347,27 +345,47 @@ std::shared_ptr<Item> potion =  std::make_shared<Item> ("Health Potion", "Heals 
 
     player.ApplyEffect(boost);
 
+    StatusEffect haste = StatusEffect("Haste", "Temporary Dexterity increase.", 114,
+        [&](PlayerCharacter& affectedPlayer) {
+
+            player.AddStat("Dexterity", 10);
+        },
+        [&](PlayerCharacter& affectedPlayer) {
+
+            player.RemoveStat("Dexterity", 10);
+
+        }, StatusEffect::State::Active);
+
+    player.ApplyEffect(haste);
+
     });
+
+Player.TakeDamage(50);
 
 std::cout << "------------------------------------------" << std::endl;
 std::cout << Player << std::endl;
 std::cout << "------------------------------------------" << std::endl;
 
 Player.AddItem(potion, 1);
+
 Player.UseItem(potion->GetId());
 
 std::cout << "------------------------------------------" << std::endl;
 std::cout << Player << std::endl;
 std::cout << "------------------------------------------" << std::endl;
 
+Player.RemoveEffect("Haste");
+
+std::cout << "------------------------------------------" << std::endl;
+std::cout << Player << std::endl;
+std::cout << "------------------------------------------" << std::endl;
 
 
+Player.RemoveEffect("Boost");
 
-
-
-
-
-
+std::cout << "------------------------------------------" << std::endl;
+std::cout << Player << std::endl;
+std::cout << "------------------------------------------" << std::endl;
 
 
 

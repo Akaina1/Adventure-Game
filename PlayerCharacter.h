@@ -115,8 +115,8 @@ public:
 	void UseMana(int mana);                               // uses mana from the player character
 
 // Effect functions
-	void ApplyEffect(StatusEffect& effect);   // applies a status effect to the player character
-	void RemoveEffect(StatusEffect& effect);  // removes a status effect from the player character
+	void ApplyEffect(StatusEffect effect);   // applies a status effect to the player character
+	void RemoveEffect(const std::string& effectName);  // removes a status effect from the player character
 	void UpdateEffects(StatusEffect& effect);  // updates the status effects of the player character
 };
 

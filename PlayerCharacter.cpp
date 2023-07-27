@@ -45,9 +45,9 @@ void PlayerCharacter::Print(std::ostream& os) const     // override the print fu
 	os << "-------------------------------------------" << std::endl;
 	os << "Inventory: " << std::endl;
 	//print inventory
-	for (auto item : Inventory)
+	for (const auto item : Inventory)
 	{
-		os << item.first.GetName() << ": " << item.second << std::endl;
+		os << item.second.first->GetName() << ": " << item.second.second << std::endl;
 	}
 	os << "-------------------------------------------" << std::endl;
 	os << "Status Effects: " << std::endl;
@@ -397,7 +397,7 @@ void PlayerCharacter::PrintInventory()  // prints the inventory of the player ch
 {
 	for (auto& pair : Inventory)
 	{
-		std::cout << pair.first.GetName() << ": " << pair.second << std::endl;
+		std::cout << pair.second.first->GetName() << ": " << pair.second.second << std::endl;
 	}
 
 }
@@ -480,7 +480,7 @@ void PlayerCharacter::UseMana(int cost) // uses mana from the player character
 
 ////////////////////////////////// Effect functions   //////////////////////////////////
 
-void PlayerCharacter::ApplyEffect(StatusEffect& effect) // applies a status effect to the player character
+void PlayerCharacter::ApplyEffect(StatusEffect effect) // applies a status effect to the player character
 {
 
 	effect.state = StatusEffect::State::Active;
@@ -489,30 +489,34 @@ void PlayerCharacter::ApplyEffect(StatusEffect& effect) // applies a status effe
 
 	std::cout << "EFFECT ADDED TO PLAYER" << std::endl;
 
+	Afflictions.push_back(effect);
+
 };
 
-void PlayerCharacter::RemoveEffect(StatusEffect& effect) // removes a status effect from the player character
+void PlayerCharacter::RemoveEffect(const std::string& effectName) // removes a status effect from the player character
 {
-	effect.state = StatusEffect::State::Inactive;
-
-	effect.StatusEffect::GetRemoveEffect()(*this);
+	Afflictions.erase(
+		std::remove_if(
+			Afflictions.begin(), Afflictions.end(),
+			[&effectName](const StatusEffect& effect) { return effect.GetName() == effectName; }
+		),
+		Afflictions.end()
+	);
 
 	std::cout << "EFFECT REMOVED FROM PLAYER" << std::endl;
 }
 
 void PlayerCharacter::UpdateEffects(StatusEffect& effect) // takes in an effect to update, and a pointer to a character to access their Afflictions vector
 {
-	bool foundEffect = false;
 	// check if the effect is in the vector
 	for (auto& affliction : Afflictions)
 	{
 		if (affliction.GetId() == effect.GetId())
 		{
-			foundEffect = true;
 			// if the effect is in the vector check if the effect is active or not
 			if (affliction.state == StatusEffect::State::Active)
 			{
-				RemoveEffect(affliction);
+				RemoveEffect(affliction.GetName());
 			}
 			else if (affliction.state == StatusEffect::State::Inactive)
 			{
@@ -522,14 +526,16 @@ void PlayerCharacter::UpdateEffects(StatusEffect& effect) // takes in an effect 
 			{
 				std::cout << "CAN'T UPDATE BLOCKED EFFECT" << std::endl;
 			}
+			return;
 
 		}
+		
+
 	}
 
-	if (!foundEffect) //don't want to edit vector while iterating through it, so add effect after iterating through vector
+	if (effect.state == StatusEffect::State::Active)
 	{
-		ApplyEffect(effect);
-		Afflictions.push_back(effect);
+			ApplyEffect(effect);
 	}
 }
 
