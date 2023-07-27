@@ -41,9 +41,10 @@ int main()
 
         Player.CharacterCreator(); // works as intended
 
-        std::cout<<"--------AFTER PLAYER CREATION--------" << std::endl;
-
-        Player.MoveTo(TheTavern); // works as intended
+        system("cls");
+        std::cout<<"--------START GAME--------" << std::endl;
+       
+        Player.MoveTo(TheTavern); // works as intended - includes a pause
     }
     break;
 

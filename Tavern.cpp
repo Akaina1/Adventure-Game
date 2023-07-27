@@ -95,6 +95,7 @@ void Tavern::Rest(PlayerCharacter& player)
 	int choice = 0;
 	int gold = player.GetPlayerGold();
 
+	system("cls");
 	TypeText(L"------------------------------------------\n", 10);
 	TypeText(L" 'Would you like to rest stranger...?' \n", 10);
 	TypeText(L"------------------------------------------\n", 10);
@@ -118,9 +119,10 @@ void Tavern::Rest(PlayerCharacter& player)
 				player.RemoveGold(10);
 				player.heal(player.GetMaxHealth()); // heal player to full health
 				player.RestoreMana(player.GetMaxMana()); // restore player's mana to full
-
-				std::cout << "YOU HAVE RESTED\n";
 				choice = 2;
+				std::cout << "YOU HAVE RESTED\n";
+				system("pause");
+				system("cls");
 				TavernMenu(player);
 			}
 			else
@@ -132,6 +134,7 @@ void Tavern::Rest(PlayerCharacter& player)
 			break;
 		case 2:
 			// exit the rest menu
+			system("cls");
 			TavernMenu(player);
 			break;
 		default:
@@ -153,7 +156,7 @@ void Tavern::Drink(PlayerCharacter& Player)
 	Item wine("Wine", "A glass of wine", 003, 15, 1, 1, ([](PlayerCharacter& player) {player.heal(20);}) );
 	Item water("Water", "A glass of water", 004, 5, 1, 1, ([](PlayerCharacter& player) {player.heal(5);}) );
 
-
+	system("cls");
     TypeText(L"------------------------------------------\n", 10);
     TypeText(L" 'What would you like to drink stranger...?' \n", 10);
     TypeText(L"------------------------------------------\n", 10);
@@ -181,6 +184,7 @@ void Tavern::Drink(PlayerCharacter& Player)
 				Player.AddItem(ale,1);
 
 				std::cout << "YOU BOUGHT ALE\n";
+				std::cout << "Gold: " << Player.GetPlayerGold() << std::endl;
 			}
 			else
 			{
@@ -197,10 +201,12 @@ void Tavern::Drink(PlayerCharacter& Player)
 				Player.AddItem(mead, 1);
 
 				std::cout << "YOU BOUGHT MEAD\n";
+				std::cout << "Gold: " << Player.GetPlayerGold() << std::endl;
 			}
 			else
 			{
-				TypeText(L"You don't have enough gold...\n", 10);
+				std::cout << "You don't have enough Gold...\n";
+				std::cout << "Gold: " << Player.GetPlayerGold() << std::endl;
 			}
 
 			break;
@@ -213,10 +219,12 @@ void Tavern::Drink(PlayerCharacter& Player)
 				Player.AddItem(wine, 1);
 
 				std::cout << "YOU BOUGHT WINE\n";
+				std::cout << "Gold: " << Player.GetPlayerGold() << std::endl;
 			}
 			else
 			{
-				TypeText(L"You don't have enough gold...\n", 10);
+				std::cout << "You don't have enough Gold...\n";
+				std::cout << "Gold: " << Player.GetPlayerGold() << std::endl;
 			}
 
 			break;
@@ -229,15 +237,18 @@ void Tavern::Drink(PlayerCharacter& Player)
 				Player.AddItem(water, 1);
 
 				std::cout << "YOU BOUGHT WATER\n";
+				std::cout << "Gold: " << Player.GetPlayerGold() << std::endl;
 			}
 			else
 			{
-				TypeText(L"You don't have enough gold...\n", 10);
+				std::cout << "You don't have enough Gold...\n";
+				std::cout << "Gold: " << Player.GetPlayerGold() << std::endl;
 			}
 
 			break;
 		case 5:
 			// leave
+			system("cls");
 			TavernMenu(Player); // go back to the tavern menu
 			break;
 		default:
