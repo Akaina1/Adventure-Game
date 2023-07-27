@@ -81,9 +81,11 @@ void MainMenu()
         std::cout << "-------------------------------------------" << std::endl;
     }
 	    break;
+
     case 2:
         std::wcout << "You have selected Load Game" << std::endl;
         break;
+
     case 3:
         std::wcout << "You have selected Quit Game" << std::endl;
 	    break;

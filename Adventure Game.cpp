@@ -15,11 +15,11 @@
 // Testing functions currently
 int main()
 {
-
     //call MainMenu function Test - PASS
-    //
-    //MainMenu(); 
-    //return 0;
+    MainMenu(); 
+
+
+    return 0;
 
 
 
@@ -123,12 +123,30 @@ int main()
  //   std::cout << "------------------------------------------" << std::endl;
 
 
-// test new character creator function
+
+
+
+
+
+
+
+
+
+
+
+
+// test new character creator function - PASS
 //
-
-PlayerCharacter player;
-
-player.CharacterCreator();
+//
+//PlayerCharacter player;
+//
+//player.CharacterCreator();
+//
+//std::cout << "------------------------------------------" << std::endl;
+//std::cout << player << std::endl;
+//std::cout << "------------------------------------------" << std::endl;
+//
+//return 0;
 
 }
 

@@ -55,6 +55,10 @@ void PlayerCharacter::Print(std::ostream& os) const
 	}
 }
 
+
+
+
+
 // default constructor
 PlayerCharacter::PlayerCharacter()
 	: Name{ "Default" }, MaxHealth{ 100 }, MaxMana{ 100 }, Level{ 1 }, Experience{ 0 }, Gold{ 1000 }, PlayerClass{0}, StatValues{ {"Strength", 0}, {"Dexterity", 0}, {"Wisdom", 0}, {"Charisma", 0} }, Inventory{}, Afflictions{ }, CurrentLocation { }
@@ -534,6 +538,8 @@ void PlayerCharacter::SetName(std::string name) // sets the name of the player c
 void PlayerCharacter::CharacterCreator()
 {
 	//1. get user input for character name
+	system("cls");
+	std::cin.ignore();
 	std::string inputname;
 	TypeText(L"Enter your character's name: ", 10); std::wcout << std::endl;
 	TypeText(L"-------------------------------------------", 1); std::wcout << std::endl;
@@ -787,7 +793,7 @@ void PlayerCharacter::CharacterCreator()
 
 		// print out player sheet for confirmation
 
-		system("cls");
+		/*system("cls");
 		TypeText(L"Character Sheet: ", 1); std::wcout << std::endl;
 		TypeText(L"-------------------------------------------", 1); std::wcout << std::endl;
 		TypeText(L"Name: ", 1); std::cout << Name << std::endl;
@@ -800,7 +806,7 @@ void PlayerCharacter::CharacterCreator()
 		TypeText(L"Dexterity: ", 1); std::wcout << StatValues["Dexterity"] << std::endl;
 		TypeText(L"Wisdom: ", 1); std::wcout << StatValues["Wisdom"] << std::endl;
 		TypeText(L"Charisma: ", 1); std::wcout << StatValues["Charisma"] << std::endl;
-		TypeText(L"-------------------------------------------", 1); std::wcout << std::endl;
+		TypeText(L"-------------------------------------------", 1); std::wcout << std::endl;*/
 
 	}	
 }
