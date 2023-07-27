@@ -78,12 +78,14 @@ public:
 // mana functions
 	int GetCurrentMana(PlayerCharacter& player) const { return CurrentMana; }; // returns the current mana of the player character
 	int GetMaxMana(PlayerCharacter& player) const { return MaxMana; }; // returns the max mana of the player character
-	void SetMaxMana(int mana, PlayerCharacter* player); // sets the max mana of the player character
+	void IncreaseMaxMana(int mana, PlayerCharacter* player); // increases the max mana of the player character
+	void DecreaseMaxMana(int mana, PlayerCharacter* player); // decreases the max mana of the player character
 	void RestoreMana(int mana, PlayerCharacter* player); // restores mana to the player character
 	void UseMana(int mana, PlayerCharacter* player); // uses mana from the player character
 
 // testing effect function rework 
 	void ApplyEffect(StatusEffect& effect, PlayerCharacter* player); // applies a status effect to the player character
+	void RemoveEffect(StatusEffect& effect, PlayerCharacter* player); // removes a status effect from the player character
 	void UpdateEffects(StatusEffect& effect,PlayerCharacter* player); // updates the status effects of the player character
 
 };

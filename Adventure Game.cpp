@@ -63,9 +63,27 @@ int main()
     //StatusEffect test - 
     //
     //create a status effect that increases the players max health by 50 with a default state set to inactive
-    StatusEffect MaxHealthUp("Full Belly", "You ate a good meal and gained 50 max health temporarily", 001, [](PlayerCharacter& player) {player.IncreaseMaxHealth(50, &player); }, StatusEffect::State::Inactive);
+    StatusEffect MaxHealthUp (
+        "Full Belly", 
+        "You ate a good meal and gained 50 max health temporarily", 
+        001, 
+        [](PlayerCharacter& player) {player.IncreaseMaxHealth(50, &player); }, 
+        [](PlayerCharacter& player) {player.DecreaseMaxHealth(50, &player); }, 
+        StatusEffect::State::Inactive 
+    );
 
-    PlayerCharacter Player(" Xander ", 100, 50, 100, 50, 1, 0, 1000, 2, { {"Strength", 10}, {"Dexterity", 10}, {"Wisdom", 20}, {"Charisma", 10} }, { }, {MaxHealthUp} );
+    //create a status effect that increases the players max mana by 50 with a default state set to inactive
+    StatusEffect MaxManaUp(
+		"Mana Drop",
+		"Tastes like a gumdrop... yum",
+		002,
+		[](PlayerCharacter& player) {player.IncreaseMaxMana(50, &player); },
+		[](PlayerCharacter& player) {player.DecreaseMaxMana(50, &player); },
+		StatusEffect::State::Inactive
+	);
+
+
+    PlayerCharacter Player(" Xander ", 100, 50, 100, 50, 1, 0, 1000, 2, { {"Strength", 10}, {"Dexterity", 10}, {"Wisdom", 20}, {"Charisma", 10} }, { }, { } );
     std::cout << "------------------------------------------" << std::endl;
     std::cout << Player << std::endl;
     std::cout << "------------------------------------------" << std::endl;
@@ -78,6 +96,23 @@ int main()
     std::cout << "------------------------------------------" << std::endl;
     std::cout << Player << std::endl;
     std::cout << "------------------------------------------" << std::endl;
+
+    //call the status effect function to add another effect
+
+    Player.UpdateEffects(MaxManaUp, &Player);
+
+    std::cout << "------------------------------------------" << std::endl;
+    std::cout << Player << std::endl;
+    std::cout << "------------------------------------------" << std::endl;
+
+    //call the status effect function to remove the effect
+    Player.UpdateEffects(MaxHealthUp, &Player);
+
+    Player.UpdateEffects(MaxManaUp, &Player);
+    std::cout << "------------------------------------------" << std::endl;
+    std::cout << Player << std::endl;
+    std::cout << "------------------------------------------" << std::endl;
+
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
