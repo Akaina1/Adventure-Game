@@ -495,15 +495,21 @@ void PlayerCharacter::ApplyEffect(StatusEffect effect) // applies a status effec
 
 void PlayerCharacter::RemoveEffect(const std::string& effectName) // removes a status effect from the player character
 {
-	Afflictions.erase(
-		std::remove_if(
-			Afflictions.begin(), Afflictions.end(),
-			[&effectName](const StatusEffect& effect) { return effect.GetName() == effectName; }
-		),
-		Afflictions.end()
-	);
+	for (auto it = Afflictions.begin(); it != Afflictions.end(); ++it)
+	{
+		// If the effect is the one we want to remove
+		if (it->GetName() == effectName)
+		{
+			// Call the removeEffect function to undo the effect
+			it->GetRemoveEffect()(*this);
 
-	std::cout << "EFFECT REMOVED FROM PLAYER" << std::endl;
+			// Remove the effect from the vector
+			Afflictions.erase(it);
+
+			std::cout << "EFFECT REMOVED FROM PLAYER" << std::endl;
+			return;
+		}
+	}
 }
 
 void PlayerCharacter::UpdateEffects(StatusEffect& effect) // takes in an effect to update, and a pointer to a character to access their Afflictions vector

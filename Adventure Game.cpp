@@ -360,7 +360,7 @@ std::shared_ptr<Item> potion =  std::make_shared<Item> ("Health Potion", "Heals 
 
     });
 
-Player.TakeDamage(50);
+Player.TakeDamage(101);
 
 std::cout << "------------------------------------------" << std::endl;
 std::cout << Player << std::endl;

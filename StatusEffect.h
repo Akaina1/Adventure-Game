@@ -38,16 +38,11 @@ public:
 	StatusEffect(); // default constructor
 	virtual ~StatusEffect(); // destructor
 	StatusEffect(std::string name, std::string description, int id, std::function<void(PlayerCharacter& player)> addEffect, std::function<void(PlayerCharacter& player)> removeEffect, State state); // constructor with parameters
-	//StatusEffect(const StatusEffect& source); // copy constructor
-	//StatusEffect& operator=(const StatusEffect& source); // copy assignment operator
-	//StatusEffect(StatusEffect&& source); // move constructor
-	//StatusEffect& operator=(StatusEffect&& source); // move assignment operator
-
-	//getters
+	
+//getters
 	std::string GetName() const { return Name; }; // returns the name of the status effect
 	std::string GetDescription() const { return Description; }; // returns the description of the status effect
 	int GetId() const { return Id; }; // returns the id of the status effect
-	//int GetDuration() const; // returns the duration of the status effect
 	std::function<void(PlayerCharacter& player)> GetAddEffect() const { return AddEffect;}; // returns the add effect of the status effect
 	std::function<void(PlayerCharacter& player)> GetRemoveEffect() const { return RemoveEffect;}; // returns the remove effect of the status effect
 	State GetEffectState() const { return state;}; // returns the state of the status effect
@@ -55,7 +50,6 @@ public:
 	//setters
 	void SetName(std::string name); // sets the name of the status effect
 	void SetDescription(std::string description); // sets the description of the status effect
-	//void SetDuration(int duration); // sets the duration of the status effect
 	//void SetEffect(std::function<void(PlayerCharacter& player)> effect); // sets the effect of the status effect
 	void SetEffectState(State newstate); // sets the state of the status effect
 
