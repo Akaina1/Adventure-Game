@@ -23,48 +23,48 @@
 // Testing functions currently
 int main()
 {
-    PlayerCharacter Player;
-    Tavern TheTavern;
+    /*PlayerCharacter Player;
+    Tavern TheTavern;*/
     
     //call MainMenu function Test - PASS
-    int Selection = MainMenu(); 
-    
-    switch (Selection)
-    {
-    case 1:
-    {
-        // reset mode to text for cin/cout 
-        system("cls");
-        _setmode(_fileno(stdout), _O_TEXT);
-        TypeText(L"Starting Character Creation...\n", 20);
-        system("pause");
+    //int Selection = MainMenu(); 
+    //
+    //switch (Selection)
+    //{
+    //case 1:
+    //{
+    //    // reset mode to text for cin/cout 
+    //    system("cls");
+    //    _setmode(_fileno(stdout), _O_TEXT);
+    //    TypeText(L"Starting Character Creation...\n", 20);
+    //    system("pause");
 
-        Player.CharacterCreator(); // works as intended
+    //    Player.CharacterCreator(); // works as intended
 
-        system("cls");
-        std::cout<<"--------START GAME--------" << std::endl;
-       
-        Player.MoveTo(TheTavern); // works as intended - includes a pause
-    }
-    break;
+    //    system("cls");
+    //    std::cout<<"--------START GAME--------" << std::endl;
+    //   
+    //    Player.MoveTo(TheTavern); // works as intended - includes a pause
+    //}
+    //break;
 
-    case 2:
-        _setmode(_fileno(stdout), _O_TEXT);
-        std::wcout << "You have selected Load Game" << std::endl;
-        break;
+    //case 2:
+    //    _setmode(_fileno(stdout), _O_TEXT);
+    //    std::wcout << "You have selected Load Game" << std::endl;
+    //    break;
 
-    case 3:
-        _setmode(_fileno(stdout), _O_TEXT);
-        std::wcout << "You have selected Quit Game" << std::endl;
-        exit;
-    }
+    //case 3:
+    //    _setmode(_fileno(stdout), _O_TEXT);
+    //    std::wcout << "You have selected Quit Game" << std::endl;
+    //    exit;
+    //}
 
-    std::cout <<"OUTSIDE SWITCH CASE 1 - PLAYER DATA:" << std::endl; // data outside of switch case 1 is still good
-    std::cout << "-------------------------------------------" << std::endl;
-    std::cout << Player << std::endl;
-    std::cout << "-------------------------------------------" << std::endl;
+    //std::cout <<"OUTSIDE SWITCH CASE 1 - PLAYER DATA:" << std::endl; // data outside of switch case 1 is still good
+    //std::cout << "-------------------------------------------" << std::endl;
+    //std::cout << Player << std::endl;
+    //std::cout << "-------------------------------------------" << std::endl;
 
-    return 0;
+    //return 0;
 
 
   
@@ -191,6 +191,45 @@ int main()
 //std::cout << "------------------------------------------" << std::endl;
 //
 //return 0;
+
+
+
+
+
+
+
+
+
+
+//leveling and experience functions test - PASS
+//
+
+PlayerCharacter Player(" Xander ", 100, 50, 100, 50, 1, 0, 1000, 2, { {"Strength", 10}, {"Dexterity", 10}, {"Wisdom", 20}, {"Charisma", 10} }, { }, { });
+std::cout << "------------------------------------------" << std::endl;
+std::cout << Player << std::endl;
+std::cout << "------------------------------------------" << std::endl;
+
+//Player.AddExperience(968500); - level 50
+//Player.AddExperience(20023525); - level 100
+std::cout << "------------------------------------------" << std::endl;
+std::cout << Player << std::endl;
+std::cout << "------------------------------------------" << std::endl;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 }
 

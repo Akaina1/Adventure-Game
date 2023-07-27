@@ -34,7 +34,7 @@ void PlayerCharacter::Print(std::ostream& os) const     // override the print fu
 	os << "Health: " << CurrentHealth << "/" << MaxHealth << std::endl;
 	os << "Mana: " << CurrentMana << "/" << MaxMana << std::endl;
 	os << "-------------------------------------------" << std::endl;
-	os << "Experience: " << Experience << std::endl;
+	os << "Experience: " << Experience << "/" << ExpToNextLevel() << std::endl;
 	os << "Gold: " << Gold << std::endl;
 	os << "-------------------------------------------" << std::endl;
 	os << "Stats: " << std::endl;
@@ -164,53 +164,130 @@ std::string PlayerCharacter::GetPlayerClassName() const // returns the name of t
 
 void PlayerCharacter::LevelUp() // increases the level of the player character
 {
-	Level++;
+	long long nextLevelExp = ExpToNextLevel();
 
-	// increase the stats of the player character dependant on their class
-	// each level up will increase the 4 stats by 1 plus an extra 1 point for the classes main stat as follows:
-	// Brawler - strength
-	// Scourge - wisdom
-	// Swindler - Dexterity
-	// Jester - Charisma
+	while (Experience >= ExpToNextLevel())
+	{	// increase the stats of the player character dependant on their class
+		// each level up will increase the 4 stats by 1 plus an extra 1 point for the classes main stat as follows:
+		// Brawler - strength
+		// Scourge - wisdom
+		// Swindler - Dexterity
+		// Jester - Charisma
 
-	if (PlayerClass == 1) // Brawler
-	{
-		StatValues["Strength"] += 2;
-		StatValues["Dexterity"] += 1;
-		StatValues["Wisdom"] += 1;
-		StatValues["Charisma"] += 1;
-		this->IncreaseMaxHealth(5);
+		Experience -= nextLevelExp;
+
+		Level++;
+		
+		if (PlayerClass == 1) // Brawler
+		{
+			StatValues["Strength"] += 2;
+			StatValues["Dexterity"] += 1;
+			StatValues["Wisdom"] += 1;
+			StatValues["Charisma"] += 1;
+			this->IncreaseMaxHealth(5);
+			this->IncreaseMaxMana(2);
+		}
+		else if (PlayerClass == 2) // Scourge
+		{
+			StatValues["Strength"] += 1;
+			StatValues["Dexterity"] += 1;
+			StatValues["Wisdom"] += 2;
+			StatValues["Charisma"] += 1;
+			this->IncreaseMaxHealth(3);
+			this->IncreaseMaxMana(5);
+		}
+		else if (PlayerClass == 3) // Swindler
+		{
+			StatValues["Strength"] += 1;
+			StatValues["Dexterity"] += 2;
+			StatValues["Wisdom"] += 1;
+			StatValues["Charisma"] += 1;
+			this->IncreaseMaxHealth(4);
+			this->IncreaseMaxMana(2);
+		}
+		else if (PlayerClass == 4) // Jester
+		{
+			StatValues["Strength"] += 1;
+			StatValues["Dexterity"] += 1;
+			StatValues["Wisdom"] += 1;
+			StatValues["Charisma"] += 2;
+			this->IncreaseMaxHealth(3);
+			this->IncreaseMaxMana(4);
+		}
+		else
+		{
+			std::cout << "Invalid Class - LEVEL UP FUNCTION" << std::endl;
+		}
+
+		nextLevelExp = ExpToNextLevel();
 	}
-	else if (PlayerClass == 2) // Scourge
+	// heal the player character to full health and mana
+	CurrentHealth = MaxHealth;
+	CurrentMana = MaxMana;
+
+	// display the level up message
+	std::cout << "You have leveled up!" << std::endl;
+	std::cout << "You are now level " << Level << "!" << std::endl;
+}
+
+long long PlayerCharacter::ExpToNextLevel() const
+{
+	int nextlevel = Level + 1;
+	long long expneeded = 0;
+
+	if (Level <= 10)
 	{
-		StatValues["Strength"] += 1;
-		StatValues["Dexterity"] += 1;
-		StatValues["Wisdom"] += 2;
-		StatValues["Charisma"] += 1;
+		expneeded = 100 * nextlevel;
 	}
-	else if (PlayerClass == 3) // Swindler
+	else if (Level <= 20)
 	{
-		StatValues["Strength"] += 1;
-		StatValues["Dexterity"] += 2;
-		StatValues["Wisdom"] += 1;
-		StatValues["Charisma"] += 1;
+		expneeded = 200 * nextlevel;
 	}
-	else if (PlayerClass == 4) // Jester
+	else if (Level <= 30)
 	{
-		StatValues["Strength"] += 1;
-		StatValues["Dexterity"] += 1;
-		StatValues["Wisdom"] += 1;
-		StatValues["Charisma"] += 2;
+		expneeded = 400 * nextlevel;
+	}
+	else if (Level <= 40)
+	{
+		expneeded = 800 * nextlevel;
+	}
+	else if (Level <= 50)
+	{
+		expneeded = 1200 * nextlevel;
+	}
+	else if (Level <= 60)
+	{
+		expneeded = 1800 * nextlevel;
+	}
+	else if (Level <= 70)
+	{
+		expneeded = 2700 * nextlevel;
+	}
+	else if (Level <= 80)
+	{
+		expneeded = 4050 * nextlevel;
+	}
+	else if (Level <= 90)
+	{
+		expneeded = 6075 * nextlevel;
+	}
+	else if (Level <= 100)
+	{
+		expneeded = 9100 * nextlevel;
 	}
 	else
 	{
-		std::cout << "Invalid Class - LEVEL UP FUNCTION" << std::endl;
+		std::cout << "Invalid Level - ExpToNextLevel() FUNCTION" << std::endl;
 	}
+
+	return expneeded;
 }
 
-
-
-
+void PlayerCharacter::AddExperience(int exp) 
+{ 
+	Experience += exp; 
+	LevelUp();
+}
 
 
 

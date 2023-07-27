@@ -44,37 +44,38 @@ public:
 	PlayerCharacter(std::string name, int maxhealth,int currenthealth, 
 				    int maxmana, int currentmana, int level, int experience, 
 				    int gold, int PlayerClass, std::map<std::string, int> statValues, 
-				    std::map<Item, int> inventory, std::vector<StatusEffect> afflictions); // constructor with parameters
+				    std::map<Item, int> inventory, std::vector<StatusEffect> afflictions);  // constructor with parameters
 
-	virtual void Print(std::ostream& os) const override;                                   // override the print function from the I_Print class
+	virtual void Print(std::ostream& os) const override;                                    // override the print function from the I_Print class
 
 //location functions
-	Location& GetCurrentLocation() const { return *CurrentLocation; };         // returns the current location of the player character
-	Location& SetCurrentLocation(Location& location) { CurrentLocation = &location; return *CurrentLocation; }; // sets the current location of the player character
-	void MoveTo (Location& newlocation);  // move the player character to a new location)
+	Location& GetCurrentLocation() const { return *CurrentLocation; };                                             // returns the current location of the player character
+	Location& SetCurrentLocation(Location& location) { CurrentLocation = &location; return *CurrentLocation; };    // sets the current location of the player character
+	void MoveTo (Location& newlocation);                                                                           // move the player character to a new location)
 
 // name funtions
 	void SetName(std::string name) { Name = name; };       // sets the name of the player character
 	std::string GetName() const { return Name; };          // returns the name of the player character
 
 //class functions
-	std::string GetPlayerClassName() const;                                       // returns the name of the player class
-	int GetPlayerClass() const { return PlayerClass; };    // returns the player class of the player character
-	void SetPlayerClass(int Class) {PlayerClass = Class;};                        // sets the player class of the player character
+	std::string GetPlayerClassName() const;                    // returns the name of the player class
+	int GetPlayerClass() const { return PlayerClass; };        // returns the player class of the player character
+	void SetPlayerClass(int Class) {PlayerClass = Class;};     // sets the player class of the player character
 
 //gold functions
 	void AddGold(int gold) { Gold += gold;};       // adds gold to the player character
 	void RemoveGold(int gold) { Gold -= gold; };   // removes gold from the player character
-	int GetPlayerGold() const { return Gold; };      // returns player gold value
+	int GetPlayerGold() const { return Gold; };    // returns player gold value
 
 
 //Experience functions
-	void AddExperience(int exp) { Experience += exp; };     // adds experience to the player character
+	void AddExperience(int exp);                            // adds experience to the player character
 	void RemoveExperience(int exp) { Experience -= exp; };  // removes experience from the player character
 	int GetExperience() const { return Experience; }        // returns the experience of the player character
 	void LevelUp();                                         // levels up the player character
 	int GetPlayerLevel() const { return Level; };           // returns the level of the player character
 	void SetPlayerLevel(int level) { Level = level; };      // sets the level of the player character
+	long long ExpToNextLevel() const;								// returns the amount of experience needed to level up
 
 //other functions
 	void CharacterCreator();     //character creator
@@ -83,7 +84,7 @@ public:
 	void AddItem(Item &item, int quantity);      // adds an item to the player character's inventory
 	void RemoveItem(Item &item, int quantity);   // removes an item from the player character's inventory
 	int GetItemQuantity(Item &item);             // returns the quantity of an item in the player character's inventory
-	void PrintInventory();                                                // prints the inventory of the player character
+	void PrintInventory();                       // prints the inventory of the player character
 
 // health functions
 	int GetCurrentHealth() const { return CurrentHealth; };        // returns the current health of the player character
