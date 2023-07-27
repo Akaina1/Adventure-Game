@@ -2,5 +2,5 @@
 #pragma once
 #include "Main.h"
 
-void MainMenu();
+int MainMenu();
 void TypeText(const std::wstring& text, int delay);

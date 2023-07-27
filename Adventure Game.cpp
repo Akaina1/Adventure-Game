@@ -15,9 +15,44 @@
 // Testing functions currently
 int main()
 {
+    PlayerCharacter Player;
     //call MainMenu function Test - PASS
-    MainMenu(); 
+    int Selection = MainMenu(); 
+    
+    switch (Selection)
+    {
+    case 1:
+    {
+        // reset mode to text for cin/cout 
+        system("cls");
+        _setmode(_fileno(stdout), _O_TEXT);
+        TypeText(L"Starting Character Creation...", 20);
+        std::wcout << std::endl;
 
+        Player.CharacterCreator();
+
+        std::cout << "INSIDE SWITCH CASE 1 - PLAYER DATA:" << std::endl;
+        std::cout << "-------------------------------------------" << std::endl;
+        std::cout << Player << std::endl;
+        std::cout << "-------------------------------------------" << std::endl;
+    }
+    break;
+
+    case 2:
+        _setmode(_fileno(stdout), _O_TEXT);
+        std::wcout << "You have selected Load Game" << std::endl;
+        break;
+
+    case 3:
+        _setmode(_fileno(stdout), _O_TEXT);
+        std::wcout << "You have selected Quit Game" << std::endl;
+        exit;
+    }
+
+    std::cout <<"OUTSIDE SWITCH CASE 1 - PLAYER DATA:" << std::endl;
+    std::cout << "-------------------------------------------" << std::endl;
+    std::cout << Player << std::endl;
+    std::cout << "-------------------------------------------" << std::endl;
 
     return 0;
 
