@@ -8,6 +8,10 @@
 #include "Tavern.h"
 #include "Item.h"
 #include "Location.h"
+#include "StatusEffect.h"
+#include "Dungeon.h"
+#include "Room.h"
+#include "GameSetup.h"
 // goals for today:
 
 // 2. expand on the Room class 
@@ -23,8 +27,8 @@
 // Testing functions currently
 int main()
 {
-    /*PlayerCharacter Player;
-    Tavern TheTavern;*/
+    PlayerCharacter Player;
+    //Tavern TheTavern;*/
     
     //call MainMenu function Test - PASS
     //int Selection = MainMenu(); 
@@ -223,24 +227,103 @@ int main()
 
 
 
-//testing new movement function
+//testing Location initiation - PASS
 //
-std::vector<std::shared_ptr<Location>> allLocations;
+//std::vector<std::shared_ptr<Location>> allLocations;
+//
+//std::shared_ptr<Tavern> tavern = std::make_shared<Tavern>("Tavern", "A cozy tavern filled with friendly folks.");
+//std::shared_ptr<Dungeon> dungeon = std::make_shared<Dungeon>("Dungeon", "A dark and dreary dungeon.");
+//
+//
+//allLocations.push_back(tavern);
+//allLocations.push_back(dungeon);
+//
+//std::cout << "------------------------------------------" << std::endl;
+//std::cout << allLocations [0]->GetName() << std::endl;
+//std::cout << allLocations [0]->GetDescription() << std::endl;
+//std::cout << "------------------------------------------" << std::endl;
+//std::cout << allLocations [1]->GetName() << std::endl;
+//std::cout << allLocations [1]->GetDescription() << std::endl;
+//std::cout << "------------------------------------------" << std::endl;
 
-std::shared_ptr<Tavern> tavern = std::make_shared<Tavern>("Tavern", "A cozy tavern filled with friendly folks.");
-std::shared_ptr<Dungeon> dungeon = std::make_shared<Dungeon>("Dungeon", "A dark and dreary dungeon.");
 
 
-allLocations.push_back(tavern);
-allLocations.push_back(dungeon);
 
-std::cout << "------------------------------------------" << std::endl;
-std::cout << allLocations [0]->GetName() << std::endl;
-std::cout << allLocations [0]->GetDescription() << std::endl;
-std::cout << "------------------------------------------" << std::endl;
-std::cout << allLocations [1]->GetName() << std::endl;
-std::cout << allLocations [1]->GetDescription() << std::endl;
-std::cout << "------------------------------------------" << std::endl;
+
+
+
+
+
+// testing game setup
+//
+
+PlayerCharacter MainCharacter;
+std::shared_ptr<Location> startingLocation = SetupGame();
+
+TypeText(L"Starting a game...\n", 50);
+TypeText(L"...\n", 200);
+TypeText(L"Yes... I said...A...game\n", 50);
+TypeText(L"...\n", 200);
+TypeText(L"...\n", 200);
+TypeText(L"...\n", 200);
+TypeText(L"Seriously...don't expect much...\n", 50);
+TypeText(L"...\n", 200);
+TypeText(L"Anyways...Let's start I guess...\n", 50);
+TypeText(L"------------------------------------------\n", 50);
+system("pause");
+system("cls");
+
+//call MainMenu function Test
+
+int Selection = MainMenu();
+
+switch (Selection)
+{
+case 1:
+{
+    // reset mode to text for cin/cout 
+    system("cls");
+    _setmode(_fileno(stdout), _O_TEXT);
+    TypeText(L"Starting Character Creation...\n", 20);
+    system("pause");
+
+    Player.CharacterCreator(); // works as intended
+
+    system("cls");
+    std::cout << "--------START GAME--------" << std::endl;
+
+    Player.MoveTo(startingLocation); // works as intended - includes a pause
+}
+break;
+
+case 2:
+    _setmode(_fileno(stdout), _O_TEXT);
+    std::wcout << "You have selected Load Game" << std::endl;
+    break;
+
+case 3:
+    _setmode(_fileno(stdout), _O_TEXT);
+    std::wcout << "You have selected Quit Game" << std::endl;
+    exit;
+}
+
+std::cout << "OUTSIDE SWITCH CASE 1 - PLAYER DATA:" << std::endl; // data outside of switch case 1 is still good
+std::cout << "-------------------------------------------" << std::endl;
+std::cout << Player << std::endl;
+std::cout << "-------------------------------------------" << std::endl;
+
+return 0;
+   
+
+
+
+
+
+
+
+
+
+
 
 
 

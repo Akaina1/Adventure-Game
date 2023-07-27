@@ -134,6 +134,8 @@
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Event.cpp" />
     <ClCompile Include="EventsList.cpp" />
+    <ClCompile Include="GameManager.cpp" />
+    <ClCompile Include="GameSetup.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="I_Print.cpp" />
     <ClCompile Include="Location.cpp" />
@@ -151,6 +153,8 @@
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Event.h" />
     <ClInclude Include="EventsList.h" />
+    <ClInclude Include="GameManager.h" />
+    <ClInclude Include="GameSetup.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="I_Print.h" />
     <ClInclude Include="Location.h" />

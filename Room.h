@@ -13,8 +13,8 @@ private:
 public:
 	Room(std::string name, std::string description) : Name(name), Description(description) {};
 
-	std::string getName() const { return Name; };
-	std::string getDescription() const { return Description; };
+	std::string GetName() const { return Name; };
+	std::string GetDescription() const { return Description; };
 	virtual void OnEnter(PlayerCharacter* player) override;
 	virtual void OnExit(PlayerCharacter* player) override;
 

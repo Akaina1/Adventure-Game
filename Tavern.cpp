@@ -65,7 +65,9 @@ void Tavern::TavernMenu(PlayerCharacter& player)
 		//ViewNpcs(NPCList);
 		break;
 	case 4:
-		// go to the dungeon
+		// //move to dungeon
+		player.ChooseMove();
+
 		break;
 	case 5:
 		// exit the game
