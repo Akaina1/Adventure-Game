@@ -49,8 +49,9 @@ public:
 	virtual void Print(std::ostream& os) const override;                                   // override the print function from the I_Print class
 
 //location functions
-	Location& GetCurrentLocation(Location& CurrentLocation) const { return CurrentLocation; };         // returns the current location of the player character
-	void MoveTo(Location& CurrentLocation, Location& NewLocation) { CurrentLocation = NewLocation; };  // move the player character to a new location)
+	Location& GetCurrentLocation() const { return *CurrentLocation; };         // returns the current location of the player character
+	Location& SetCurrentLocation(Location& location) { CurrentLocation = &location; return *CurrentLocation; }; // sets the current location of the player character
+	void MoveTo (Location& newlocation);  // move the player character to a new location)
 
 // name funtions
 	void SetName(std::string name) { Name = name; };       // sets the name of the player character

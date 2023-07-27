@@ -14,35 +14,27 @@ std::string Tavern::GetDescription() const
     return "The tavern is a place where you can rest, buy items, and upgrade your equipment.  From here you can venture into the Dungeons as well.";
 }
 
-void Tavern::OnEnter(PlayerCharacter* player)
+void Tavern::OnEnter(PlayerCharacter* player) //called when the player enters the Tavern (overloaded for each location)
 {
-    
-	// print out formatted text
-    TypeText(L"Welcome to the Tavern!\n", 10);
-    TypeText(L"Here you can rest to save your game...\n", 10);
-    TypeText(L"Grab a drink from the bar...\n", 10);
-    TypeText(L"Talk to various NPCs to purchase items and equipment...\n", 10);
-    TypeText(L"And you can venture into the Dungeons as well... If you dare...\n", 10);
-    TypeText(L"So what will it be stranger...?\n", 30);
-
+    //1. event check
+	// to implement later
+	//2. print out intro text
+	TypeText(L"Welcome to the Tavern!\n", 10);
+	TypeText(L"Here you can rest to save your game...\n", 10);
+	TypeText(L"Grab a drink from the bar...\n", 10);
+	TypeText(L"Talk to various NPCs to purchase items and equipment...\n", 10);
+	TypeText(L"And you can venture into the Dungeons as well... If you dare...\n", 10);
+	TypeText(L"So what will it be stranger...?\n", 30);
+	//3. print out menu
 	TavernMenu(*player);
-
-    // print out the name of the location and description
-    // do event checks
-    
 }
 
-void Tavern::OnExit(PlayerCharacter* player)
+void Tavern::OnExit(PlayerCharacter* player) //called when the player exits the Tavern (overloaded for each location)
 {
-	std::cout << "Good luck...\n";
-    // do event checks
-}
-
-void Visit(PlayerCharacter* player) // Visit function is used to Move the player to the Tavern
-{
-     // Visit updates player CurrentLocation to Tavern
-	 // Visit then calls the OnEnter function which prints the information for the Tavern
-     // Visit then calls the TavernMenu function which allows the player to choose what they want to do in the Tavern
+	//1. do event checks
+	// to implement later
+	//2. print out exit text
+	std::cout << "Good luck...\n"; 
 }
 
 void Tavern::TavernMenu(PlayerCharacter& player)
@@ -251,8 +243,6 @@ void Tavern::Drink(PlayerCharacter& Player)
 			break;
 		}
 	}
-
-
 }
 
 void Tavern::ViewNpcs(std::vector<NPC> NPCList)

@@ -74,6 +74,27 @@ void PlayerCharacter::Print(std::ostream& os) const     // override the print fu
 
 ////////////////////////////////// Location functions //////////////////////////////////
 
+void PlayerCharacter::MoveTo(Location& newlocation)
+{
+	Location& currentlocation = this->GetCurrentLocation(); // get the current location of the player character
+
+	
+	if (&currentlocation)
+	{
+		currentlocation.OnExit(this); // call the exit function of the current location
+	}
+
+	this->SetCurrentLocation(newlocation);
+	
+	system("pause"); //set a delay for the console (psedo loading screen - might implement later?)
+
+
+	if (&newlocation)
+	{
+		newlocation.OnEnter(this); // call the enter function of the new location
+	}
+	
+}
 
 
 
@@ -584,7 +605,7 @@ void PlayerCharacter::CharacterCreator()
 
 		// print out player sheet for confirmation
 
-		/*system("cls");
+		system("cls");
 		TypeText(L"Character Sheet: ", 1); std::wcout << std::endl;
 		TypeText(L"-------------------------------------------", 1); std::wcout << std::endl;
 		TypeText(L"Name: ", 1); std::cout << Name << std::endl;
@@ -597,8 +618,9 @@ void PlayerCharacter::CharacterCreator()
 		TypeText(L"Dexterity: ", 1); std::wcout << StatValues["Dexterity"] << std::endl;
 		TypeText(L"Wisdom: ", 1); std::wcout << StatValues["Wisdom"] << std::endl;
 		TypeText(L"Charisma: ", 1); std::wcout << StatValues["Charisma"] << std::endl;
-		TypeText(L"-------------------------------------------", 1); std::wcout << std::endl;*/
+		TypeText(L"-------------------------------------------", 1); std::wcout << std::endl;
 
+		system("pause");
 	}
 }
 

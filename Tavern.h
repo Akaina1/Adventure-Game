@@ -6,8 +6,6 @@
 #include "Location.h"
 #include "Main.h"
 #include "Item.h"
- 
-
 
 class Tavern : public Location
 {
@@ -23,7 +21,6 @@ public:
     virtual void OnEnter(PlayerCharacter* player)override;
     virtual void OnExit(PlayerCharacter* player) override;
 
-    void Visit(PlayerCharacter* player);// players can enter the Tavern with this command from anywhere in the game.  Takes in a pointer to the player character. Function should update the player's current location to the Tavern. 
     void TavernMenu(PlayerCharacter& player); // displays the menu of options for the player to choose from while in the Tavern.
     void Rest(PlayerCharacter& player); // players can rest in the Tavern to regain health, will cost gold.
     void Drink(PlayerCharacter& player); // players can drink in the Tavern, will cost gold.
@@ -31,7 +28,7 @@ public:
     void TalkToNpc(NPC& npc); // allows player to talk to selected NPC from the list of NPC's in the Tavern.
 };
 
-// prototype the main tavern object that will be created when the game starts
+
 
 
 

@@ -7,6 +7,7 @@
 #include "MainMenu.h"
 #include "Tavern.h"
 #include "Item.h"
+#include "Location.h"
 // goals for today:
 // 1. create location system for moving the player around the game world
 // 2. expand on the Room class 
@@ -23,6 +24,8 @@
 int main()
 {
     PlayerCharacter Player;
+    Tavern TheTavern;
+    
     //call MainMenu function Test - PASS
     int Selection = MainMenu(); 
     
@@ -33,15 +36,14 @@ int main()
         // reset mode to text for cin/cout 
         system("cls");
         _setmode(_fileno(stdout), _O_TEXT);
-        TypeText(L"Starting Character Creation...", 20);
-        std::wcout << std::endl;
+        TypeText(L"Starting Character Creation...\n", 20);
+        system("pause");
 
-        Player.CharacterCreator();
+        Player.CharacterCreator(); // works as intended
 
-        std::cout << "INSIDE SWITCH CASE 1 - PLAYER DATA:" << std::endl;
-        std::cout << "-------------------------------------------" << std::endl;
-        std::cout << Player << std::endl;
-        std::cout << "-------------------------------------------" << std::endl;
+        std::cout<<"--------AFTER PLAYER CREATION--------" << std::endl;
+
+        Player.MoveTo(TheTavern); // works as intended
     }
     break;
 
@@ -56,7 +58,7 @@ int main()
         exit;
     }
 
-    std::cout <<"OUTSIDE SWITCH CASE 1 - PLAYER DATA:" << std::endl;
+    std::cout <<"OUTSIDE SWITCH CASE 1 - PLAYER DATA:" << std::endl; // data outside of switch case 1 is still good
     std::cout << "-------------------------------------------" << std::endl;
     std::cout << Player << std::endl;
     std::cout << "-------------------------------------------" << std::endl;
