@@ -4,16 +4,6 @@
 // The player will be able to talk to NPCs in the tavern to gain information about the game world and the dungeon.
 #include "Tavern.h"
 
-std::string Tavern::GetName() const
-{
-    return "Tavern";
-}
-
-std::string Tavern::GetDescription() const
-{
-    return "The tavern is a place where you can rest, buy items, and upgrade your equipment.  From here you can venture into the Dungeons as well.";
-}
-
 void Tavern::OnEnter(PlayerCharacter* player) //called when the player enters the Tavern (overloaded for each location)
 {
     //1. event check

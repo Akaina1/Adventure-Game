@@ -5,27 +5,27 @@
 class Room : public Location
 {
 private:
-	std::string name;
-    std::string description;
+	std::string Name;
+    std::string Description;
 	std::vector<std::shared_ptr<Room>> connectedRooms;
 	std::vector<std::shared_ptr<Location>> connectedLocations;
 
 public:
-	Room(std::string name, std::string description) : name(name), description(description) {};
+	Room(std::string name, std::string description) : Name(name), Description(description) {};
 
-	std::string getName() const { return name; };
-	std::string getDescription() const { return description; };
-	void OnEnter(PlayerCharacter* player) override;
-	void OnExit(PlayerCharacter* player) override;
+	std::string getName() const { return Name; };
+	std::string getDescription() const { return Description; };
+	virtual void OnEnter(PlayerCharacter* player) override;
+	virtual void OnExit(PlayerCharacter* player) override;
 
 	//int OnEvent(EventFlag& obj) override;
-	virtual int GetConnectedRoomsCount() const override { return connectedRooms.size(); };
-	virtual int GetConnectedLocationsCount() const override { return connectedLocations.size(); };
+	virtual size_t GetConnectedRoomsCount() const override { return connectedRooms.size(); };
+	virtual size_t GetConnectedLocationsCount() const override { return connectedLocations.size(); };
 
 	virtual std::shared_ptr<Room> GetConnectedRoom(int index) const override; 
 	virtual std::shared_ptr<Location> GetConnectedLocation(int index) const override;
 
-	virtual void ConnectRoom(std::shared_ptr<Room> room);
-	virtual void ConnectLocation(std::shared_ptr<Location> location);	
+	virtual void ConnectRoom(std::shared_ptr<Room> room) override { connectedRooms.push_back(room); };
+	virtual void ConnectLocation(std::shared_ptr<Location> location)override { connectedLocations.push_back(location); };
 };
 

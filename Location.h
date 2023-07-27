@@ -2,6 +2,8 @@
 #pragma once
 #include "Main.h"
 class PlayerCharacter;
+class Room;
+
 
 class Location
 {
@@ -18,8 +20,8 @@ public:
 	virtual void OnEnter(PlayerCharacter* player) =0; // Pure virtual function for entering location
 	virtual void OnExit(PlayerCharacter* player) =0; // Pure virtual function for exiting location
 
-	virtual int GetConnectedRoomsCount()const { return false; }; // Pure virtual function for getting number of connected rooms
-	virtual int GetConnectedLocationsCount()const { return false; }; // Pure virtual function for getting number of connected locations
+	virtual size_t GetConnectedRoomsCount()const { return false; }; // Pure virtual function for getting number of connected rooms
+	virtual size_t GetConnectedLocationsCount()const { return false; }; // Pure virtual function for getting number of connected locations
 
 	virtual std::shared_ptr<Room> GetConnectedRoom(int index) const { return nullptr; };
 	virtual std::shared_ptr<Location> GetConnectedLocation(int index) const { return nullptr; }; // Pure virtual function for getting connected location

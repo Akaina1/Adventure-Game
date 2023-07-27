@@ -223,6 +223,24 @@ int main()
 
 
 
+//testing new movement function
+//
+std::vector<std::shared_ptr<Location>> allLocations;
+
+std::shared_ptr<Tavern> tavern = std::make_shared<Tavern>("Tavern", "A cozy tavern filled with friendly folks.");
+std::shared_ptr<Dungeon> dungeon = std::make_shared<Dungeon>("Dungeon", "A dark and dreary dungeon.");
+
+
+allLocations.push_back(tavern);
+allLocations.push_back(dungeon);
+
+std::cout << "------------------------------------------" << std::endl;
+std::cout << allLocations [0]->GetName() << std::endl;
+std::cout << allLocations [0]->GetDescription() << std::endl;
+std::cout << "------------------------------------------" << std::endl;
+std::cout << allLocations [1]->GetName() << std::endl;
+std::cout << allLocations [1]->GetDescription() << std::endl;
+std::cout << "------------------------------------------" << std::endl;
 
 
 

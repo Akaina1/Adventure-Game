@@ -7,6 +7,9 @@
 #include "Main.h"
 #include "Item.h"
 
+class Room;
+
+
 class Tavern : public Location
 {
 private:
@@ -18,20 +21,15 @@ private:
     std::shared_ptr<Location> dungeonEntrance;
 
 public:
-    virtual std::string GetName() const override;
-    virtual std::string GetDescription() const override;
+    Tavern(std::string name, std::string description) : Name(name), Description(description) {};
 
+    std::string GetName() const { return Name; };
+    std::string GetDescription() const { return Description; };
     virtual void OnEnter(PlayerCharacter* player)override;
     virtual void OnExit(PlayerCharacter* player) override;
 
-    void TavernMenu(PlayerCharacter& player); // displays the menu of options for the player to choose from while in the Tavern.
-    void Rest(PlayerCharacter& player); // players can rest in the Tavern to regain health, will cost gold.
-    void Drink(PlayerCharacter& player); // players can drink in the Tavern, will cost gold.
-    void ViewNpcs(std::vector<NPC> NPCList); // players can view the NPC's in the Tavern, some NPCs will sell items, others can upgrade gear, etc.
-    void TalkToNpc(NPC& npc); // allows player to talk to selected NPC from the list of NPC's in the Tavern.
-
-    virtual int GetConnectedRoomsCount() const override { return connectedRooms.size(); };
-    virtual int GetConnectedLocationsCount() const override { return connectedLocations.size(); };
+    virtual size_t GetConnectedRoomsCount() const override { return connectedRooms.size(); };
+    virtual size_t GetConnectedLocationsCount() const override { return connectedLocations.size(); };
 
     virtual std::shared_ptr<Room> GetConnectedRoom(int index) const override;
     virtual std::shared_ptr<Location> GetConnectedLocation(int index) const override;
@@ -40,7 +38,11 @@ public:
     virtual void ConnectLocation(std::shared_ptr<Location> location) override { connectedLocations.push_back(location); };
 
     void SetDungeonEntrace(std::shared_ptr<Location> dungeon) { dungeonEntrance = dungeon; };
-    std::shared_ptr<Location> GetDungeonEntrance() { return dungeonEntrance; };
+    std::shared_ptr<Location> GetDungeonEntrance() { return dungeonEntrance; };void TavernMenu(PlayerCharacter& player); // displays the menu of options for the player to choose from while in the Tavern.
+    void Rest(PlayerCharacter& player); // players can rest in the Tavern to regain health, will cost gold.
+    void Drink(PlayerCharacter& player); // players can drink in the Tavern, will cost gold.
+    void ViewNpcs(std::vector<NPC> NPCList); // players can view the NPC's in the Tavern, some NPCs will sell items, others can upgrade gear, etc.
+    void TalkToNpc(NPC& npc); // allows player to talk to selected NPC from the list of NPC's in the Tavern.
 };
 
 

@@ -72,8 +72,8 @@ public:
 
 //Experience functions
 	void AddExperience(long long exp);                            // adds experience to the player character
-	void RemoveExperience(int exp) { Experience -= exp; };  // removes experience from the player character
-	int GetExperience() const { return Experience; }        // returns the experience of the player character
+	void RemoveExperience(long long exp) { Experience -= exp; };  // removes experience from the player character
+	long long GetExperience() const { return Experience; }        // returns the experience of the player character
 	void LevelUp();                                         // levels up the player character
 	int GetPlayerLevel() const { return Level; };           // returns the level of the player character
 	void SetPlayerLevel(int level) { Level = level; };      // sets the level of the player character

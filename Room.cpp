@@ -9,17 +9,6 @@ void Room::OnExit(PlayerCharacter* player)
 
 }
 
-void Room::ConnectRoom(std::shared_ptr<Room> room) // add a Room to the list of connected Rooms
-{
-	connectedRooms.push_back(room);
-}
-
-void Room::ConnectLocation(std::shared_ptr<Location> location)
-{
-	connectedLocations.push_back(location);
-
-}
-
 std::shared_ptr<Room> Room::GetConnectedRoom(int index) const
 {
 	if (index < 0 || index >= connectedRooms.size())
