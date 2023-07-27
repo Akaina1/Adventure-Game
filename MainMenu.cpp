@@ -74,7 +74,7 @@ void MainMenu()
         TypeText(L"Starting Character Creation...", 20);
         std::wcout << std::endl;
 
-        Player.PlayerCreator();
+        Player.CharacterCreator();
 
         std::cout << "-------------------------------------------" << std::endl;
         std::cout << Player << std::endl;

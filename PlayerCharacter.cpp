@@ -333,194 +333,331 @@ void PlayerCharacter::UpdateEffects(StatusEffect& effect,PlayerCharacter* player
 		}					
 	}
 
-	if (!foundEffect)
+	if (!foundEffect) //don't want to edit vector while iterating through it, so add effect after iterating through vector
 	{
 		ApplyEffect(effect, player);
 		Afflictions.push_back(effect);
 	}
 }
 
-
-
-
-
-
-
-
-
-
-
-PlayerCharacter PlayerCharacter::PlayerCreator()
+void PlayerCharacter::SetName(std::string name) // sets the name of the player character
 {
-	//create new player character
-	PlayerCharacter Player;
-
-	int BaseStatPoints = 10;
-
-	std::cin.ignore();
-	TypeText(L"Enter your Character's Name: ", 10);
-	std::getline(std::cin, Name);
-	TypeText(L"-------------------------------------------", 1); std::wcout << std::endl;
-
-	// loop class selection to allow for re-selection
-
-int Selection = 0;
-std::map<std::string, int> ClassStatValues { {"Strength", 0}, { "Dexterity", 0 }, { "Wisdom", 0 }, { "Charisma", 0 }};
-
-
-while (Selection < 1 || Selection > 4)
-{
-	TypeText(L"Select your Character's Class: ", 10); std::wcout << std::endl;
-	TypeText(L"1. Brawler", 10); std::wcout << std::endl;
-	TypeText(L"2. Scourge", 10); std::wcout << std::endl;
-	TypeText(L"3. Swindler", 10); std::wcout << std::endl;
-	TypeText(L"4. Jester", 10); std::wcout << std::endl;
-	std::cin >> Selection;
-
-	//std::map<std::string, int> ClassStatValues { {"Strength", 0}, { "Dexterity", 0 }, { "Wisdom", 0 }, { "Charisma", 0 }};
-
-	switch (Selection)
-	{
-	case 1: //Brawler
-
-		system("cls");
-
-		//print a formated class description using TypeText function
-		TypeText(L"-------------------------------------------", 1); std::wcout << std::endl;
-		TypeText(L"Brawler", 10); std::wcout << std::endl;
-		TypeText(L"-------------------------------------------", 1); std::wcout << std::endl;
-		TypeText(L"Health: 500", 10); std::wcout << std::endl;
-		TypeText(L"Mana: 30", 10); std::wcout << std::endl;
-		TypeText(L"-------------------------------------------", 1); std::wcout << std::endl;
-		TypeText(L"Strength: 15", 10); std::wcout << std::endl;
-		TypeText(L"Dexterity: 10", 10); std::wcout << std::endl;
-		TypeText(L"Wisdom: 10", 10); std::wcout << std::endl;
-		TypeText(L"Charisma: 10", 10); std::wcout << std::endl;
-		TypeText(L"-------------------------------------------", 1); std::wcout << std::endl;
-		TypeText(L"Description: A brawler is a fighter who uses\ntheir fists to fight. They are strong and\ncan take a lot of damage, but they lack\nthe ability to use magic and have a weakness\nto magic.\n", 10); std::wcout << std::endl;
-		TypeText(L"-------------------------------------------", 1); std::wcout << std::endl;
-
-		TypeText(L"Press 1 to confirm class, or 0 to\nselect a different class: ", 10);
-		std::cin >> Selection;
-
-		if (Selection == 0)
-		{
-			Selection = 0;
-		}
-		else if (Selection == 1)
-		{ 
-		PlayerClass = 1;
-		MaxHealth = 500;
-		MaxMana = 30;
-		ClassStatValues = { {"Strength", 15}, { "Dexterity", 10 }, { "Wisdom", 10 }, { "Charisma", 10 } };
-		continue;
-		}
-
-	case 2: //Scourge
-		PlayerClass = 2;
-		MaxHealth = 125;
-		MaxMana = 200;
-		ClassStatValues = { {"Strength", 10}, { "Dexterity", 10 }, { "Wisdom", 15 }, { "Charisma", 10 } };
-		break;
-
-	case 3://Swindler
-		PlayerClass = 3;
-		MaxHealth = 125;
-		MaxMana = 20;
-		ClassStatValues = { {"Strength", 10}, { "Dexterity", 15 }, { "Wisdom", 10 }, { "Charisma", 10 } };
-		break;
-
-	case 4://Jester
-		PlayerClass = 4;
-		MaxHealth = 150;
-		MaxMana = 100;
-		ClassStatValues = { {"Strength", 10}, { "Dexterity", 10 }, { "Wisdom", 10 }, { "Charisma", 15 } };
-		break;
-	}
+	Name = name;
 }
 
 
-	TypeText(L"Allocate your Stat Points: ", 1); std::wcout << std::endl;
-	TypeText(L"You have " + std::to_wstring(BaseStatPoints) + L" points remaining.", 1); std::wcout << std::endl;
-	int AddPoint;
 
-	while (BaseStatPoints > 0)
+
+
+
+
+
+
+
+
+//PlayerCharacter PlayerCharacter::PlayerCreator()
+//{
+//	//create new player character
+//	PlayerCharacter Player;
+//
+//	int BaseStatPoints = 10;
+//
+//	std::cin.ignore();
+//	TypeText(L"Enter your Character's Name: ", 10);
+//	std::getline(std::cin, Name);
+//	TypeText(L"-------------------------------------------", 1); std::wcout << std::endl;
+//
+//	// loop class selection to allow for re-selection
+//
+//int Selection = 0;
+//std::map<std::string, int> ClassStatValues { {"Strength", 0}, { "Dexterity", 0 }, { "Wisdom", 0 }, { "Charisma", 0 }};
+//
+//
+//while (Selection < 1 || Selection > 4)
+//{
+//	TypeText(L"Select your Character's Class: ", 10); std::wcout << std::endl;
+//	TypeText(L"1. Brawler", 10); std::wcout << std::endl;
+//	TypeText(L"2. Scourge", 10); std::wcout << std::endl;
+//	TypeText(L"3. Swindler", 10); std::wcout << std::endl;
+//	TypeText(L"4. Jester", 10); std::wcout << std::endl;
+//	std::cin >> Selection;
+//
+//	//std::map<std::string, int> ClassStatValues { {"Strength", 0}, { "Dexterity", 0 }, { "Wisdom", 0 }, { "Charisma", 0 }};
+//
+//	switch (Selection)
+//	{
+//	case 1: //Brawler
+//
+//		system("cls");
+//
+//		//print a formated class description using TypeText function
+//		TypeText(L"-------------------------------------------", 1); std::wcout << std::endl;
+//		TypeText(L"Brawler", 10); std::wcout << std::endl;
+//		TypeText(L"-------------------------------------------", 1); std::wcout << std::endl;
+//		TypeText(L"Health: 500", 10); std::wcout << std::endl;
+//		TypeText(L"Mana: 30", 10); std::wcout << std::endl;
+//		TypeText(L"-------------------------------------------", 1); std::wcout << std::endl;
+//		TypeText(L"Strength: 15", 10); std::wcout << std::endl;
+//		TypeText(L"Dexterity: 10", 10); std::wcout << std::endl;
+//		TypeText(L"Wisdom: 10", 10); std::wcout << std::endl;
+//		TypeText(L"Charisma: 10", 10); std::wcout << std::endl;
+//		TypeText(L"-------------------------------------------", 1); std::wcout << std::endl;
+//		TypeText(L"Description: A brawler is a fighter who uses\ntheir fists to fight. They are strong and\ncan take a lot of damage, but they lack\nthe ability to use magic and have a weakness\nto magic.\n", 10); std::wcout << std::endl;
+//		TypeText(L"-------------------------------------------", 1); std::wcout << std::endl;
+//
+//		TypeText(L"Press 1 to confirm class, or 0 to\nselect a different class: ", 10);
+//		std::cin >> Selection;
+//
+//		if (Selection == 0)
+//		{
+//			Selection = 0;
+//		}
+//		else if (Selection == 1)
+//		{ 
+//		PlayerClass = 1;
+//		MaxHealth = 500;
+//		MaxMana = 30;
+//		ClassStatValues = { {"Strength", 15}, { "Dexterity", 10 }, { "Wisdom", 10 }, { "Charisma", 10 } };
+//		continue;
+//		}
+//
+//	case 2: //Scourge
+//		PlayerClass = 2;
+//		MaxHealth = 125;
+//		MaxMana = 200;
+//		ClassStatValues = { {"Strength", 10}, { "Dexterity", 10 }, { "Wisdom", 15 }, { "Charisma", 10 } };
+//		break;
+//
+//	case 3://Swindler
+//		PlayerClass = 3;
+//		MaxHealth = 125;
+//		MaxMana = 20;
+//		ClassStatValues = { {"Strength", 10}, { "Dexterity", 15 }, { "Wisdom", 10 }, { "Charisma", 10 } };
+//		break;
+//
+//	case 4://Jester
+//		PlayerClass = 4;
+//		MaxHealth = 150;
+//		MaxMana = 100;
+//		ClassStatValues = { {"Strength", 10}, { "Dexterity", 10 }, { "Wisdom", 10 }, { "Charisma", 15 } };
+//		break;
+//	}
+//}
+//
+//
+//	TypeText(L"Allocate your Stat Points: ", 1); std::wcout << std::endl;
+//	TypeText(L"You have " + std::to_wstring(BaseStatPoints) + L" points remaining.", 1); std::wcout << std::endl;
+//	int AddPoint;
+//
+//	while (BaseStatPoints > 0)
+//	{
+//		if (BaseStatPoints >= 1)
+//		{
+//			TypeText(L"-------------------------------------------", 1); std::wcout << std::endl;
+//			TypeText(L"Strength: ", 1); std::wcout << std::endl;
+//			std::cin >> AddPoint;
+//			if (AddPoint > BaseStatPoints)
+//			{
+//				std::cout << "nice try, but you don't have that many points left" << std::endl;
+//				continue;
+//			}
+//			StatValues["Strength"] = (ClassStatValues["Strength"] + AddPoint);
+//			BaseStatPoints -= AddPoint;
+//			TypeText(L"You have " + std::to_wstring(BaseStatPoints) + L" points remaining.", 1); std::wcout << std::endl;
+//		}
+//
+//		if (BaseStatPoints >= 1)
+//		{
+//			TypeText(L"Dexterity: ", 1); std::wcout << std::endl;
+//			std::cin >> AddPoint;
+//			if (AddPoint > BaseStatPoints)
+//			{
+//				std::cout << "nice try, but you don't have that many points left" << std::endl;
+//				continue; 
+//			}
+//			StatValues["Dexterity"] = (ClassStatValues["Dexterity"] + AddPoint);
+//			BaseStatPoints -= AddPoint;
+//			TypeText(L"You have " + std::to_wstring(BaseStatPoints) + L" points remaining.", 1); std::wcout << std::endl;
+//		}
+//
+//		if (BaseStatPoints >= 1)
+//		{
+//			TypeText(L"Wisdom: ", 1); std::wcout << std::endl;
+//			std::cin >> AddPoint;
+//			if (AddPoint > BaseStatPoints)
+//			{
+//				std::cout << "nice try, but you don't have that many points left" << std::endl;
+//				continue;
+//			}
+//			StatValues["Wisdom"] = (ClassStatValues["Wisdom"] + AddPoint);
+//			BaseStatPoints -= AddPoint;
+//			TypeText(L"You have " + std::to_wstring(BaseStatPoints) + L" points remaining.", 1); std::wcout << std::endl;
+//		}
+//
+//		if (BaseStatPoints >= 1)
+//		{
+//			TypeText(L"Charisma: ", 1); std::wcout << std::endl;
+//			std::cin >> AddPoint;
+//			if (AddPoint > BaseStatPoints)
+//			{
+//				std::cout << "nice try, but you don't have that many points left" << std::endl;
+//				continue;
+//			}
+//			StatValues["Charisma"] = (ClassStatValues["Charisma"] + AddPoint);
+//			BaseStatPoints -= AddPoint;
+//			TypeText(L"You have " + std::to_wstring(BaseStatPoints) + L" points remaining.", 1); std::wcout << std::endl;
+//		}
+//		TypeText(L"-------------------------------------------", 1); std::wcout << std::endl;
+//		if (BaseStatPoints == 0)
+//
+//		{
+//			TypeText(L"You have no points remaining.", 10); std::wcout << std::endl;
+//		}
+//	}
+//	//Inventory = {};
+//    
+//	/*Afflictions = 
+//	{ {"Poisoned", false}, { "Bleeding", false }, { "Burned", false }, { "Frozen", false }, { "Stunned", false }, 
+//	{ "Blinded", false }, { "Confused", false }, { "Charmed", false }, { "Enraged", false }, { "Blessed", false }, 
+//	{ "Cursed", false }, { "Invisible", false }, { "Silenced", false }, { "Sleeping", false }, { " ", false } };*/
+//
+//	// show confirmation of character creation
+//	std::wcout << "Press Enter to start the game..." << std::endl;
+//	std::wcin.ignore();
+//	std::wcin.get();
+//	
+//	// return the newly created player character  
+//	return Player;
+//}
+
+
+void PlayerCharacter::CharacterCreator()
+{
+	//1. get user input for character name
+	std::string inputname;
+	TypeText(L"Enter your character's name: ", 10); std::wcout << std::endl;
+	TypeText(L"-------------------------------------------", 1); std::wcout << std::endl;
+	std::getline(std::cin, inputname);
+	this->SetName(inputname);
+
+	//2. Ask user to select a class
+	int ChosenClass;
+	bool confirmed = false;
+
+	while (!confirmed)
 	{
-		if (BaseStatPoints >= 1)
-		{
-			TypeText(L"-------------------------------------------", 1); std::wcout << std::endl;
-			TypeText(L"Strength: ", 1); std::wcout << std::endl;
-			std::cin >> AddPoint;
-			if (AddPoint > BaseStatPoints)
-			{
-				std::cout << "nice try, but you don't have that many points left" << std::endl;
-				continue;
-			}
-			StatValues["Strength"] = (ClassStatValues["Strength"] + AddPoint);
-			BaseStatPoints -= AddPoint;
-			TypeText(L"You have " + std::to_wstring(BaseStatPoints) + L" points remaining.", 1); std::wcout << std::endl;
-		}
-
-		if (BaseStatPoints >= 1)
-		{
-			TypeText(L"Dexterity: ", 1); std::wcout << std::endl;
-			std::cin >> AddPoint;
-			if (AddPoint > BaseStatPoints)
-			{
-				std::cout << "nice try, but you don't have that many points left" << std::endl;
-				continue; 
-			}
-			StatValues["Dexterity"] = (ClassStatValues["Dexterity"] + AddPoint);
-			BaseStatPoints -= AddPoint;
-			TypeText(L"You have " + std::to_wstring(BaseStatPoints) + L" points remaining.", 1); std::wcout << std::endl;
-		}
-
-		if (BaseStatPoints >= 1)
-		{
-			TypeText(L"Wisdom: ", 1); std::wcout << std::endl;
-			std::cin >> AddPoint;
-			if (AddPoint > BaseStatPoints)
-			{
-				std::cout << "nice try, but you don't have that many points left" << std::endl;
-				continue;
-			}
-			StatValues["Wisdom"] = (ClassStatValues["Wisdom"] + AddPoint);
-			BaseStatPoints -= AddPoint;
-			TypeText(L"You have " + std::to_wstring(BaseStatPoints) + L" points remaining.", 1); std::wcout << std::endl;
-		}
-
-		if (BaseStatPoints >= 1)
-		{
-			TypeText(L"Charisma: ", 1); std::wcout << std::endl;
-			std::cin >> AddPoint;
-			if (AddPoint > BaseStatPoints)
-			{
-				std::cout << "nice try, but you don't have that many points left" << std::endl;
-				continue;
-			}
-			StatValues["Charisma"] = (ClassStatValues["Charisma"] + AddPoint);
-			BaseStatPoints -= AddPoint;
-			TypeText(L"You have " + std::to_wstring(BaseStatPoints) + L" points remaining.", 1); std::wcout << std::endl;
-		}
+		int choice;
+		TypeText(L"Choose your class: ", 1); std::wcout << std::endl;
 		TypeText(L"-------------------------------------------", 1); std::wcout << std::endl;
-		if (BaseStatPoints == 0)
+		TypeText(L"1. Brawler", 1); std::wcout << std::endl;
+		TypeText(L"2. Scourge", 1); std::wcout << std::endl;
+		TypeText(L"3. Swindler", 1); std::wcout << std::endl;
+		TypeText(L"4. Jester", 1); std::wcout << std::endl;
+		TypeText(L"-------------------------------------------", 1); std::wcout << std::endl;
+		std::cin >> choice;
 
-		{
-			TypeText(L"You have no points remaining.", 10); std::wcout << std::endl;
+		switch (choice)
+		{ 
+		case 1:
+			system("cls");
+			TypeText(L"Brawler", 1); std::wcout << std::endl;
+			TypeText(L"-------------------------------------------", 1); std::wcout << std::endl;
+			TypeText(L"Description: The brawler is a strength based class. Focused on melee it comes with bonus to strength but a weakness to magic.", 1); std::wcout << std::endl;
+			TypeText(L"-------------------------------------------", 1); std::wcout << std::endl;
+			TypeText(L"Strength: 15", 1); std::wcout << std::endl;
+			TypeText(L"Dexterity: 10", 1); std::wcout << std::endl;
+			TypeText(L"Wisdom: 5", 1); std::wcout << std::endl;
+			TypeText(L"Charisma: 10", 1); std::wcout << std::endl;
+			TypeText(L"-------------------------------------------", 1); std::wcout << std::endl;
+			TypeText(L"Starting Eqiupment: ", 1); std::wcout << std::endl;
+			TypeText(L"Hard Leather Tunic", 1); std::wcout << std::endl;
+			TypeText(L"Hard Leather Pants", 1); std::wcout << std::endl;
+			TypeText(L"Hard Leather Boots", 1); std::wcout << std::endl;
+			TypeText(L"Iron Fists", 1); std::wcout << std::endl;
+			TypeText(L"10 Health Potions", 1); std::wcout << std::endl;
+			TypeText(L"-------------------------------------------", 1); std::wcout << std::endl;
+			TypeText(L"Confirm? (Y/N)", 1); std::wcout << std::endl;
+
+			char Confirm;
+			std::cin >> Confirm;
+			confirmed = Confirm == 'Y' || Confirm == 'y';
+			break;
+
+		case 2:
+			system("cls");
+			TypeText(L"Scourge", 1); std::wcout << std::endl;
+			TypeText(L"-------------------------------------------", 1); std::wcout << std::endl;
+			TypeText(L"Description: The scourge is a Mage type class. Focused on magic it comes with bonus to wisdom but a weakness to melee.", 1); std::wcout << std::endl;
+			TypeText(L"-------------------------------------------", 1); std::wcout << std::endl;
+			TypeText(L"Strength: 5", 1); std::wcout << std::endl;
+			TypeText(L"Dexterity: 10", 1); std::wcout << std::endl;
+			TypeText(L"Wisdom: 15", 1); std::wcout << std::endl;
+			TypeText(L"Charisma: 10", 1); std::wcout << std::endl;
+			TypeText(L"-------------------------------------------", 1); std::wcout << std::endl;
+			TypeText(L"Starting Eqiupment: ", 1); std::wcout << std::endl;
+			TypeText(L"Silk Robe", 1); std::wcout << std::endl;
+			TypeText(L"Silk Pants", 1); std::wcout << std::endl;
+			TypeText(L"Silk", 1); std::wcout << std::endl;
+			TypeText(L"Staff", 1); std::wcout << std::endl;
+			TypeText(L"5 Health Potions", 1); std::wcout << std::endl;
+			TypeText(L"5 Mana Potions", 1); std::wcout << std::endl;
+			TypeText(L"-------------------------------------------", 1); std::wcout << std::endl;
+			TypeText(L"Confirm? (Y/N)", 1); std::wcout << std::endl;
+
+			char Confirm2;
+			std::cin >> Confirm2;
+			confirmed = Confirm2 == 'Y' || Confirm2 == 'y';
+			break;
+
+		case 3:
+			system("cls");
+			TypeText(L"Swindler", 1); std::wcout << std::endl;
+			TypeText(L"-------------------------------------------", 1); std::wcout << std::endl;
+			TypeText(L"Description: The swindler is a Dexterity based class. Focused on ranged it comes with bonus to dexterity but a weakness to melee.", 1); std::wcout << std::endl;
+			TypeText(L"-------------------------------------------", 1); std::wcout << std::endl;
+			TypeText(L"Strength: 10", 1); std::wcout << std::endl;
+			TypeText(L"Dexterity: 15", 1); std::wcout << std::endl;
+			TypeText(L"Wisdom: 5", 1); std::wcout << std::endl;
+			TypeText(L"Charisma: 10", 1); std::wcout << std::endl;
+			TypeText(L"-------------------------------------------", 1); std::wcout << std::endl;
+			TypeText(L"Starting Eqiupment: ", 1); std::wcout << std::endl;
+			TypeText(L"Light mail tunic", 1); std::wcout << std::endl;
+			TypeText(L"Light mail pants", 1); std::wcout << std::endl;
+			TypeText(L"Light mail boots", 1); std::wcout << std::endl;
+			TypeText(L"Short Bow", 1); std::wcout << std::endl;
+			TypeText(L"10 Health Potions", 1); std::wcout << std::endl;
+			TypeText(L"-------------------------------------------", 1); std::wcout << std::endl;
+			TypeText(L"Confirm? (Y/N)", 1); std::wcout << std::endl;
+
+			char Confirm3;
+			std::cin >> Confirm3;
+			confirmed = Confirm3 == 'Y' || Confirm3 == 'y';
+			break;
+
+		case 4:
+			system("cls");
+			TypeText(L"Jester", 1); std::wcout << std::endl;
+			TypeText(L"-------------------------------------------", 1); std::wcout << std::endl;
+			TypeText(L"Description: The Jester is a Charisma based class. Focused on support it comes with bonus to charisma but a weakness to melee.", 1); std::wcout << std::endl;
+			TypeText(L"-------------------------------------------", 1); std::wcout << std::endl;
+			TypeText(L"Strength: 5", 1); std::wcout << std::endl;
+			TypeText(L"Dexterity: 10", 1); std::wcout << std::endl;
+			TypeText(L"Wisdom: 10", 1); std::wcout << std::endl;
+			TypeText(L"Charisma: 15", 1); std::wcout << std::endl;
+			TypeText(L"-------------------------------------------", 1); std::wcout << std::endl;
+			TypeText(L"Starting Eqiupment: ", 1); std::wcout << std::endl;
+			TypeText(L"Cloth chest", 1); std::wcout << std::endl;
+			TypeText(L"Cloth pants", 1); std::wcout << std::endl;
+			TypeText(L"Cloth boots", 1); std::wcout << std::endl;
+			TypeText(L"Raipier", 1); std::wcout << std::endl;
+			TypeText(L"10 Health Potions", 1); std::wcout << std::endl;
+			TypeText(L"-------------------------------------------", 1); std::wcout << std::endl;
+			TypeText(L"Confirm? (Y/N)", 1); std::wcout << std::endl;
+
+			char Confirm4;
+			std::cin >> Confirm4;
+			confirmed = Confirm4 == 'Y' || Confirm4 == 'y';
+			break;
 		}
-	}
-	//Inventory = {};
-    
-	/*Afflictions = 
-	{ {"Poisoned", false}, { "Bleeding", false }, { "Burned", false }, { "Frozen", false }, { "Stunned", false }, 
-	{ "Blinded", false }, { "Confused", false }, { "Charmed", false }, { "Enraged", false }, { "Blessed", false }, 
-	{ "Cursed", false }, { "Invisible", false }, { "Silenced", false }, { "Sleeping", false }, { " ", false } };*/
-
-	// show confirmation of character creation
-	std::wcout << "Press Enter to start the game..." << std::endl;
-	std::wcin.ignore();
-	std::wcin.get();
-	
-	// return the newly created player character  
-	return Player;
+	}	
 }

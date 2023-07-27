@@ -32,12 +32,9 @@ private:
 		{ "Wisdom", 0 },
 		{ "Charisma", 0 }
 	};
-
 	std::map<Item, int> Inventory;  //using a map to hold the inventory of Item objects as well as their quantity
-
 	std::vector<StatusEffect> Afflictions; // using a map to hold the status effects of the character and whether they are active or not
 	Location* CurrentLocation; // pointer to the current location of the character
-
 
 public:
 	PlayerCharacter(); // default constructor
@@ -49,16 +46,20 @@ public:
 	std::string GetPlayerClassName() const;// returns the name of the player class
 	Location& GetCurrentLocation(Location& CurrentLocation) const; // returns the current location of the player character
 	int GetPlayerGold(PlayerCharacter& Player) const; // returns player gold value
+	std::string GetName(PlayerCharacter& Player) const { return Name; }; // returns the name of the player character
+	int GetPlayerClass(PlayerCharacter& Player) const { return PlayerClass; }; // returns the player class of the player character
 
 //setters
 	void AddGold(PlayerCharacter& Player, int Gold); // adds gold to the player character
 	//void SetExperience(PlayerCharacter& Player, int Experience); // adds experience to the player character
 	void RemoveGold(PlayerCharacter& Player, int Gold); // removes gold from the player character
+	void SetName(std::string Name); // sets the name of the player character
+	void SetPlayerClass(int PlayerClass); // sets the player class of the player character
 
 //other functions
 	void MoveTo(Location& CurrentLocation, Location& NewLocation); // move the player character to a new location)
-
-	PlayerCharacter PlayerCreator(); // create a new custom player character
+	//PlayerCharacter PlayerCreator(); // create a new custom player character
+	void CharacterCreator(); //test new character creator
 
 //inventory functions
 	void AddItem(Item &item, int quantity, PlayerCharacter* player); // adds an item to the player character's inventory
