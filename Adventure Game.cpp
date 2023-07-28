@@ -1,4 +1,4 @@
-// A text based adventure/RPG game
+﻿// A text based adventure/RPG game
 // main file for the game
 #include "CharacterTemplate.h"
 #include "PlayerCharacter.h"
@@ -12,8 +12,13 @@
 #include "Dungeon.h"
 #include "Room.h"
 #include "GameSetup.h"
+#include "Combat.h"
+//todays goals:
+// 1. create combat system
+// 2. integrate turn ststem into features that are time-dependent
 
 
+   
 
 
 
@@ -26,7 +31,35 @@
 // Testing functions currently
 int main()
 {
-    PlayerCharacter Player;
+    std::shared_ptr<PlayerCharacter> player = std::make_shared<PlayerCharacter>();
+
+    player->CharacterCreator();
+
+
+    Combat combat(player);
+    
+
+    combat.CombatDisplay();
+    system("pause");
+
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    //PlayerCharacter Player;
     //Tavern TheTavern;*/
     
     //call MainMenu function Test - PASS
@@ -255,7 +288,6 @@ int main()
 
 // testing game setup - PASS!!!
 //
-//
 //PlayerCharacter MainCharacter;
 //std::shared_ptr<Location> startingLocation = SetupGame();
 //
@@ -325,69 +357,83 @@ int main()
 
 
 
-// item + status effect test
+// item + status effect test - PASS
 //
+//std::shared_ptr<Item> potion =  std::make_shared<Item> ("Health Potion", "Heals 10 HP and grants temporary strength boost.", 1591 , 50, 1, 0, [&](PlayerCharacter& player) { // need to use make_shared with shared pointers
+//    // Heal the player
+//    player.heal(25);
+//    // Apply the status effect
+//    StatusEffect boost = StatusEffect("Boost", "Temporary strength increase.", 123,
+//        [&](PlayerCharacter& affectedPlayer) {
+//            
+//            player.AddStat("Strength", 10);
+//        },
+//        [&](PlayerCharacter& affectedPlayer) {
+//           
+//            player.RemoveStat("Strength", 10);
+//
+//        }, StatusEffect::State::Active);
+//
+//    player.ApplyEffect(boost);
+//
+//    StatusEffect haste = StatusEffect("Haste", "Temporary Dexterity increase.", 114,
+//        [&](PlayerCharacter& affectedPlayer) {
+//
+//            player.AddStat("Dexterity", 10);
+//        },
+//        [&](PlayerCharacter& affectedPlayer) {
+//
+//            player.RemoveStat("Dexterity", 10);
+//
+//        }, StatusEffect::State::Active);
+//
+//    player.ApplyEffect(haste);
+//
+//    });
+//
+//Player.TakeDamage(50);
+//
+//std::cout << "------------------------------------------" << std::endl;
+//std::cout << Player << std::endl;
+//std::cout << "------------------------------------------" << std::endl;
+//
+//Player.AddItem(potion, 1);
+//
+//Player.UseItem(potion->GetId());
+//
+//std::cout << "------------------------------------------" << std::endl;
+//std::cout << Player << std::endl;
+//std::cout << "------------------------------------------" << std::endl;
+//
+//Player.RemoveEffect("Haste");
+//
+//std::cout << "------------------------------------------" << std::endl;
+//std::cout << Player << std::endl;
+//std::cout << "------------------------------------------" << std::endl;
+//
+//
+//Player.RemoveEffect("Boost");
+//
+//std::cout << "------------------------------------------" << std::endl;
+//std::cout << Player << std::endl;
+//std::cout << "------------------------------------------" << std::endl;
 
-std::shared_ptr<Item> potion =  std::make_shared<Item> ("Health Potion", "Heals 10 HP and grants temporary strength boost.", 1591 , 50, 1, 0, [&](PlayerCharacter& player) { // need to use make_shared with shared pointers
-    // Heal the player
-    player.heal(25);
-    // Apply the status effect
-    StatusEffect boost = StatusEffect("Boost", "Temporary strength increase.", 123,
-        [&](PlayerCharacter& affectedPlayer) {
-            
-            player.AddStat("Strength", 10);
-        },
-        [&](PlayerCharacter& affectedPlayer) {
-           
-            player.RemoveStat("Strength", 10);
-
-        }, StatusEffect::State::Active);
-
-    player.ApplyEffect(boost);
-
-    StatusEffect haste = StatusEffect("Haste", "Temporary Dexterity increase.", 114,
-        [&](PlayerCharacter& affectedPlayer) {
-
-            player.AddStat("Dexterity", 10);
-        },
-        [&](PlayerCharacter& affectedPlayer) {
-
-            player.RemoveStat("Dexterity", 10);
-
-        }, StatusEffect::State::Active);
-
-    player.ApplyEffect(haste);
-
-    });
-
-Player.TakeDamage(101);
-
-std::cout << "------------------------------------------" << std::endl;
-std::cout << Player << std::endl;
-std::cout << "------------------------------------------" << std::endl;
-
-Player.AddItem(potion, 1);
-
-Player.UseItem(potion->GetId());
-
-std::cout << "------------------------------------------" << std::endl;
-std::cout << Player << std::endl;
-std::cout << "------------------------------------------" << std::endl;
-
-Player.RemoveEffect("Haste");
-
-std::cout << "------------------------------------------" << std::endl;
-std::cout << Player << std::endl;
-std::cout << "------------------------------------------" << std::endl;
 
 
-Player.RemoveEffect("Boost");
-
-std::cout << "------------------------------------------" << std::endl;
-std::cout << Player << std::endl;
-std::cout << "------------------------------------------" << std::endl;
 
 
+
+
+
+
+
+
+
+
+
+// Combat Display Test
+//
+//
 
 
 

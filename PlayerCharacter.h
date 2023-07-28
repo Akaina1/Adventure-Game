@@ -57,9 +57,6 @@ public:
 
 	void ChooseMove();                                                                                              // show where the valid locations to move are 
 
-// name funtions
-	void SetName(std::string name) { Name = name; };       // sets the name of the player character
-	std::string GetName() const { return Name; };          // returns the name of the player character
 
 //class functions
 	std::string GetPlayerClassName() const;                    // returns the name of the player class
@@ -84,39 +81,11 @@ public:
 //other functions
 	void CharacterCreator();     //character creator
 
-//Stat functions
-	std::map<std::string, int> GetPlayerStats() const ;                  // gets the player Stats from the StatValues map
-	void SetPlayerStats(std::map<std::string, int> newstats);         // sets the player Stats from the StatValues map
-	void AddStat(const std::string statName, int value);                        // adds a stat to the player character
-	void RemoveStat(std::string statName, int value);                                // removes a stat from the player character
-
 //inventory functions
 	void AddItem(std::shared_ptr<Item> item, int quantity);      // adds an item to the player character's inventory
 	void RemoveItem(std::shared_ptr<Item> item, int quantity);   // removes an item from the player character's inventory
 	int GetItemQuantity(std::shared_ptr<Item> item);             // returns the quantity of an item in the player character's inventory
 	void PrintInventory();                       // prints the inventory of the player character
 	void UseItem(int itemId);                    // uses an item from the player character's inventory
-
-// health functions
-	int GetCurrentHealth() const { return CurrentHealth; };        // returns the current health of the player character
-	int GetMaxHealth() const { return MaxHealth; };                // returns the max health of the player character
-	void IncreaseMaxHealth(int health) { MaxHealth += health; };   // increase the max health of the player character
-	void DecreaseMaxHealth(int health) { MaxHealth -= health; };   // decrease the max health of the player character
-	void heal(int health);                                         // heals the player character
-	void TakeDamage(int damage);                                   // damages the player character
-	bool IsDead();                                                 // checks if the player character is dead
-
-// mana functions
-	int GetCurrentMana() const { return CurrentMana; };   // returns the current mana of the player character
-	int GetMaxMana() const { return MaxMana; };           // returns the max mana of the player character
-	void IncreaseMaxMana(int mana) { MaxMana += mana; };  // increases the max mana of the player character
-	void DecreaseMaxMana(int mana) { MaxMana -= mana; };  // decreases the max mana of the player character
-	void RestoreMana(int mana);                           // restores mana to the player character
-	void UseMana(int mana);                               // uses mana from the player character
-
-// Effect functions
-	void ApplyEffect(StatusEffect effect);   // applies a status effect to the player character
-	void RemoveEffect(const std::string& effectName);  // removes a status effect from the player character
-	void UpdateEffects(StatusEffect& effect);  // updates the status effects of the player character
 };
 

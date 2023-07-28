@@ -148,21 +148,6 @@ void PlayerCharacter::ChooseMove()
 	}
 }
 
-
-
-
-
-
-
-////////////////////////////////// Name functions     //////////////////////////////////
-
-
-
-
-
-
-
-
 ////////////////////////////////// Class functions    //////////////////////////////////
 
 std::string PlayerCharacter::GetPlayerClassName() const // returns the name of the player class
@@ -190,25 +175,6 @@ std::string PlayerCharacter::GetPlayerClassName() const // returns the name of t
 		return "Invalid Class - GetPlayerClassName() FUNCTION";
 	}
 }
-
-
-
-
-
-
-
-
-
-////////////////////////////////// Gold functions     //////////////////////////////////
-
-
-
-
-
-
-
-
-
 
 ////////////////////////////////// Experience functions ////////////////////////////////
 
@@ -343,9 +309,6 @@ void PlayerCharacter::AddExperience(long long exp)
 	LevelUp();
 }
 
-
-
-
 ////////////////////////////////// Inventory functions /////////////////////////////////
 
 void PlayerCharacter::AddItem(std::shared_ptr<Item> item, int quantity) // adds an item to the player character's inventory
@@ -425,126 +388,6 @@ void PlayerCharacter::UseItem(int itemId)
 		}
 	}
 }
-
-
-////////////////////////////////// Health functions   //////////////////////////////////
-
-void PlayerCharacter::heal(int health) // heals the player character
-{
-	CurrentHealth += health;
-
-	if (CurrentHealth > MaxHealth)
-	{
-		CurrentHealth = MaxHealth;
-	}
-}
-
-void PlayerCharacter::TakeDamage(int damage) // damages the player character
-{
-	CurrentHealth -= damage;
-
-	if (CurrentHealth < 0)
-	{
-		CurrentHealth = 0;
-	}
-}
-
-bool PlayerCharacter::IsDead() // checks if the player character is dead
-{
-	return CurrentHealth <= 0;
-}
-
-
-////////////////////////////////// Mana functions     //////////////////////////////////
-
-void PlayerCharacter::RestoreMana(int mana) // restores mana to the player character
-{
-	CurrentMana += mana;
-
-	if (CurrentMana > MaxMana)
-	{
-		CurrentMana = MaxMana;
-	}
-}
-
-void PlayerCharacter::UseMana(int cost) // uses mana from the player character
-{
-	CurrentMana -= cost;
-
-	if (CurrentMana < 0)
-	{
-		CurrentMana = 0;
-	}
-}
-
-
-////////////////////////////////// Effect functions   //////////////////////////////////
-
-void PlayerCharacter::ApplyEffect(StatusEffect effect) // applies a status effect to the player character
-{
-
-	effect.state = StatusEffect::State::Active;
-
-	effect.StatusEffect::GetAddEffect()(*this);
-
-	std::cout << "EFFECT ADDED TO PLAYER" << std::endl;
-
-	Afflictions.push_back(effect);
-
-};
-
-void PlayerCharacter::RemoveEffect(const std::string& effectName) // removes a status effect from the player character
-{
-	for (auto it = Afflictions.begin(); it != Afflictions.end(); ++it)
-	{
-		// If the effect is the one we want to remove
-		if (it->GetName() == effectName)
-		{
-			// Call the removeEffect function to undo the effect
-			it->GetRemoveEffect()(*this);
-
-			// Remove the effect from the vector
-			Afflictions.erase(it);
-
-			std::cout << "EFFECT REMOVED FROM PLAYER" << std::endl;
-			return;
-		}
-	}
-}
-
-void PlayerCharacter::UpdateEffects(StatusEffect& effect) // takes in an effect to update, and a pointer to a character to access their Afflictions vector
-{
-	// check if the effect is in the vector
-	for (auto& affliction : Afflictions)
-	{
-		if (affliction.GetId() == effect.GetId())
-		{
-			// if the effect is in the vector check if the effect is active or not
-			if (affliction.state == StatusEffect::State::Active)
-			{
-				RemoveEffect(affliction.GetName());
-			}
-			else if (affliction.state == StatusEffect::State::Inactive)
-			{
-				ApplyEffect(affliction);
-			}
-			else if (affliction.state == StatusEffect::State::Blocked)
-			{
-				std::cout << "CAN'T UPDATE BLOCKED EFFECT" << std::endl;
-			}
-			return;
-
-		}
-		
-
-	}
-
-	if (effect.state == StatusEffect::State::Active)
-	{
-			ApplyEffect(effect);
-	}
-}
-
 
 ////////////////////////////////// Other functions    //////////////////////////////////
 
@@ -818,48 +661,3 @@ void PlayerCharacter::CharacterCreator()
 		system("pause");
 	}
 }
-
-
-
-
-
-////////////////////////////////// Stat functions    //////////////////////////////////
-
-std::map<std::string, int> PlayerCharacter::GetPlayerStats() const
-{
-	return StatValues;
-}
-
-void PlayerCharacter::SetPlayerStats(std::map<std::string, int> newstats)
-{
-	StatValues = newstats;
-}
-
-void PlayerCharacter::AddStat(const std::string statName, int value)
-{
-	auto it = StatValues.find(statName);
-	if (it != StatValues.end()) 
-	{
-		it->second += value;
-	}
-	else
-	{
-		std::cout << "Stat not found" << std::endl;
-	}
-}
-
-void PlayerCharacter::RemoveStat(std::string statName, int value)
-{
-	auto it = StatValues.find(statName);
-	if (it != StatValues.end())
-	{
-		it->second = (std::max)(it->second - value, 0);
-	}
-	else
-	{
-		std::cout << "Stat not found" << std::endl;
-	}
-}
-
-
-

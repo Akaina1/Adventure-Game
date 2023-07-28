@@ -22,8 +22,8 @@ private:
 	std::string Description; // description of the status effect
 	int Id; // id of the status effect
 	//int Duration; // duration of the status effect (need to implement turn system when creating combat system) for now, duration will be left out
-	std::function<void(PlayerCharacter& player)> AddEffect; // function to add the status effect to the player character
-	std::function<void(PlayerCharacter& player)> RemoveEffect; // function to remove the status effect from the player character
+	std::function<void(CharacterTemplate& character)> AddEffect; // function to add the status effect to the player character
+	std::function<void(CharacterTemplate& character)> RemoveEffect; // function to remove the status effect from the player character
 	
 
 public:
@@ -43,8 +43,8 @@ public:
 	std::string GetName() const { return Name; }; // returns the name of the status effect
 	std::string GetDescription() const { return Description; }; // returns the description of the status effect
 	int GetId() const { return Id; }; // returns the id of the status effect
-	std::function<void(PlayerCharacter& player)> GetAddEffect() const { return AddEffect;}; // returns the add effect of the status effect
-	std::function<void(PlayerCharacter& player)> GetRemoveEffect() const { return RemoveEffect;}; // returns the remove effect of the status effect
+	std::function<void(CharacterTemplate& character)> GetAddEffect() const { return AddEffect;}; // returns the add effect of the status effect
+	std::function<void(CharacterTemplate& character)> GetRemoveEffect() const { return RemoveEffect;}; // returns the remove effect of the status effect
 	State GetEffectState() const { return state;}; // returns the state of the status effect
 
 	//setters
