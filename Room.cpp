@@ -1,10 +1,11 @@
 #include "Room.h"
+#include "Enemy.h"
 
-void Room::OnEnter(PlayerCharacter* player)
+void Room::OnEnter(std::shared_ptr<PlayerCharacter> player)
 {
 
 }
-void Room::OnExit(PlayerCharacter* player)
+void Room::OnExit(std::shared_ptr<PlayerCharacter> player)
 {
 
 }

@@ -1,10 +1,9 @@
 // defintion for the character template class that will be a base class for all other character classes
 #pragma once
-
-class StatusEffect; // forward declaration of the status effect class
-
 #include "I_Print.h"
 #include "Main.h"
+
+class StatusEffect; // forward declaration of the status effect class
 
 class CharacterTemplate : public I_Print {
 protected:

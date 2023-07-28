@@ -1,5 +1,7 @@
 // implementation file for PlayerCharacter class
 #include "PlayerCharacter.h"
+#include "Item.h"
+#include "NPC.h"
 ////////////////////////////////// Default functions //////////////////////////////////
 
 PlayerCharacter::PlayerCharacter() // default constructor
@@ -80,7 +82,7 @@ void PlayerCharacter::MoveTo(std::shared_ptr<Location> newlocation)
 
 	if (CurrentLocation)
 	{
-		CurrentLocation->OnExit(this);
+		CurrentLocation->OnExit(Self.lock());
 	}
 
 	this->SetCurrentLocation(newlocation);
@@ -90,7 +92,7 @@ void PlayerCharacter::MoveTo(std::shared_ptr<Location> newlocation)
 
 	if (newlocation)
 	{
-		newlocation->OnEnter(this);
+		newlocation->OnEnter(Self.lock());
 	}
 	
 }

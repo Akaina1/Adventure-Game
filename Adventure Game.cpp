@@ -33,7 +33,7 @@
 // Testing functions currently
 int main()
 {
-    std::shared_ptr<PlayerCharacter> player = std::make_shared<PlayerCharacter>();
+    /*std::shared_ptr<PlayerCharacter> player = std::make_shared<PlayerCharacter>();
     std::shared_ptr<Enemy> monster1 = std::make_shared<Enemy>("Monster1", 90, 100, 100, 100, 2);
     std::shared_ptr<Enemy> monster2 = std::make_shared<Enemy>("Monster2", 70, 110, 110, 110, 3);
     std::vector<std::shared_ptr<Enemy>> Enemies;
@@ -48,11 +48,21 @@ int main()
     
 
     combat.CombatDisplay();
-    system("pause");
+    system("pause");*/
+
+    std::shared_ptr<Enemy> monster1 = std::make_shared<Enemy>("Monster1", 90, 100, 100, 100, 2);
+    std::shared_ptr<Enemy> monster2 = std::make_shared<Enemy>("Monster2", 70, 110, 110, 110, 3);
+    std::vector<std::shared_ptr<Enemy>> Enemies;
+    Enemies.push_back(monster1);
+    Enemies.push_back(monster2);
 
 
+    std::shared_ptr<PlayerCharacter> player = std::make_shared<PlayerCharacter>();
+    player->CharacterCreator();
     
-    
+
+    std::shared_ptr<Location> startingLocation = SetupGame(player);
+
     
     
     

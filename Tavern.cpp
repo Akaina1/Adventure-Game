@@ -4,7 +4,7 @@
 // The player will be able to talk to NPCs in the tavern to gain information about the game world and the dungeon.
 #include "Tavern.h"
 
-void Tavern::OnEnter(PlayerCharacter* player) //called when the player enters the Tavern (overloaded for each location)
+void Tavern::OnEnter(std::shared_ptr<PlayerCharacter> Player) //called when the player enters the Tavern (overloaded for each location)
 {
     //1. event check
 	// to implement later
@@ -16,10 +16,10 @@ void Tavern::OnEnter(PlayerCharacter* player) //called when the player enters th
 	TypeText(L"And you can venture into the Dungeons as well... If you dare...\n", 10);
 	TypeText(L"So what will it be stranger...?\n", 30);
 	//3. print out menu
-	TavernMenu(*player);
+	TavernMenu();
 }
 
-void Tavern::OnExit(PlayerCharacter* player) //called when the player exits the Tavern (overloaded for each location)
+void Tavern::OnExit(std::shared_ptr<PlayerCharacter> Player) //called when the player exits the Tavern (overloaded for each location)
 {
 	//1. do event checks
 	// to implement later
@@ -27,7 +27,7 @@ void Tavern::OnExit(PlayerCharacter* player) //called when the player exits the 
 	std::cout << "Good luck...\n"; 
 }
 
-void Tavern::TavernMenu(PlayerCharacter& player)
+void Tavern::TavernMenu()
 {
     // TavernMenu will print out the options for the player to choose from
     // players can do the following:
@@ -53,12 +53,12 @@ void Tavern::TavernMenu(PlayerCharacter& player)
 	{
 	case 1:
 		
-		Rest(player);
+		this->Rest();
 
 		break;
 	case 2:
 		
-		Drink(player);
+		this->Drink();
 
 		break;
 	case 3:
@@ -66,7 +66,7 @@ void Tavern::TavernMenu(PlayerCharacter& player)
 		break;
 	case 4:
 		// //move to dungeon
-		player.ChooseMove();
+		Player->ChooseMove();
 
 		break;
 	case 5:
@@ -77,7 +77,7 @@ void Tavern::TavernMenu(PlayerCharacter& player)
 	}
 }
 
-void Tavern::Rest(PlayerCharacter& player)
+void Tavern::Rest()
 {
 	// Rest will restore the player's health and mana to full
 	// Rest will also save the game
@@ -85,7 +85,7 @@ void Tavern::Rest(PlayerCharacter& player)
     // do event checks
 
 	int choice = 0;
-	int gold = player.GetPlayerGold();
+	int gold = Player->GetPlayerGold();
 
 	system("cls");
 	TypeText(L"------------------------------------------\n", 10);
@@ -108,14 +108,14 @@ void Tavern::Rest(PlayerCharacter& player)
 
 			if (gold >= 10)
 			{
-				player.RemoveGold(10);
-				player.heal(player.GetMaxHealth()); // heal player to full health
-				player.RestoreMana(player.GetMaxMana()); // restore player's mana to full
+				Player->RemoveGold(10);
+				Player->heal(Player->GetMaxHealth()); // heal player to full health
+				Player->RestoreMana(Player->GetMaxMana()); // restore player's mana to full
 				choice = 2;
 				std::cout << "YOU HAVE RESTED\n";
 				system("pause");
 				system("cls");
-				TavernMenu(player);
+				TavernMenu();
 			}
 			else
 			{
@@ -127,7 +127,7 @@ void Tavern::Rest(PlayerCharacter& player)
 		case 2:
 			// exit the rest menu
 			system("cls");
-			TavernMenu(player);
+			TavernMenu();
 			break;
 		default:
 			break;
@@ -135,14 +135,14 @@ void Tavern::Rest(PlayerCharacter& player)
 	}
 }
 
-void Tavern::Drink(PlayerCharacter& Player)
+void Tavern::Drink()
 {
 	// Drink will allow the player to buy drinks
 	// Drinks will restore health and mana
 	// Drinks will cost gold
     // do event checks
     int choice = 0;
-	int gold = Player.GetPlayerGold();	
+	int gold = Player->GetPlayerGold();	
 	std::shared_ptr<Item> Ale = std::make_shared<Item>("Ale", "A pint of ale", 001, 5, 1, 1, ([](PlayerCharacter& player) {player.heal(10); }));
 	std::shared_ptr<Item> Mead = std::make_shared<Item>("Mead", "A pint of mead", 002, 10, 1, 1, ([](PlayerCharacter& player) {player.heal(15); }));
 	std::shared_ptr<Item> Wine = std::make_shared<Item>("Wine", "A glass of wine", 003, 15, 1, 1, ([](PlayerCharacter& player) {player.heal(20); }));
@@ -172,11 +172,11 @@ void Tavern::Drink(PlayerCharacter& Player)
 
 			if (gold >= Ale->GetPrice())
 			{
-				Player.RemoveGold(5);
-				Player.AddItem(Ale,1);
+				Player->RemoveGold(5);
+				Player->AddItem(Ale,1);
 
 				std::cout << "YOU BOUGHT ALE\n";
-				std::cout << "Gold: " << Player.GetPlayerGold() << std::endl;
+				std::cout << "Gold: " << Player->GetPlayerGold() << std::endl;
 			}
 			else
 			{
@@ -189,16 +189,16 @@ void Tavern::Drink(PlayerCharacter& Player)
 
 			if (gold >= Mead->GetPrice())
 			{
-				Player.RemoveGold(10);
-				Player.AddItem(Mead, 1);
+				Player->RemoveGold(10);
+				Player->AddItem(Mead, 1);
 
 				std::cout << "YOU BOUGHT MEAD\n";
-				std::cout << "Gold: " << Player.GetPlayerGold() << std::endl;
+				std::cout << "Gold: " << Player->GetPlayerGold() << std::endl;
 			}
 			else
 			{
 				std::cout << "You don't have enough Gold...\n";
-				std::cout << "Gold: " << Player.GetPlayerGold() << std::endl;
+				std::cout << "Gold: " << Player->GetPlayerGold() << std::endl;
 			}
 
 			break;
@@ -207,16 +207,16 @@ void Tavern::Drink(PlayerCharacter& Player)
 
 			if (gold >= Wine->GetPrice())
 			{
-				Player.RemoveGold(15);
-				Player.AddItem(Wine, 1);
+				Player->RemoveGold(15);
+				Player->AddItem(Wine, 1);
 
 				std::cout << "YOU BOUGHT WINE\n";
-				std::cout << "Gold: " << Player.GetPlayerGold() << std::endl;
+				std::cout << "Gold: " << Player->GetPlayerGold() << std::endl;
 			}
 			else
 			{
 				std::cout << "You don't have enough Gold...\n";
-				std::cout << "Gold: " << Player.GetPlayerGold() << std::endl;
+				std::cout << "Gold: " << Player->GetPlayerGold() << std::endl;
 			}
 
 			break;
@@ -225,23 +225,23 @@ void Tavern::Drink(PlayerCharacter& Player)
 
 			if (gold >= Water->GetPrice())
 			{
-				Player.RemoveGold(5);
-				Player.AddItem(Water, 1);
+				Player->RemoveGold(5);
+				Player->AddItem(Water, 1);
 
 				std::cout << "YOU BOUGHT WATER\n";
-				std::cout << "Gold: " << Player.GetPlayerGold() << std::endl;
+				std::cout << "Gold: " << Player->GetPlayerGold() << std::endl;
 			}
 			else
 			{
 				std::cout << "You don't have enough Gold...\n";
-				std::cout << "Gold: " << Player.GetPlayerGold() << std::endl;
+				std::cout << "Gold: " << Player->GetPlayerGold() << std::endl;
 			}
 
 			break;
 		case 5:
 			// leave
 			system("cls");
-			TavernMenu(Player); // go back to the tavern menu
+			TavernMenu(); // go back to the tavern menu
 			break;
 		default:
 			break;

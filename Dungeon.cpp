@@ -1,10 +1,10 @@
 #include "Dungeon.h"
 
-void Dungeon::OnEnter(PlayerCharacter* player) // function for entering location
+void Dungeon::OnEnter(std::shared_ptr<PlayerCharacter> player) // function for entering location
 {
 	std::cout << "YOU HAVE ENTERED THE DUNGEON PREPARE TO PERISH" << std::endl;
 }
-void Dungeon::OnExit(PlayerCharacter* player) // function for exiting location;
+void Dungeon::OnExit(std::shared_ptr<PlayerCharacter> player) // function for exiting location;
 {
 	std::cout << "YOU HAVE LEFT THE DUNGEON..." << std::endl;
 

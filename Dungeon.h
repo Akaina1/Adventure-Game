@@ -15,8 +15,8 @@ public:
 
 	std::string GetName() const { return Name; }; // function for getting name of location
 	std::string GetDescription() const { return Description; }; // function for getting description of location
-	virtual void OnEnter(PlayerCharacter* player) override; // function for entering location
-	virtual void OnExit(PlayerCharacter* player) override; //function for exiting location
+	virtual void OnEnter(std::shared_ptr<PlayerCharacter> player) override; // function for entering location
+	virtual void OnExit(std::shared_ptr<PlayerCharacter> player) override; //function for exiting location
 
 	virtual size_t GetConnectedRoomsCount() const override { return connectedRooms.size(); };
 	virtual size_t GetConnectedLocationsCount() const override { return connectedLocations.size(); };

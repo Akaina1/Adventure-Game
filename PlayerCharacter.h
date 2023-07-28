@@ -1,9 +1,6 @@
 // definition for the PlayerCharacter class
 #pragma once
-
-
 #include "Main.h"
-#include "Item.h"
 #include "MainMenu.h"
 #include "Location.h"
 #include "Room.h"
@@ -13,6 +10,8 @@
 #include "Tavern.h"
 #include "CharacterTemplate.h"
 
+class Item;
+
 class PlayerCharacter : public CharacterTemplate {
 private:
 	long long Experience = 0;
@@ -21,6 +20,7 @@ private:
 	
 	std::unordered_map<int, std::pair<std::shared_ptr<Item>, int>> Inventory;           //using a map to hold the inventory of Item objects as well as their quantity and id
 	std::shared_ptr<Location> CurrentLocation;                // pointer to the current location of the character
+	std::weak_ptr<PlayerCharacter> Self;                       // pointer to itself
 
 public:
 //default functions
@@ -63,6 +63,7 @@ public:
 
 //other functions
 	void CharacterCreator();     //character creator
+	void SetSelf(std::shared_ptr<PlayerCharacter> selfShared) { Self = selfShared; };  // sets the self pointer to itself)
 
 //inventory functions
 	void AddItem(std::shared_ptr<Item> item, int quantity);      // adds an item to the player character's inventory

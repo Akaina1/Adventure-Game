@@ -1,8 +1,8 @@
 #include "GameSetup.h"
 
-std::shared_ptr<Location> SetupGame() {
+std::shared_ptr<Location> SetupGame(std::shared_ptr<PlayerCharacter> player) {
     // Create Tavern
-    auto theTavern = std::make_shared<Tavern>("The Tavern", "A Place to Rest, Relax, Drink and forget about the monsters below us...");
+    auto theTavern = std::make_shared<Tavern>("The Tavern", "A Place to Rest, Relax, Drink and forget about the monsters below us...", player);
 
     // Create Rooms for Tavern
     auto tavernRoom1 = std::make_shared<Room>("Tavern Room 1", "A cozy little room with a roaring fireplace.");

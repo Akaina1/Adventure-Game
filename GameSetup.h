@@ -5,4 +5,4 @@
 #include "Dungeon.h"
 #include "Main.h"
 
-std::shared_ptr<Location> SetupGame();
+std::shared_ptr<Location> SetupGame(std::shared_ptr<PlayerCharacter> player);
