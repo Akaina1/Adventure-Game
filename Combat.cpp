@@ -72,16 +72,17 @@ void Combat::CombatDisplay() {
         std::cout << "Name: " << Player->GetName() << std::endl;
         std::cout << "Health: " << Player->GetCurrentHealth() << "/" << Player->GetMaxHealth() << std::endl;
         std::cout << "=========================================" << std::endl;
+   
     
 
     //// print enemy details
-    //std::cout << "Enemy details:" << std::endl;
-    //for (auto& enemy : enemies)
-    //{
-    //    std::cout << "Name: " << enemy->GetName() << std::endl;
-    //    std::cout << "Health: " << enemy->GetHealth() << std::endl;
-    //    std::cout << "=========================================" << std::endl;
-    //}
+    std::cout << "Enemy details:" << std::endl;
+    for (auto& enemy : Enemies)
+    {
+        std::cout << "Name: " << enemy->GetName() << std::endl;
+        std::cout << "Health: " << enemy->GetCurrentHealth() << std::endl;
+        std::cout << "=========================================" << std::endl;
+    }
 
     // print footer
     std::cout << "+----------------------------------------+" << std::endl;

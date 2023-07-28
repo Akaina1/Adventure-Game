@@ -1,5 +1,6 @@
 // Implementation for the character template class that will be a base class for all other character classes
 #include "CharacterTemplate.h"
+#include "StatusEffect.h"
 
 ////////////////////////////////// Default functions //////////////////////////////////
 
@@ -13,18 +14,26 @@ void CharacterTemplate::Print(std::ostream& os) const
 }
 
 // default constructor
+CharacterTemplate::CharacterTemplate() 
+{
 
-CharacterTemplate::CharacterTemplate()
-	: Name{ "Default" }, MaxHealth{ 100 }, MaxMana{ 100 }, Level{1}
+}
+
+CharacterTemplate::CharacterTemplate(std::string name, int maxhealth, int currenthealth,
+	int maxmana, int currentmana, int level)
+	: Name{ name }, MaxHealth{ 100 }, CurrentHealth{ 100 }, CurrentMana{100}, MaxMana{ 100 }, Level{ 1 }
 {
 }
 
 // constructor with parameters
 
-CharacterTemplate::CharacterTemplate(std::string name, int maxHealth, int currentHealth, int maxMana, int currentMana, int level, std::map<std::string, int> stats, std::vector<StatusEffect> Afflictions)
-	: Name{ name }, MaxHealth{ maxHealth }, CurrentHealth{ currentHealth }, MaxMana{ maxMana }, CurrentMana { currentMana }, Level{ level }
-{
-}
+CharacterTemplate::CharacterTemplate(std::string name, int maxhealth, int currenthealth,
+	int maxmana, int currentmana, int level,
+	std::map<std::string, int> statValues,
+	std::vector<StatusEffect> afflictions) :
+	Name(name), MaxHealth(maxhealth), CurrentHealth(currenthealth),
+	MaxMana(maxmana), CurrentMana(currentmana), Level(level),
+	StatValues(statValues), Afflictions(afflictions) {}
 
 // destructor
 

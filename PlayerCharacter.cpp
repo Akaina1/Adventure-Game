@@ -3,7 +3,6 @@
 ////////////////////////////////// Default functions //////////////////////////////////
 
 PlayerCharacter::PlayerCharacter() // default constructor
-	: Name{ "Default" }, MaxHealth{ 100 }, MaxMana{ 100 }, Level{ 1 }, Experience{ 0 }, Gold{ 1000 }, PlayerClass{ 0 }, StatValues{ {"Strength", 0}, {"Dexterity", 0}, {"Wisdom", 0}, {"Charisma", 0} }, Inventory{}, Afflictions{ }, CurrentLocation{ }
 {
 }
 
@@ -12,13 +11,14 @@ PlayerCharacter::~PlayerCharacter() // destructor
 }
 
 // constructor with parameters
-PlayerCharacter::PlayerCharacter(std::string name, int maxhealth, int currenthealth, int maxmana,
-	int currentmana, int level, int experience, int gold, int pclass,
-	std::map<std::string, int> statValues, std::unordered_map<int, std::pair<std::shared_ptr<Item>, int>> inventory,
-	std::vector<StatusEffect> afflictions)
-	: Name{ name }, MaxHealth{ maxhealth }, CurrentHealth{ currenthealth }, MaxMana{ maxmana }, CurrentMana{ currentmana }, Level{ level }, Experience{ experience }, Gold{ gold }, PlayerClass{ pclass }, StatValues{ statValues }, Inventory{ inventory }, Afflictions{ afflictions }, CurrentLocation{}
-{
-}
+PlayerCharacter::PlayerCharacter(std::string name, int maxhealth, int currenthealth,
+	int maxmana, int currentmana, int level, long long experience,
+	int gold, int playerClass, std::map<std::string, int> statValues,
+	std::unordered_map<int, std::pair<std::shared_ptr<Item>, int>> inventory,
+	std::vector<StatusEffect> afflictions) :
+	CharacterTemplate(name, maxhealth, currenthealth, maxmana, currentmana, level, statValues, afflictions),
+	Experience(experience), Gold(gold), PlayerClass(playerClass), Inventory(inventory)
+{}
 
 void PlayerCharacter::Print(std::ostream& os) const     // override the print function from the I_Print class
 

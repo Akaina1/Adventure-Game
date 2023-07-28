@@ -1,7 +1,7 @@
 // definition for the PlayerCharacter class
 #pragma once
-#include "CharacterTemplate.h"
-#include "Location.h"
+
+
 #include "Main.h"
 #include "Item.h"
 #include "MainMenu.h"
@@ -11,30 +11,15 @@
 #include "Event.h"
 #include "StatusEffect.h"
 #include "Tavern.h"
-#include <algorithm>
-
-class Item;
-class StatusEffect;
+#include "CharacterTemplate.h"
 
 class PlayerCharacter : public CharacterTemplate {
 private:
-	std::string Name = "Unnammed";
-	int MaxHealth = 100;
-	int CurrentHealth = MaxHealth;
-	int MaxMana = 100;
-	int CurrentMana = MaxMana;
-	int Level = 1;
 	long long Experience = 0;
 	int Gold = 0;
 	int PlayerClass = 0;                     // 0 = Brawler, 1 = Scourge, 2 = Swindler, 3 = Jester
-	std::map<std::string, int> StatValues {  // using a map to hold the stats of the character
-		{"Strength", 0},
-		{ "Dexterity", 0 },
-		{ "Wisdom", 0 },
-		{ "Charisma", 0 }
-	};
+	
 	std::unordered_map<int, std::pair<std::shared_ptr<Item>, int>> Inventory;           //using a map to hold the inventory of Item objects as well as their quantity and id
-	std::vector<StatusEffect> Afflictions;    // using a map to hold the status effects of the character and whether they are active or not
 	std::shared_ptr<Location> CurrentLocation;                // pointer to the current location of the character
 
 public:
@@ -42,13 +27,13 @@ public:
 	PlayerCharacter();          // default constructor
 	virtual ~PlayerCharacter(); // destructor
 
-	PlayerCharacter(std::string name, int maxhealth,int currenthealth, 
-				    int maxmana, int currentmana, int level, int experience, 
-				    int gold, int PlayerClass, std::map<std::string, int> statValues, 
-		            std::unordered_map<int, std::pair<std::shared_ptr<Item>, int>> inventory, 
-		            std::vector<StatusEffect> afflictions);  // constructor with parameters
+	PlayerCharacter(std::string name, int maxhealth, int currenthealth,
+		int maxmana, int currentmana, int level, long long experience,
+		int gold, int playerClass, std::map<std::string, int> statValues,
+		std::unordered_map<int, std::pair<std::shared_ptr<Item>, int>> inventory,
+		std::vector<StatusEffect> afflictions);  // constructor with parameters
 
-	virtual void Print(std::ostream& os) const override;                                    // override the print function from the I_Print class
+	virtual void Print(std::ostream& os) const;                                    // override the print function from the I_Print class
 
 //location functions
 	std::shared_ptr<Location> GetCurrentLocation() const {return CurrentLocation;}                                            // returns the current location of the player character
@@ -74,8 +59,6 @@ public:
 	void RemoveExperience(long long exp) { Experience -= exp; };  // removes experience from the player character
 	long long GetExperience() const { return Experience; }        // returns the experience of the player character
 	void LevelUp();                                         // levels up the player character
-	int GetPlayerLevel() const { return Level; };           // returns the level of the player character
-	void SetPlayerLevel(int level) { Level = level; };      // sets the level of the player character
 	long long ExpToNextLevel() const;								// returns the amount of experience needed to level up
 
 //other functions

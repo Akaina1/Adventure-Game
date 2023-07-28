@@ -1,12 +1,13 @@
 // defintion for the character template class that will be a base class for all other character classes
 #pragma once
+
+class StatusEffect; // forward declaration of the status effect class
+
 #include "I_Print.h"
-#include "StatusEffect.h"
-#include "Item.h"
 #include "Main.h"
 
 class CharacterTemplate : public I_Print {
-private:
+protected:
 	std::string Name = "Unnammed";
 	int MaxHealth = 100;
 	int CurrentHealth = MaxHealth;
@@ -24,6 +25,8 @@ public:
 	virtual void Print(std::ostream& os) const override; // override the print function from the I_Print class
 	CharacterTemplate(); // default constructor
 	CharacterTemplate(std::string name, int maxhealth, int currenthealth,
+		int maxmana, int currentmana, int level);
+	CharacterTemplate(std::string name, int maxhealth, int currenthealth,
 		int maxmana, int currentmana, int level,
 		std::map<std::string, int> statValues,
 		std::vector<StatusEffect> afflictions);  // constructor with parameters
@@ -36,6 +39,7 @@ public:
 	void IncreaseMaxHealth(int health) { MaxHealth += health; };  
 	void DecreaseMaxHealth(int health) { MaxHealth -= health; };
 	virtual void TakeDamage(int damage);
+	virtual void Perish() { CurrentHealth = 0; };
 	virtual bool IsDead();
 
 	virtual void RestoreMana(int mana);
@@ -57,6 +61,9 @@ public:
 
 	virtual void SetName(std::string name) { Name = name; };
 	virtual std::string GetName() const { return Name; };
+
+	int GetCharacterLevel() const { return Level; };           
+	void SetCharacterLevel(int level) { Level = level; };
 
 };
 

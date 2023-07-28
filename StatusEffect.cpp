@@ -1,5 +1,6 @@
 // implements the StatusEffect class
 #include "StatusEffect.h"
+#include "CharacterTemplate.h"
 
 StatusEffect::StatusEffect() // default constructor
 {
@@ -9,7 +10,7 @@ StatusEffect::~StatusEffect() // destructor
 {
 }
 
-StatusEffect::StatusEffect(std::string name, std::string description, int id, std::function<void(PlayerCharacter& player)> addEffect, std::function<void(PlayerCharacter& player)> removeEffect, State state) // constructor with parameters
+StatusEffect::StatusEffect(std::string name, std::string description, int id, std::function<void(CharacterTemplate& character)> addEffect, std::function<void(CharacterTemplate& character)> removeEffect, State state) // constructor with parameters
 {
 	this->Name = name;
 	this->Description = description;

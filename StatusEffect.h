@@ -7,12 +7,13 @@
 // status effects can be applied to the player character by items, spells, or attacks
 // status effects can be applied to the player character by the player character's actions (such as moving to a new location, picking up an item, etc.)
 #pragma once
+
+class CharacterTemplate;
+
 #include "Main.h"
-#include "PlayerCharacter.h"
 #include "Location.h"
 #include "Item.h"
 #include "MainMenu.h"
-
 
 class StatusEffect
 {
@@ -37,7 +38,7 @@ public:
 
 	StatusEffect(); // default constructor
 	virtual ~StatusEffect(); // destructor
-	StatusEffect(std::string name, std::string description, int id, std::function<void(PlayerCharacter& player)> addEffect, std::function<void(PlayerCharacter& player)> removeEffect, State state); // constructor with parameters
+	StatusEffect(std::string name, std::string description, int id, std::function<void(CharacterTemplate& character)> addEffect, std::function<void(CharacterTemplate& character)> removeEffect, State state); // constructor with parameters
 	
 //getters
 	std::string GetName() const { return Name; }; // returns the name of the status effect

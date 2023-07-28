@@ -1,7 +1,11 @@
 #pragma once
+
 #include "CharacterTemplate.h"
-class NPC :
-    public CharacterTemplate
+
+//class CharacterTemplate;
+
+class NPC /*: public CharacterTemplate*/
 {
+
 };
 

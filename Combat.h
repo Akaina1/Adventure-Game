@@ -18,7 +18,7 @@ private:
 	int MaxTurns; // Max turns in combat before Player death
 
 public:
-	Combat(std::shared_ptr<PlayerCharacter> player) : Player{ player }, CurrentTurn { 0 }, MaxTurns{ 999 } {} // Default constructor
+	Combat(std::shared_ptr<PlayerCharacter> player, std::vector<std::shared_ptr<Enemy>> enemies) : Player{ player }, Enemies{enemies}, CurrentTurn{0}, MaxTurns{999} {} // Default constructor
 	Combat(std::shared_ptr<PlayerCharacter> player, std::vector<std::shared_ptr<PlayerCharacter>> allies, std::vector<std::shared_ptr<Enemy>> enemies) : InCombat{ true }, IsPlayerTurn{ true }, Player{ player }, Allies{ allies }, Enemies{ enemies }, CurrentTurn{ 0 }, MaxTurns{999} {} // Constructor)
 	~Combat() {} // Destructor
 

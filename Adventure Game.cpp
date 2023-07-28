@@ -1,6 +1,6 @@
 ﻿// A text based adventure/RPG game
 // main file for the game
-#include "CharacterTemplate.h"
+
 #include "PlayerCharacter.h"
 #include "Main.h"
 #include "I_Print.h"
@@ -13,6 +13,8 @@
 #include "Room.h"
 #include "GameSetup.h"
 #include "Combat.h"
+#include "CharacterTemplate.h"
+
 //todays goals:
 // 1. create combat system
 // 2. integrate turn ststem into features that are time-dependent
@@ -32,11 +34,17 @@
 int main()
 {
     std::shared_ptr<PlayerCharacter> player = std::make_shared<PlayerCharacter>();
+    std::shared_ptr<Enemy> monster1 = std::make_shared<Enemy>("Monster1", 90, 100, 100, 100, 2);
+    std::shared_ptr<Enemy> monster2 = std::make_shared<Enemy>("Monster2", 70, 110, 110, 110, 3);
+    std::vector<std::shared_ptr<Enemy>> Enemies;
+
+    Enemies.push_back(monster1);
+    Enemies.push_back(monster2);
 
     player->CharacterCreator();
 
 
-    Combat combat(player);
+    Combat combat(player, Enemies);
     
 
     combat.CombatDisplay();
