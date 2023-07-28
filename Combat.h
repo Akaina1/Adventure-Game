@@ -11,26 +11,33 @@ class Combat
 private:
 	bool InCombat = false; // First thing to check is if the player is in combat
 	bool IsPlayerTurn = false; // If the player is in combat, is it their turn?
-	std::vector<std::shared_ptr<Enemy>> Enemies; // Vector of enemies in combat
-	std::shared_ptr<PlayerCharacter> Player; // Vector of players and allies in combat
-	std::vector<std::shared_ptr<PlayerCharacter>> Allies; // Vector of allies to the player in combat
+	std::shared_ptr<PlayerCharacter> Player; // player character
+	std::vector<std::shared_ptr<CharacterTemplate>> Combatants; // Vector of all combatants
 	int CurrentTurn; // Current turn in combat
 	int MaxTurns; // Max turns in combat before Player death
+	struct CompareSpeed {
+		bool operator()(const std::shared_ptr<CharacterTemplate>& a, const std::shared_ptr<CharacterTemplate>& b) 
+		{
+			return a->GetSpeed() > b->GetSpeed();
+		}
+	};
+	std::priority_queue<std::shared_ptr<CharacterTemplate>, std::vector<std::shared_ptr<CharacterTemplate>>, CompareSpeed> SpeedQueue;
 
 public:
-	Combat(std::shared_ptr<PlayerCharacter> player, std::vector<std::shared_ptr<Enemy>> enemies) : Player{ player }, Enemies{enemies}, CurrentTurn{0}, MaxTurns{999} {} // Default constructor
-	Combat(std::shared_ptr<PlayerCharacter> player, std::vector<std::shared_ptr<PlayerCharacter>> allies, std::vector<std::shared_ptr<Enemy>> enemies) : InCombat{ true }, IsPlayerTurn{ true }, Player{ player }, Allies{ allies }, Enemies{ enemies }, CurrentTurn{ 0 }, MaxTurns{999} {} // Constructor)
+	Combat(std::shared_ptr<PlayerCharacter> player, std::vector<std::shared_ptr<CharacterTemplate>> combatants); // Default constructor
 	~Combat() {} // Destructor
 
 	void StartCombat(); // Start combat
 	void EndCombat(); // End combat
-	void PlayerAction(); // Player action
-	void EnemyAction(int enemyIndex); // Enemy action
-	void AllyAction(int allyIndex); // Ally action
+
+    void CurrentAction(); // Current Character action
+	
 	void HandleTurn(); // Handle turn
 	void CheckVictory(); // Check if the player has won
 	void CheckDefeat(); // Check if the player has lost
 	void CombatDisplay(); // Display combat
+	bool EnemiesAreAlive(); // Check if enemies are alive
+	bool AlliesAreAlive(); // Check if allies are alive
 
 };
 

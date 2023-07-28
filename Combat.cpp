@@ -1,34 +1,108 @@
 ﻿#include "Combat.h"
 
-void StartCombat()// Start combat
+Combat::Combat(std::shared_ptr<PlayerCharacter> player, std::vector<std::shared_ptr<CharacterTemplate>> combatants)
+    : Player{ player }, Combatants{}, CurrentTurn{ 0 }, MaxTurns{ 999 }
+{
+    SpeedQueue.push(Player);
+
+    for (const auto& combatant : Combatants)
+    {
+        SpeedQueue.push(combatant);
+    }
+}; // Default constructor
+
+
+
+void Combat::CombatDisplay() {
+    // print header
+    system("cls");
+    std::cout << "+----------------------------------------+" << std::endl;
+    std::cout << "|           PREPARE FOR COMBAT           |" << std::endl;
+    std::cout << "+----------------------------------------+" << std::endl;
+
+    // print player details
+    std::cout << "Player details:" << std::endl;
+    std::cout << "Name: " << Player->GetName() << std::endl;
+    std::cout << "Health: " << Player->GetCurrentHealth() << "/" << Player->GetMaxHealth() << std::endl;
+    std::cout << "=========================================" << std::endl;
+    //// print enemy details
+    std::cout << "Enemy details:" << std::endl;
+    for (auto& enemy : Enemies)
+    {
+        std::cout << "Name: " << enemy->GetName() << std::endl;
+        std::cout << "Health: " << enemy->GetCurrentHealth() << std::endl;
+        std::cout << "=========================================" << std::endl;
+    }
+    // print footer
+    std::cout << "+----------------------------------------+" << std::endl;
+}
+
+void Combat::StartCombat()// Start combat
+{
+    // Add player
+    Combatants.push_back(Player);
+
+    // Sort Combatants by speed
+    std::sort(Combatants.begin(), Combatants.end(),
+        [](const std::shared_ptr<CharacterTemplate>& a, const std::shared_ptr<CharacterTemplate>& b) {
+            return a->GetSpeed() > b->GetSpeed();
+        });
+
+    while (Player->GetCurrentHealth() > 0 && EnemiesAreAlive())
+    {
+		CombatDisplay();
+		
+        CurrentAction();
+
+        if (Player->GetCurrentHealth() <= 0)
+        {
+			std::cout << "You have died!" << std::endl;
+			break;
+            // implement load function here
+		}		
+	}
+}
+
+void Combat::EndCombat() // End combat
 {
 
 }
-void EndCombat() // End combat
+
+bool Combat::EnemiesAreAlive() // Check if enemies are alive
+{
+    for (const auto& combatant : Combatants)
+    {
+        // Check if the combatant is an enemy and if they're alive
+        if (std::dynamic_pointer_cast<Enemy>(combatant) && combatant->GetCurrentHealth() > 0)
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+bool Combat::AlliesAreAlive() // Check if allies are alive
+{
+    for (const auto& combatant : Combatants)
+    {
+        // Check if the combatant is an ally and if they're alive
+        if (std::dynamic_pointer_cast<PlayerCharacter>(combatant) && combatant->GetCurrentHealth() > 0)
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+void Combat::HandleTurn() // Handle turn
 {
 
 }
-void PlayerAction() // Player action
+void Combat::CheckVictory() // Check if the player has won
 {
 
 }
-void EnemyAction(int enemyIndex) // Enemy action
-{
-
-}
-void AllyAction(int allyIndex) // Ally action
-{
-
-}
-void HandleTurn() // Handle turn
-{
-
-}
-void CheckVictory() // Check if the player has won
-{
-
-}
-void CheckDefeat()// Check if the player has lost
+void Combat::CheckDefeat()// Check if the player has lost
 {
 
 }
@@ -61,30 +135,4 @@ void CheckDefeat()// Check if the player has lost
 //    std::wcout << L"╟──────────────────────────────────────────╢" << std::endl;
 //}
 
-void Combat::CombatDisplay() {
-    // print header
-    std::cout << "+----------------------------------------+" << std::endl;
-    std::cout << "|           PREPARE FOR COMBAT           |" << std::endl;
-    std::cout << "+----------------------------------------+" << std::endl;
 
-    // print player details
-        std::cout << "Player details:" << std::endl;
-        std::cout << "Name: " << Player->GetName() << std::endl;
-        std::cout << "Health: " << Player->GetCurrentHealth() << "/" << Player->GetMaxHealth() << std::endl;
-        std::cout << "=========================================" << std::endl;
-   
-    
-
-    //// print enemy details
-    std::cout << "Enemy details:" << std::endl;
-    for (auto& enemy : Enemies)
-    {
-        std::cout << "Name: " << enemy->GetName() << std::endl;
-        std::cout << "Health: " << enemy->GetCurrentHealth() << std::endl;
-        std::cout << "=========================================" << std::endl;
-    }
-
-    // print footer
-    std::cout << "+----------------------------------------+" << std::endl;
- 
-}

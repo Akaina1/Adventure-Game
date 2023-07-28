@@ -40,6 +40,7 @@ void PlayerCharacter::Print(std::ostream& os) const     // override the print fu
 	os << "Gold: " << Gold << std::endl;
 	os << "-------------------------------------------" << std::endl;
 	os << "Stats: " << std::endl;
+	os << "Speed: " << GetSpeed() << std::endl;
 	for (auto stat : StatValues)
 	{
 		os << stat.first << ": " << stat.second << std::endl;
@@ -242,6 +243,7 @@ void PlayerCharacter::LevelUp() // increases the level of the player character
 	// heal the player character to full health and mana
 	CurrentHealth = MaxHealth;
 	CurrentMana = MaxMana;
+	SetSpeed(GetSpeed() + 1); // increase the speed of the player character by 1
 
 	// display the level up message
 	std::cout << "You have leveled up!" << std::endl;

@@ -13,6 +13,7 @@ protected:
 	int MaxMana = 100;
 	int CurrentMana = MaxMana;
 	int Level = 1;
+	int Speed = 1;
 	std::map<std::string, int> StatValues {
 		{"Strength", 0},
 		{ "Dexterity", 0 },
@@ -26,7 +27,7 @@ public:
 	CharacterTemplate(std::string name, int maxhealth, int currenthealth,
 		int maxmana, int currentmana, int level);
 	CharacterTemplate(std::string name, int maxhealth, int currenthealth,
-		int maxmana, int currentmana, int level,
+		int maxmana, int currentmana, int level, int speed ,
 		std::map<std::string, int> statValues,
 		std::vector<StatusEffect> afflictions);  // constructor with parameters
 	virtual ~CharacterTemplate(); // destructor
@@ -63,6 +64,9 @@ public:
 
 	int GetCharacterLevel() const { return Level; };           
 	void SetCharacterLevel(int level) { Level = level; };
+
+	int GetSpeed() const { return Speed; };
+	void SetSpeed(int speed) { Speed = speed; };
 
 };
 

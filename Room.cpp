@@ -1,9 +1,18 @@
 #include "Room.h"
 #include "Enemy.h"
+#include "Combat.h"
 
 void Room::OnEnter(std::shared_ptr<PlayerCharacter> player)
 {
-
+	if (!Enemies.empty())
+	{
+		auto combat = std::make_shared<Combat> (player, Enemies);
+		combat->StartCombat();
+	}
+	else
+	{
+		std::cout << "There are no enemies in this room, you are safe for now..." << std::endl;
+	}
 }
 void Room::OnExit(std::shared_ptr<PlayerCharacter> player)
 {

@@ -28,11 +28,11 @@ CharacterTemplate::CharacterTemplate(std::string name, int maxhealth, int curren
 // constructor with parameters
 
 CharacterTemplate::CharacterTemplate(std::string name, int maxhealth, int currenthealth,
-	int maxmana, int currentmana, int level,
+	int maxmana, int currentmana, int level, int speed,
 	std::map<std::string, int> statValues,
 	std::vector<StatusEffect> afflictions) :
 	Name(name), MaxHealth(maxhealth), CurrentHealth(currenthealth),
-	MaxMana(maxmana), CurrentMana(currentmana), Level(level),
+	MaxMana(maxmana), CurrentMana(currentmana), Level(level), Speed(speed),
 	StatValues(statValues), Afflictions(afflictions) {}
 
 // destructor
