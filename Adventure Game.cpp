@@ -23,13 +23,15 @@
 // Testing functions currently
 int main()
 {
-
-    std::cout << LoadingText() << std::endl;
-    system("pause");
+    HWND console = GetConsoleWindow(); // get console window
+    RECT ConsoleRect; // create a rectangle for the console window
+    GetWindowRect(console, &ConsoleRect); // get the console window rectangle
+    MoveWindow(console, ConsoleRect.left, ConsoleRect.top, 385, 900, TRUE); // set console window size
 
 
     std::shared_ptr<PlayerCharacter> player = std::make_shared<PlayerCharacter>();
     std::shared_ptr<Location> startingLocation = SetupGame(player);
+    player->CharacterCreator(); // works as intended
 
     PrintIntro();
 

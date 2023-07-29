@@ -61,7 +61,35 @@ std::shared_ptr<Location> SetupGame(std::shared_ptr<PlayerCharacter> player) {
 
 void TitleScreen()
 {
+    HWND console = GetConsoleWindow(); // get console window
+    RECT ConsoleRect; // create a rectangle for the console window
+    GetWindowRect(console, &ConsoleRect); // get the console window rectangle
+    MoveWindow(console, ConsoleRect.left, ConsoleRect.top, 385, 900, TRUE); // set console window size
     // implement basic splash screen with text and sound
+    system("cls");
+    std::cout << "||||||||||||||||||||||||||||||||||||||||||||" << std::endl;
+    std::cout << "|||                             ||||||||||||" << std::endl;
+    std::cout << "|||                             ||||||||||||" << std::endl;
+    std::cout << "|||   |||||||||||||||||||||||   ||||||||||||" << std::endl;   
+    std::cout << "|||   |||                 |||   ||||||||||||" << std::endl;   
+    std::cout << "|||   |||  |||||||||||||  |||   ||||||||||||" << std::endl;    
+    std::cout << "|||   |||  |||||||||||||  |||   ||||||||||||" << std::endl;   
+    std::cout << "|||   |||                 |||   ||||||||||||" << std::endl;
+    std::cout << "|||   |||  ||||||   |||||||||   ||||||||||||" << std::endl;
+    std::cout << "|||   |||  |||||||    |||||||   ||||||||||||" << std::endl;
+    std::cout << "|||   |||  |||||||||    |||||   ||||||||||||" << std::endl;
+    std::cout << "|||   |||  |||||||||||    |||   ||||||||||||" << std::endl;
+    std::cout << "|||   |||||||||||||||||||||||   ||||||||||||" << std::endl;
+    std::cout << "|||                             ||||||||||||" << std::endl;
+    std::cout << "|||                             ||||||||||||" << std::endl;
+    std::cout << "|||||||||||||||||||||||    |||||||||||||||||" << std::endl;
+    std::cout << "|| || ||   ||   ||   ||     ||||||||||||||||" << std::endl;
+    std::cout << "|| || || | || | ||||  ||      ||||||||||||||" << std::endl;
+    std::cout << "||    || | ||   ||||  ||||     |||||||||||||" << std::endl;
+    std::cout << "||||| || | |||| |||  |||||||||||||||||||||||" << std::endl;
+    std::cout << "||||| ||   |||| ||     |||||||||||||||||||||" << std::endl;
+    std::cout << "||||||||||||||||||||||||||||||||||||||||||||" << std::endl;
+
 }
 
 void PrintCode()
@@ -385,26 +413,27 @@ void PrintIntro()
     // begin intro print  
     TypeText(test1, 100);
     TypeText(test2, 100);
-    EraseStringFromConsole(test2, 50);
+    EraseStringFromConsole(test2, 30);
     TypeText(test3, 100);
-    EraseStringFromConsole(test3, 50);
+    EraseStringFromConsole(test3, 30);
     TypeText(test4, 100);
-    EraseStringFromConsole(test4, 50);
+    EraseStringFromConsole(test4, 30);
     TypeText(test5, 100);
     system("cls");
 
-    TypeText(L"This is a...", 100);
-    TypeText(L"a...\n", 100);
-    TypeText(L"...\n", 100);
+    TypeText(L"This is a...", 50);
+    TypeText(L"a...\n", 50);
+    TypeText(L"...\n", 50);
     system("cls");
 
-    TypeText(L" |S Y S T E M - E R R O R| \n", 50);
+    TypeText(L" |S Y S T E M - E R R O R| \n", 30);
     TypeText(L"E...rr..0r...\n", 50);
     TypeText(L"Er..04...\n", 50);
-    TypeText(L"------------------------------- \n", 50);
+    TypeText(L"------------------------------- \n", 30);
     TypeText(L"SYSTEM RESTART...\n", 50);
     PrintNumbers();
     system("cls");
+    TitleScreen();
     PrintCode();
 
 
@@ -422,12 +451,12 @@ void PrintIntro()
     TypeText(test9, 30);
     EraseStringFromConsole(test9, 30);
     TypeText(test10, 30);
-    TypeText(L"------------------------------- \n", 50);
+    TypeText(L"------------------------------- \n", 30);
     PrintNumbers();
     TypeText(L"Starting Game.\n", 50);
     system("pause");
     system("cls");
-    TitleScreen();
+    
  }
 
 std::string LoadingText() // returns a random string to display on loading screen

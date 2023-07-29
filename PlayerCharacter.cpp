@@ -97,11 +97,13 @@ void PlayerCharacter::MoveTo(std::shared_ptr<Location> newlocation)
 	std::cout << LoadingText() << std::endl;
 	std::cout << "-------------------------------------------\n" << std::endl;
 	system("pause");
+	system("cls");
 
 	if (newlocation)
 	{
 		newlocation->OnEnter(Self.lock());
 	}
+	
 	
 }
 
@@ -417,7 +419,7 @@ void PlayerCharacter::CharacterCreator()
 	int ChosenClass;
 	bool confirmed = false;
 
-	while (!confirmed)
+	do 
 	{
 		int choice;
 		system("cls");
@@ -430,8 +432,11 @@ void PlayerCharacter::CharacterCreator()
 		TypeText(L"4. Jester", 1); std::wcout << std::endl;
 		TypeText(L"-------------------------------------------", 1); std::wcout << std::endl;
 		std::cin >> choice;
+		std::cin.ignore();
 
-		ChosenClass = choice;
+
+		
+		std::string Confirm;
 
 		switch (choice)
 		{
@@ -439,7 +444,9 @@ void PlayerCharacter::CharacterCreator()
 			system("cls");
 			TypeText(L"Brawler", 1); std::wcout << std::endl;
 			TypeText(L"-------------------------------------------", 1); std::wcout << std::endl;
-			TypeText(L"Description: The brawler is a strength based class. Focused on melee it comes with bonus to strength but a weakness to magic.", 1); std::wcout << std::endl;
+			TypeText(L"The Brawler is a strength based class.\n"
+				      "Focused on melee it comes with bonus\n" 
+				      "to strength but a weakness to magic.\n", 1); std::wcout << std::endl;
 			TypeText(L"-------------------------------------------", 1); std::wcout << std::endl;
 			TypeText(L"Strength: 15", 1); std::wcout << std::endl;
 			TypeText(L"Dexterity: 10", 1); std::wcout << std::endl;
@@ -455,16 +462,20 @@ void PlayerCharacter::CharacterCreator()
 			TypeText(L"-------------------------------------------", 1); std::wcout << std::endl;
 			TypeText(L"Confirm? (Y/N)", 1); std::wcout << std::endl;
 
-			char Confirm;
-			std::cin >> Confirm;
-			confirmed = Confirm == 'Y' || Confirm == 'y';
+			
+			std::getline(std::cin, Confirm);
+			confirmed = Confirm == "Y" || Confirm == "y";
+			if (!confirmed)
+				continue;
 			break;
 
 		case 2:
 			system("cls");
 			TypeText(L"Scourge", 1); std::wcout << std::endl;
 			TypeText(L"-------------------------------------------", 1); std::wcout << std::endl;
-			TypeText(L"Description: The scourge is a Mage type class. Focused on magic it comes with bonus to wisdom but a weakness to melee.", 1); std::wcout << std::endl;
+			TypeText(L"The Scourge is a Mage type class.\n" 
+				      "Focused on magic it comes with a\n" 
+				      "bonus to wisdom but a weakness to melee.\n", 1); std::wcout << std::endl;
 			TypeText(L"-------------------------------------------", 1); std::wcout << std::endl;
 			TypeText(L"Strength: 5", 1); std::wcout << std::endl;
 			TypeText(L"Dexterity: 10", 1); std::wcout << std::endl;
@@ -481,16 +492,20 @@ void PlayerCharacter::CharacterCreator()
 			TypeText(L"-------------------------------------------", 1); std::wcout << std::endl;
 			TypeText(L"Confirm? (Y/N)", 1); std::wcout << std::endl;
 
-			char Confirm2;
-			std::cin >> Confirm2;
-			confirmed = Confirm2 == 'Y' || Confirm2 == 'y';
+			
+			std::getline(std::cin, Confirm);
+			confirmed = Confirm == "Y" || Confirm == "y";
+			if (!confirmed)
+				continue;
 			break;
 
 		case 3:
 			system("cls");
 			TypeText(L"Swindler", 1); std::wcout << std::endl;
 			TypeText(L"-------------------------------------------", 1); std::wcout << std::endl;
-			TypeText(L"Description: The swindler is a Dexterity based class. Focused on ranged it comes with bonus to dexterity but a weakness to melee.", 1); std::wcout << std::endl;
+			TypeText(L"The Swindler is a Dexterity based class.\n"
+				      "Focused on ranged it comes with bonus to\n"
+				      "dexterity but a weakness to melee.\n", 1); std::wcout << std::endl;
 			TypeText(L"-------------------------------------------", 1); std::wcout << std::endl;
 			TypeText(L"Strength: 10", 1); std::wcout << std::endl;
 			TypeText(L"Dexterity: 15", 1); std::wcout << std::endl;
@@ -506,16 +521,20 @@ void PlayerCharacter::CharacterCreator()
 			TypeText(L"-------------------------------------------", 1); std::wcout << std::endl;
 			TypeText(L"Confirm? (Y/N)", 1); std::wcout << std::endl;
 
-			char Confirm3;
-			std::cin >> Confirm3;
-			confirmed = Confirm3 == 'Y' || Confirm3 == 'y';
+			
+			std::getline(std::cin, Confirm);
+			confirmed = Confirm == "Y" || Confirm == "y";
+			if (!confirmed)
+				continue;
 			break;
 
 		case 4:
 			system("cls");
 			TypeText(L"Jester", 1); std::wcout << std::endl;
 			TypeText(L"-------------------------------------------", 1); std::wcout << std::endl;
-			TypeText(L"Description: The Jester is a Charisma based class. Focused on support it comes with bonus to charisma but a weakness to melee.", 1); std::wcout << std::endl;
+			TypeText(L"The Jester is a Charisma based class.\n" 
+				      "Focused on support it comes with bonus\n"
+				      "to charisma but a weakness to melee.\n", 1); std::wcout << std::endl;
 			TypeText(L"-------------------------------------------", 1); std::wcout << std::endl;
 			TypeText(L"Strength: 5", 1); std::wcout << std::endl;
 			TypeText(L"Dexterity: 10", 1); std::wcout << std::endl;
@@ -531,12 +550,16 @@ void PlayerCharacter::CharacterCreator()
 			TypeText(L"-------------------------------------------", 1); std::wcout << std::endl;
 			TypeText(L"Confirm? (Y/N)", 1); std::wcout << std::endl;
 
-			char Confirm4;
-			std::cin >> Confirm4;
-			confirmed = Confirm4 == 'Y' || Confirm4 == 'y';
+			
+			std::getline(std::cin, Confirm);
+			confirmed = Confirm == "Y" || Confirm == "y";
+			if (!confirmed)
+				continue;
 			break;
 
 		}
+
+		ChosenClass = choice;
 
 		// set player stats according to the class they chose
 		if (ChosenClass == 1)
@@ -630,7 +653,8 @@ void PlayerCharacter::CharacterCreator()
 				StatPoints -= 1;
 				continue;
 			}
-		}
+		} 
+		
 
 		// give starting inventory based on class
 
@@ -670,7 +694,7 @@ void PlayerCharacter::CharacterCreator()
 		TypeText(L"-------------------------------------------", 1); std::wcout << std::endl;
 
 		system("pause");
-	}
+	}while (!confirmed);
 }
 
 ////////////////////////////////// Combat functions   //////////////////////////////////

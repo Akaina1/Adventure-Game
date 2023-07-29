@@ -8,9 +8,9 @@ void Dungeon::OnEnter(std::shared_ptr<PlayerCharacter> player) // function for e
 	GetWindowRect(console, &ConsoleRect); // get the console window rectangle
 	MoveWindow(console, ConsoleRect.left, ConsoleRect.top, 385, 900, TRUE); // set console window size
 
-	std::cout << "-----------------------------------------------" << std::endl;
-	std::cout << "YOU HAVE ENTERED THE DUNGEON PREPARE TO PERISH" << std::endl;
-	std::cout << "-----------------------------------------------" << std::endl;
+	std::cout << "--------------------------------------------" << std::endl;
+	std::cout << "ENTERING THE DUNGEON PREPARE TO PERISH" << std::endl;
+	std::cout << "--------------------------------------------" << std::endl;
 	Player->ChooseMove();
 }
 void Dungeon::OnExit(std::shared_ptr<PlayerCharacter> player) // function for exiting location;
