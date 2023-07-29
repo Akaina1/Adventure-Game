@@ -14,6 +14,7 @@
 #include "GameSetup.h"
 #include "Combat.h"
 #include "CharacterTemplate.h"
+#include "Enemy.h"
 
 //todays goals:
 // 1. create combat system

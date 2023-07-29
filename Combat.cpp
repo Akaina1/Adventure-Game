@@ -11,8 +11,6 @@ Combat::Combat(std::shared_ptr<PlayerCharacter> player, std::vector<std::shared_
     }
 }; // Default constructor
 
-
-
 void Combat::CombatDisplay() {
     // print header
     system("cls");
@@ -22,16 +20,38 @@ void Combat::CombatDisplay() {
 
     // print player details
     std::cout << "Player details:" << std::endl;
-    std::cout << "Name: " << Player->GetName() << std::endl;
-    std::cout << "Health: " << Player->GetCurrentHealth() << "/" << Player->GetMaxHealth() << std::endl;
-    std::cout << "=========================================" << std::endl;
+    for (auto& combatant : Combatants)
+    {
+        auto player = std::dynamic_pointer_cast<PlayerCharacter>(combatant);
+        if (player != nullptr) {
+            std::cout << "Name: " << player->GetName() << std::endl;
+            std::cout << "Health: " << player->GetCurrentHealth() << "/" << player->GetMaxHealth() << std::endl;
+            std::cout << "=========================================" << std::endl;
+        }
+    }
+
+    // print ally details
+    std::cout << "Ally details:" << std::endl;
+    for (auto& combatant : Combatants)
+    {
+        auto ally = std::dynamic_pointer_cast<NPC>(combatant);
+        if (ally != nullptr) {
+            std::cout << "Name: " << ally->GetName() << std::endl;
+            std::cout << "Health: " << ally->GetCurrentHealth() << "/" << ally->GetMaxHealth() << std::endl;
+            std::cout << "=========================================" << std::endl;
+        }
+    }
+
     //// print enemy details
     std::cout << "Enemy details:" << std::endl;
-    for (auto& enemy : Enemies)
+    for (auto& combatant : Combatants)
     {
-        std::cout << "Name: " << enemy->GetName() << std::endl;
-        std::cout << "Health: " << enemy->GetCurrentHealth() << std::endl;
-        std::cout << "=========================================" << std::endl;
+        auto enemy = std::dynamic_pointer_cast<Enemy>(combatant);
+        if (enemy != nullptr) {
+            std::cout << "Name: " << enemy->GetName() << std::endl;
+            std::cout << "Health: " << enemy->GetCurrentHealth() << "/" << enemy->GetMaxHealth() << std::endl;
+            std::cout << "=========================================" << std::endl;
+        }
     }
     // print footer
     std::cout << "+----------------------------------------+" << std::endl;
@@ -39,7 +59,7 @@ void Combat::CombatDisplay() {
 
 void Combat::StartCombat()// Start combat
 {
-    // Add player
+    // Add player to the Combatants vector
     Combatants.push_back(Player);
 
     // Sort Combatants by speed
@@ -48,24 +68,62 @@ void Combat::StartCombat()// Start combat
             return a->GetSpeed() > b->GetSpeed();
         });
 
-    while (Player->GetCurrentHealth() > 0 && EnemiesAreAlive())
-    {
-		CombatDisplay();
-		
-        CurrentAction();
+    // Call combat display
+    CombatDisplay();
 
-        if (Player->GetCurrentHealth() <= 0)
+    // Main combat loop
+    CurrentAction();
+
+    // End combat
+    EndCombat();
+}
+
+void Combat::CurrentAction()
+{
+    while (true) // loop until break
+    {
+        // Create a priority queue to sort combatants by speed
+        std::priority_queue<std::shared_ptr<CharacterTemplate>, std::vector<std::shared_ptr<CharacterTemplate>>, CompareSpeed> SpeedQueue;
+
+        // Populate the queue with the combatants
+        for (auto& combatant : Combatants) {
+            if (combatant->GetCurrentHealth() > 0) { // Only add alive combatants
+                SpeedQueue.push(combatant);
+            }
+        }
+
+        // All combatants have their turn
+        while (!SpeedQueue.empty())
         {
-			std::cout << "You have died!" << std::endl;
-			break;
-            // implement load function here
-		}		
-	}
+            auto fastestCombatant = SpeedQueue.top();
+            SpeedQueue.pop();
+
+            // Combatant takes their turn
+            fastestCombatant->PerformAction(Combatants); // Perform action
+
+            // If all allies or enemies are dead, end combat
+            if (!AlliesAreAlive() || !EnemiesAreAlive())
+            {
+                return;
+            }
+        }
+    }
 }
 
 void Combat::EndCombat() // End combat
 {
+    if (!EnemiesAreAlive())
+    {
+        std::cout << "Victory!\n";
+        // Implement victory rewards, experience gain, etc. here
 
+    }
+    else if (!AlliesAreAlive() || Player->GetCurrentHealth() <= 0)
+    {
+        std::cout << "Defeat!\n";
+        // Implement defeat penalties, game over screen, etc. here
+
+    }
 }
 
 bool Combat::EnemiesAreAlive() // Check if enemies are alive
@@ -95,14 +153,6 @@ bool Combat::AlliesAreAlive() // Check if allies are alive
     return false;
 }
 void Combat::HandleTurn() // Handle turn
-{
-
-}
-void Combat::CheckVictory() // Check if the player has won
-{
-
-}
-void Combat::CheckDefeat()// Check if the player has lost
 {
 
 }

@@ -44,8 +44,10 @@ Enemy::Enemy() // default constructor
 }
 
 Enemy::Enemy(std::string name, int maxhealth, int currenthealth, int maxmana,
-	int currentmana, int level,std::map<std::string, int> statValues,std::vector<StatusEffect> afflictions)
-	: CharacterTemplate(name, maxhealth, currenthealth, maxmana, currentmana, level, statValues, afflictions)
+	int currentmana, int level, int speed, int attack, int defense,
+	bool isDefending,std::map<std::string, int> statValues,std::vector<StatusEffect> afflictions)
+	: CharacterTemplate(name, maxhealth, currenthealth, maxmana, currentmana, level, speed, attack, defense,
+      isDefending, statValues, afflictions)
 {
 }
 

@@ -25,10 +25,11 @@ private:
 public:
 //default functions
 	PlayerCharacter();          // default constructor
-	virtual ~PlayerCharacter(); // destructor
+	~PlayerCharacter(); // destructor
 
 	PlayerCharacter(std::string name, int maxhealth, int currenthealth,
-		int maxmana, int currentmana, int level, long long experience,
+		int maxmana, int currentmana, int level, int speed, int attack, int defense,
+		bool isDefending, long long experience,
 		int gold, int playerClass, std::map<std::string, int> statValues,
 		std::unordered_map<int, std::pair<std::shared_ptr<Item>, int>> inventory,
 		std::vector<StatusEffect> afflictions);  // constructor with parameters
@@ -40,8 +41,12 @@ public:
 	void SetCurrentLocation(std::shared_ptr<Location> location) { CurrentLocation = location; }    // sets the current location of the player character
 	void MoveTo(std::shared_ptr<Location> newlocation);                                                                           // move the player character to a new location)
 
-	void ChooseMove();                                                                                              // show where the valid locations to move are 
-
+	void ChooseMove();
+//combat functions
+	virtual void PerformAction(std::vector<std::shared_ptr<CharacterTemplate>>& Combatants) override; // override the PerformAction function from the CharacterTemplate class
+	void Attack(std::vector<std::shared_ptr<CharacterTemplate>>& Combatants); // attack a target
+	void Defend(); // defend against an attack
+	void CheckInventory(); // check the player character's inventory to use items
 
 //class functions
 	std::string GetPlayerClassName() const;                    // returns the name of the player class

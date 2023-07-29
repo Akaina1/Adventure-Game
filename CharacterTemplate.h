@@ -14,11 +14,14 @@ protected:
 	int CurrentMana = MaxMana;
 	int Level = 1;
 	int Speed = 1;
+	int Attack = 1;
+	int Defense = 1;
+	bool IsDefending = false;
 	std::map<std::string, int> StatValues {
-		{"Strength", 0},
-		{ "Dexterity", 0 },
-		{ "Wisdom", 0 },
-		{ "Charisma", 0 }
+		{"Strength", 1},
+		{ "Dexterity", 1 },
+		{ "Wisdom", 1 },
+		{ "Charisma", 1 }
 	};
 	std::vector<StatusEffect> Afflictions;
 public:
@@ -27,12 +30,14 @@ public:
 	CharacterTemplate(std::string name, int maxhealth, int currenthealth,
 		int maxmana, int currentmana, int level);
 	CharacterTemplate(std::string name, int maxhealth, int currenthealth,
-		int maxmana, int currentmana, int level, int speed ,
-		std::map<std::string, int> statValues,
+		int maxmana, int currentmana, int level, int speed, int attack, int defence,
+		bool isDefending ,std::map<std::string, int> statValues,
 		std::vector<StatusEffect> afflictions);  // constructor with parameters
 	virtual ~CharacterTemplate(); // destructor
 
 // functions for all entity classes:
+
+	enum AttackType { Melee, Ranged, Magic };
 	virtual void heal(int health);
 	int GetCurrentHealth() const { return CurrentHealth; };        
 	int GetMaxHealth() const { return MaxHealth; };               
@@ -62,11 +67,14 @@ public:
 	virtual void SetName(std::string name) { Name = name; };
 	virtual std::string GetName() const { return Name; };
 
-	int GetCharacterLevel() const { return Level; };           
-	void SetCharacterLevel(int level) { Level = level; };
+	virtual int GetCharacterLevel() const { return Level; };
+	virtual void SetCharacterLevel(int level) { Level = level; };
 
-	int GetSpeed() const { return Speed; };
-	void SetSpeed(int speed) { Speed = speed; };
+	virtual int GetSpeed() const { return Speed; };
+	virtual void SetSpeed(int speed) { Speed = speed; };
 
+	virtual void PerformAction(std::vector<std::shared_ptr<CharacterTemplate>>& Combatants) { };
+
+	virtual int CalculateDamage(AttackType attackType, std::shared_ptr<CharacterTemplate> target);
 };
 

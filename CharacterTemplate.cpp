@@ -28,17 +28,42 @@ CharacterTemplate::CharacterTemplate(std::string name, int maxhealth, int curren
 // constructor with parameters
 
 CharacterTemplate::CharacterTemplate(std::string name, int maxhealth, int currenthealth,
-	int maxmana, int currentmana, int level, int speed,
-	std::map<std::string, int> statValues,
+	int maxmana, int currentmana, int level, int speed, int attack, int defense,
+	bool isDefending ,std::map<std::string, int> statValues,
 	std::vector<StatusEffect> afflictions) :
 	Name(name), MaxHealth(maxhealth), CurrentHealth(currenthealth),
-	MaxMana(maxmana), CurrentMana(currentmana), Level(level), Speed(speed),
-	StatValues(statValues), Afflictions(afflictions) {}
+	MaxMana(maxmana), CurrentMana(currentmana), Level(level), Speed(speed), Attack(attack), Defense(defense),
+	IsDefending(isDefending), StatValues(statValues), Afflictions(afflictions) {}
 
 // destructor
 
 CharacterTemplate::~CharacterTemplate()
 {
+}
+
+int CharacterTemplate::CalculateDamage(AttackType attackType, std::shared_ptr<CharacterTemplate> target)
+{
+	int damage = 0;
+
+	// Calculate damage based on attack type
+	switch (attackType) {
+	case Melee:
+		damage = (this->Attack + (this->StatValues["Strength"])    ) - target->Defense;
+		break;
+	case Ranged:
+		damage = (this->Attack + this->StatValues["Dexterity"]) - target->Defense;
+		break;
+	case Magic:
+		damage = (this->Attack + this->StatValues["Wisdom"]) - target->Defense;
+		break;
+	}
+
+	// If the damage calculation is less than 0, we set it to 0
+	if (damage < 0) {
+		damage = 0;
+	}
+
+	return damage;
 }
 
 ////////////////////////////////// Health functions   //////////////////////////////////
@@ -55,8 +80,16 @@ void CharacterTemplate::heal(int health) // heals the player character
 
 void CharacterTemplate::TakeDamage(int damage) // damages the player character
 {
+	if (IsDefending)
+	{
+		// apply defense modifier
+		damage = static_cast<int>(damage * 0.75); // assuming defense reduces damage by 25%
+		IsDefending = false; // reset defense status
+	}
+
 	CurrentHealth -= damage;
 
+	// handle case where player's health drops below 0
 	if (CurrentHealth < 0)
 	{
 		CurrentHealth = 0;

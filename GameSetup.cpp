@@ -1,5 +1,6 @@
 #include "GameSetup.h"
 
+
 std::shared_ptr<Location> SetupGame(std::shared_ptr<PlayerCharacter> player) {
     // Create Tavern
     auto theTavern = std::make_shared<Tavern>("The Tavern", "A Place to Rest, Relax, Drink and forget about the monsters below us...", player);
@@ -13,13 +14,13 @@ std::shared_ptr<Location> SetupGame(std::shared_ptr<PlayerCharacter> player) {
     //create enemies for Dungeon
     std::shared_ptr<Enemy> goblin1 = std::make_shared<Enemy>("Goblin 1", 90, 100, 100, 100, 2);
     std::shared_ptr<Enemy> goblin2 = std::make_shared<Enemy>("Goblin 2", 70, 110, 110, 110, 3);
-    std::vector<std::shared_ptr<Enemy>> EnemiesGroup1;
+    std::vector<std::shared_ptr<CharacterTemplate>> EnemiesGroup1;
     EnemiesGroup1.push_back(goblin1);
     EnemiesGroup1.push_back(goblin2);
 
     std::shared_ptr<Enemy> hydra1 = std::make_shared<Enemy>("Hydra 1", 90, 100, 100, 100, 2);
     std::shared_ptr<Enemy> hydra2 = std::make_shared<Enemy>("Hydra 2", 70, 110, 110, 110, 3);
-    std::vector<std::shared_ptr<Enemy>> EnemiesGroup2;
+    std::vector<std::shared_ptr<CharacterTemplate>> EnemiesGroup2;
     EnemiesGroup1.push_back(hydra1);
     EnemiesGroup1.push_back(hydra2);
 

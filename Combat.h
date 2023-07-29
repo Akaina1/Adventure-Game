@@ -33,11 +33,11 @@ public:
     void CurrentAction(); // Current Character action
 	
 	void HandleTurn(); // Handle turn
-	void CheckVictory(); // Check if the player has won
-	void CheckDefeat(); // Check if the player has lost
 	void CombatDisplay(); // Display combat
 	bool EnemiesAreAlive(); // Check if enemies are alive
 	bool AlliesAreAlive(); // Check if allies are alive
+
+	void PerformAction(); // Perform action
 
 };
 

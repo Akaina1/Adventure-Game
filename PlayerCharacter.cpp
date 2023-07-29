@@ -1,7 +1,9 @@
 // implementation file for PlayerCharacter class
+#define NOMINMAX
 #include "PlayerCharacter.h"
 #include "Item.h"
 #include "NPC.h"
+#include "Enemy.h"
 ////////////////////////////////// Default functions //////////////////////////////////
 
 PlayerCharacter::PlayerCharacter() // default constructor
@@ -14,12 +16,13 @@ PlayerCharacter::~PlayerCharacter() // destructor
 
 // constructor with parameters
 PlayerCharacter::PlayerCharacter(std::string name, int maxhealth, int currenthealth,
-	int maxmana, int currentmana, int level, long long experience,
+	int maxmana, int currentmana, int level, int speed, int attack, int defense,
+	bool isDefending,long long experience,
 	int gold, int playerClass, std::map<std::string, int> statValues,
 	std::unordered_map<int, std::pair<std::shared_ptr<Item>, int>> inventory,
 	std::vector<StatusEffect> afflictions) :
-	CharacterTemplate(name, maxhealth, currenthealth, maxmana, currentmana, level, statValues, afflictions),
-	Experience(experience), Gold(gold), PlayerClass(playerClass), Inventory(inventory)
+	CharacterTemplate(name, maxhealth, currenthealth, maxmana, currentmana, level, speed, attack, defense,
+	isDefending, statValues, afflictions), Experience(experience), Gold(gold), PlayerClass(playerClass), Inventory(inventory)
 {}
 
 void PlayerCharacter::Print(std::ostream& os) const     // override the print function from the I_Print class
@@ -663,5 +666,123 @@ void PlayerCharacter::CharacterCreator()
 		TypeText(L"-------------------------------------------", 1); std::wcout << std::endl;
 
 		system("pause");
+	}
+}
+
+////////////////////////////////// Combat functions   //////////////////////////////////
+
+void PlayerCharacter::PerformAction(std::vector<std::shared_ptr<CharacterTemplate>>& Combatants)
+{
+	int choice = 0;
+	while (choice < 1 || choice > 4)
+	{
+		std::cout << "Selection an action: \n";
+		std::cout << "[1] Attack\n";
+		std::cout << "[2] Defend\n";
+		std::cout << "[3] Use Item\n";
+		std::cout << "[4] Run Away\n";
+		std::cin >> choice;
+
+		if (std::cin.fail()) {
+			std::cin.clear(); // Clear the failure state
+			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Remove the bad input
+		}
+	}
+
+	switch (choice)
+	{
+	case 1:
+		Attack(Combatants);
+		break;
+	case 2:
+		Defend();
+		break;
+	case 3:
+		CheckInventory();
+		break;
+	}
+};
+
+void PlayerCharacter::Attack(std::vector<std::shared_ptr<CharacterTemplate>>& Combatants)
+{
+	std::cout << "Choose your attack type: " << std::endl;
+	std::cout << "1. Melee" << std::endl;
+	std::cout << "2. Ranged" << std::endl;
+	std::cout << "3. Magic" << std::endl;
+
+	int attackTypeChoice;
+	std::cin >> attackTypeChoice;
+	attackTypeChoice--;
+
+	// Ensure the player selects a valid attack type.
+	if (attackTypeChoice < 0 || attackTypeChoice > 2)
+	{
+		std::cout << "Invalid attack type!" << std::endl;
+		return;
+	}
+
+	// Cast the integer to the corresponding AttackType.
+	AttackType attackType = static_cast<AttackType>(attackTypeChoice);
+
+	std::cout << "Choose an enemy to attack: " << std::endl;
+
+	int index = 0;
+	std::vector<std::shared_ptr<Enemy>> enemyList;
+
+	// Generate a list of enemies
+	for (auto& combatant : Combatants) {
+		auto enemy = std::dynamic_pointer_cast<Enemy>(combatant);
+		if (enemy != nullptr && enemy->GetCurrentHealth() > 0) {
+			std::cout << index + 1 << ". " << enemy->GetName() << std::endl;
+			enemyList.push_back(enemy);
+			index++;
+		}
+	}
+
+	int enemyChoice;
+	std::cin >> enemyChoice;
+	enemyChoice--;
+
+	if (enemyChoice >= 0 && enemyChoice < enemyList.size())
+	{
+		auto enemy = enemyList[enemyChoice];
+		int damage = CalculateDamage(attackType, enemy);
+		enemy->TakeDamage(damage);
+
+		std::cout << "You attack " << enemy->GetName() << " for " << damage << " damage!" << std::endl;
+	}
+	else
+	{
+		std::cout << "Invalid choice!" << std::endl;
+	}
+}
+
+void PlayerCharacter::Defend()
+{
+	// increase defense by 25%
+	Defense *= 1.25;
+	// indicate that player is defending
+	IsDefending = true;
+
+	std::cout << "You brace yourself for incoming attacks, increasing your defense!" << std::endl;
+}
+
+void PlayerCharacter::CheckInventory()
+{
+	if (Inventory.empty())
+	{
+		std::cout << "Your inventory is empty.\n";
+		return;
+	}
+
+	std::cout << "Your inventory contains:\n";
+
+	for (const auto& itemPair : Inventory)
+	{
+		const auto& item = itemPair.second.first;
+		const auto quantity = itemPair.second.second;
+
+		std::cout << item->GetName() << " x " << quantity << "\n";
+		std::cout << "Description: " << item->GetDescription() << "\n";
 	}
 }

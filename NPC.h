@@ -4,7 +4,7 @@
 
 //class CharacterTemplate;
 
-class NPC /*: public CharacterTemplate*/
+class NPC : public CharacterTemplate
 {
 
 };
