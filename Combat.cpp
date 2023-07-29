@@ -1,7 +1,7 @@
 ﻿#include "Combat.h"
 
 Combat::Combat(std::shared_ptr<PlayerCharacter> player, std::vector<std::shared_ptr<CharacterTemplate>> combatants)
-    : Player{ player }, Combatants{}, CurrentTurn{ 0 }, MaxTurns{ 999 }
+    : Player{ player }, Combatants{combatants}, CurrentTurn{ 0 }, MaxTurns{ 999 }
 {
     SpeedQueue.push(Player);
 
@@ -18,15 +18,23 @@ void Combat::CombatDisplay() {
     std::cout << "|           PREPARE FOR COMBAT           |" << std::endl;
     std::cout << "+----------------------------------------+" << std::endl;
 
+    std::cout << "Number of combatants: " << Combatants.size() << std::endl;
+
     // print player details
     std::cout << "Player details:" << std::endl;
     for (auto& combatant : Combatants)
     {
+        std::cout << "Combatant type: " << typeid(*combatant).name() << std::endl;
+
+
         auto player = std::dynamic_pointer_cast<PlayerCharacter>(combatant);
         if (player != nullptr) {
             std::cout << "Name: " << player->GetName() << std::endl;
             std::cout << "Health: " << player->GetCurrentHealth() << "/" << player->GetMaxHealth() << std::endl;
             std::cout << "=========================================" << std::endl;
+        }
+        else {
+            std::cout << "Failed to cast combatant to Enemy." << std::endl;
         }
     }
 
@@ -57,11 +65,11 @@ void Combat::CombatDisplay() {
     std::cout << "+----------------------------------------+" << std::endl;
 }
 
-void Combat::StartCombat()// Start combat
+void Combat::StartCombat() // Start combat
 {
-    // Add player to the Combatants vector
-    Combatants.push_back(Player);
-
+    // add room combatants to combatants vector
+    
+  
     // Sort Combatants by speed
     std::sort(Combatants.begin(), Combatants.end(),
         [](const std::shared_ptr<CharacterTemplate>& a, const std::shared_ptr<CharacterTemplate>& b) {

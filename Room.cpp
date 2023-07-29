@@ -4,15 +4,31 @@
 
 void Room::OnEnter(std::shared_ptr<PlayerCharacter> player)
 {
-	if (!Enemies.empty())
-	{
-		auto combat = std::make_shared<Combat> (player, Enemies);
-		combat->StartCombat();
-	}
-	else
-	{
-		std::cout << "There are no enemies in this room, you are safe for now..." << std::endl;
-	}
+
+     Combatants.push_back(player);
+    
+
+    std::cout << "Number of Combatants: " << Combatants.size() << std::endl;
+
+    if (!Combatants.empty())
+    {
+        std::cout << "Combatants' names: " << std::endl;
+        for (const auto& combatant : Combatants) {
+            if (combatant) {
+                std::cout << combatant->GetName() << std::endl;
+            }
+            else {
+                std::cout << "Invalid combatant found!" << std::endl;
+            }
+        }
+        std::cout << "Number of Combatants: " << Combatants.size() << std::endl;
+        auto combat = std::make_shared<Combat>(player, Combatants);
+        combat->StartCombat();
+    }
+    else
+    {
+        std::cout << "There are no enemies in this room, you are safe for now..." << std::endl;
+    }
 }
 void Room::OnExit(std::shared_ptr<PlayerCharacter> player)
 {

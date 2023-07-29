@@ -12,11 +12,11 @@ private:
 	std::string Description;
 	std::vector<std::shared_ptr<Room>> connectedRooms;
 	std::vector<std::shared_ptr<Location>> connectedLocations;
-	std::vector<std::shared_ptr<CharacterTemplate>> Enemies; // could do the same for NPCs - vector to hold what is in the room
+	std::vector<std::shared_ptr<CharacterTemplate>> Combatants; // could do the same for NPCs - vector to hold what is in the room
 
 public:
 	Room(std::string name, std::string description) : Name(name), Description(description) {}; // room with no enemies
-	Room(std::string name, std::string description, std::vector<std::shared_ptr<CharacterTemplate>> enemies) : Name(name), Description(description), Enemies (enemies) {};
+	Room(std::string name, std::string description, std::vector<std::shared_ptr<CharacterTemplate>> enemies) : Name(name), Description(description), Combatants(enemies) {};
 
 
 	std::string GetName() const { return Name; };
@@ -34,7 +34,7 @@ public:
 	virtual void ConnectRoom(std::shared_ptr<Room> room) override { connectedRooms.push_back(room); };
 	virtual void ConnectLocation(std::shared_ptr<Location> location)override { connectedLocations.push_back(location); };
 
-	const std::vector<std::shared_ptr<CharacterTemplate>>& GetEnemies() const { return Enemies; };
-	void AddEnemy(const std::shared_ptr<CharacterTemplate>&enemy) { this->Enemies.push_back(enemy); };
+	const std::vector<std::shared_ptr<CharacterTemplate>>& GetCombatants() const { return Combatants; };
+	void AddEnemy(const std::shared_ptr<CharacterTemplate>&enemy) { this->Combatants.push_back(enemy); };
 
 };

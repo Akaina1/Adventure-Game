@@ -1,8 +1,11 @@
 #include "Dungeon.h"
+#include "PlayerCharacter.h"
 
 void Dungeon::OnEnter(std::shared_ptr<PlayerCharacter> player) // function for entering location
 {
 	std::cout << "YOU HAVE ENTERED THE DUNGEON PREPARE TO PERISH" << std::endl;
+	std::cout << "-----------------------------------------------" << std::endl;
+	Player->ChooseMove();
 }
 void Dungeon::OnExit(std::shared_ptr<PlayerCharacter> player) // function for exiting location;
 {

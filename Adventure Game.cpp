@@ -51,15 +51,37 @@ int main()
     combat.CombatDisplay();
     system("pause");*/
 
-    std::shared_ptr<PlayerCharacter> player = std::make_shared<PlayerCharacter>();
-    player->CharacterCreator();
+    //std::shared_ptr<PlayerCharacter> player = std::make_shared<PlayerCharacter>();
+    //player->CharacterCreator();
+    //
+
+    //std::shared_ptr<Location> startingLocation = SetupGame(player);
+
+    //player->MoveTo(startingLocation);
     
+    std::string name = "Test Character";
+    int maxhealth = 100;
+    int currenthealth = 100;
+    int maxmana = 100;
+    int currentmana = 100;
+    int level = 1;
+    int speed = 10;
+    int attack = 10;
+    int defense = 10;
+    bool isDefending = false;
+    long long experience = 0;
+    int gold = 0;
+    int playerClass = 0; // Depends on your implementation
+    std::map<std::string, int> statValues = { {"Strength", 10}, {"Intelligence", 10}, {"Dexterity", 10} };
+    std::unordered_map<int, std::pair<std::shared_ptr<Item>, int>> inventory;
+    std::vector<StatusEffect> afflictions;
+
+    std::shared_ptr<PlayerCharacter> player = std::make_shared<PlayerCharacter>(name, maxhealth, currenthealth, maxmana, currentmana, level, speed, attack, defense, isDefending, experience, gold, playerClass, statValues, inventory, afflictions);
+    player->SetSelf(player);
 
     std::shared_ptr<Location> startingLocation = SetupGame(player);
 
     player->MoveTo(startingLocation);
-    
-    
    
     
     

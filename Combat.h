@@ -18,6 +18,11 @@ private:
 	struct CompareSpeed {
 		bool operator()(const std::shared_ptr<CharacterTemplate>& a, const std::shared_ptr<CharacterTemplate>& b) 
 		{
+			if (a == nullptr || b == nullptr)
+			{
+				std::cerr << "Error: Null pointer detected in CompareSpeed." << std::endl;
+				return false;
+			}
 			return a->GetSpeed() > b->GetSpeed();
 		}
 	};
