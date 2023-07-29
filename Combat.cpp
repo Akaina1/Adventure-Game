@@ -24,18 +24,19 @@ void Combat::CombatDisplay() {
     std::cout << "Player details:" << std::endl;
     for (auto& combatant : Combatants)
     {
-        std::cout << "Combatant type: " << typeid(*combatant).name() << std::endl;
+        //std::cout << "Combatant type: " << typeid(*combatant).name() << std::endl;
 
 
         auto player = std::dynamic_pointer_cast<PlayerCharacter>(combatant);
         if (player != nullptr) {
             std::cout << "Name: " << player->GetName() << std::endl;
             std::cout << "Health: " << player->GetCurrentHealth() << "/" << player->GetMaxHealth() << std::endl;
+            std::cout << "Mana: " << player->GetCurrentMana() << "/" << player->GetMaxMana() << std::endl;
             std::cout << "=========================================" << std::endl;
         }
-        else {
-            std::cout << "Failed to cast combatant to Enemy." << std::endl;
-        }
+        //else {
+            //std::cout << "Failed to cast combatant to Enemy." << std::endl;
+        //}
     }
 
     // print ally details
@@ -46,7 +47,14 @@ void Combat::CombatDisplay() {
         if (ally != nullptr) {
             std::cout << "Name: " << ally->GetName() << std::endl;
             std::cout << "Health: " << ally->GetCurrentHealth() << "/" << ally->GetMaxHealth() << std::endl;
+            std::cout << "Mana: " << ally->GetCurrentMana() << "/" << ally->GetMaxMana() << std::endl;
             std::cout << "=========================================" << std::endl;
+        }
+        else
+        {
+            std::cout << "No Allies" << std::endl;
+            std::cout << "=========================================" << std::endl;
+            continue;
         }
     }
 
@@ -58,6 +66,7 @@ void Combat::CombatDisplay() {
         if (enemy != nullptr) {
             std::cout << "Name: " << enemy->GetName() << std::endl;
             std::cout << "Health: " << enemy->GetCurrentHealth() << "/" << enemy->GetMaxHealth() << std::endl;
+            std::cout << "Mana: " << enemy->GetCurrentMana() << "/" << enemy->GetMaxMana() << std::endl;
             std::cout << "=========================================" << std::endl;
         }
     }

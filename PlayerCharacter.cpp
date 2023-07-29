@@ -4,6 +4,7 @@
 #include "Item.h"
 #include "NPC.h"
 #include "Enemy.h"
+#include "GameSetup.h"
 ////////////////////////////////// Default functions //////////////////////////////////
 
 PlayerCharacter::PlayerCharacter() // default constructor
@@ -92,6 +93,9 @@ void PlayerCharacter::MoveTo(std::shared_ptr<Location> newlocation)
 	this->SetCurrentLocation(newlocation);
 	system("cls");
 	std::cout << "You are now moving to... " << newlocation->GetName() << std::endl;
+	std::cout << "-------------------------------------------\n" << std::endl;
+	std::cout << LoadingText() << std::endl;
+	std::cout << "-------------------------------------------\n" << std::endl;
 	system("pause");
 
 	if (newlocation)

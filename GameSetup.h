@@ -15,3 +15,7 @@ void PrintIntro();
 void PrintNumbers();
 
 void TitleScreen();
+
+void PrintCode();
+
+std::string LoadingText();

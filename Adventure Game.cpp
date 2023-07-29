@@ -23,6 +23,53 @@
 // Testing functions currently
 int main()
 {
+
+    std::cout << LoadingText() << std::endl;
+    system("pause");
+
+
+    std::shared_ptr<PlayerCharacter> player = std::make_shared<PlayerCharacter>();
+    std::shared_ptr<Location> startingLocation = SetupGame(player);
+
+    PrintIntro();
+
+    int Selection = MainMenu();
+
+    switch (Selection)
+    {
+    case 1:
+    {
+        // reset mode to text for cin/cout 
+        system("cls");
+        _setmode(_fileno(stdout), _O_TEXT);
+        TypeText(L"Starting Character Creation...\n", 20);
+        system("pause");
+
+        player->CharacterCreator(); // works as intended
+        player->SetSelf(player);
+
+        system("cls");
+        std::cout << "--------START GAME--------" << std::endl;
+
+        player->MoveTo(startingLocation); // works as intended - includes a pause
+    }
+    break;
+
+    case 2:
+        _setmode(_fileno(stdout), _O_TEXT);
+        std::wcout << "You have selected Load Game" << std::endl;
+        break;
+
+    case 3:
+        _setmode(_fileno(stdout), _O_TEXT);
+        std::wcout << "You have selected Quit Game" << std::endl;
+        exit;
+    }
+
+
+
+
+
     /*std::shared_ptr<PlayerCharacter> player = std::make_shared<PlayerCharacter>();
     std::shared_ptr<Enemy> monster1 = std::make_shared<Enemy>("Monster1", 90, 100, 100, 100, 2);
     std::shared_ptr<Enemy> monster2 = std::make_shared<Enemy>("Monster2", 70, 110, 110, 110, 3);
@@ -74,18 +121,7 @@ int main()
     //std::vector<StatusEffect> afflictions;
 
     //std::shared_ptr<PlayerCharacter> player = std::make_shared<PlayerCharacter>(name, maxhealth, currenthealth, maxmana, currentmana, level, speed, attack, defense, isDefending, experience, gold, playerClass, statValues, inventory, afflictions);
-    PrintIntro();   
-    std::shared_ptr<PlayerCharacter> player = std::make_shared<PlayerCharacter>();
-
-    player->CharacterCreator();
-
-    player->SetSelf(player); 
     
- 
-
-    std::shared_ptr<Location> startingLocation = SetupGame(player);
-
-    player->MoveTo(startingLocation);
    
     
     
@@ -101,8 +137,8 @@ int main()
     //Tavern TheTavern;*/
     
     //call MainMenu function Test - PASS
-    //int Selection = MainMenu(); 
-    //
+    //int Selection = MainMenu();
+
     //switch (Selection)
     //{
     //case 1:
@@ -116,8 +152,8 @@ int main()
     //    Player.CharacterCreator(); // works as intended
 
     //    system("cls");
-    //    std::cout<<"--------START GAME--------" << std::endl;
-    //   
+    //    std::cout << "--------START GAME--------" << std::endl;
+
     //    Player.MoveTo(TheTavern); // works as intended - includes a pause
     //}
     //break;
