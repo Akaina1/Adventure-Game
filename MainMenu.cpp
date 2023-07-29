@@ -11,9 +11,18 @@ void TypeText(const std::wstring& text, int delay) // function to type out text 
 	}
 };
 
+void EraseStringFromConsole(const std::wstring& str, int delay) {
+    for (int i = 0; i < str.length(); i++) {
+        std::wcout << "\b \b";
+        std::wcout.flush();
+        std::this_thread::sleep_for(std::chrono::milliseconds(delay));
+    }
+};
+
 int MainMenu()
 {
     _setmode(_fileno(stdout), _O_U16TEXT); // setmode for unicode output
+
 
     HWND console = GetConsoleWindow(); // get console window
     RECT ConsoleRect; // create a rectangle for the console window
@@ -59,8 +68,10 @@ int MainMenu()
     std::wcout << std::endl;
     TypeText(Filler1, 1);
     std::wcout << std::endl;
-    std::wcout << "Enter your Selection: ";
-    std::wcin >> Selection;
+
+    _setmode(_fileno(stdout), _O_TEXT);
+    std::cout << "Enter your Selection: ";
+    std::cin >> Selection;
 
     return Selection;
 };

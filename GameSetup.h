@@ -6,5 +6,12 @@
 #include "Main.h"
 #include "PlayerCharacter.h"
 #include "Enemy.h"
+#include "MainMenu.h"
 
 std::shared_ptr<Location> SetupGame(std::shared_ptr<PlayerCharacter> player);
+
+void PrintIntro();
+
+void PrintNumbers();
+
+void TitleScreen();

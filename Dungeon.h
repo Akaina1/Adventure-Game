@@ -2,6 +2,8 @@
 #include "Location.h"
 #include "Main.h"
 #include "CharacterTemplate.h"
+#include "PlayerCharacter.h"
+#include "MainMenu.h"
 
 
 class Dungeon : public Location
