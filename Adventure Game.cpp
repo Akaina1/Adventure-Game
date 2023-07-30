@@ -33,7 +33,7 @@ int main()
     std::shared_ptr<Location> startingLocation = SetupGame(player);
     player->CharacterCreator(); // works as intended
 
-    PrintIntro();
+    //PrintIntro();
 
     int Selection = MainMenu();
 

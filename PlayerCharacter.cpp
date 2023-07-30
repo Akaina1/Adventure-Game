@@ -406,6 +406,9 @@ void PlayerCharacter::UseItem(int itemId)
 
 void PlayerCharacter::CharacterCreator()
 {
+
+	std::wstring date = L"{202";
+	
 	//1. get user input for character name
 	system("cls");
 	std::cin.ignore();
@@ -414,6 +417,45 @@ void PlayerCharacter::CharacterCreator()
 	TypeText(L"-------------------------------------------", 1); std::wcout << std::endl;
 	std::getline(std::cin, inputname);
 	this->SetName(inputname);
+	TypeText(L"-------------------------------------------", 1); std::wcout << std::endl;
+	TypeText(L"Qrelation.Engine->Access.User_Data = ", 10); std::cout << inputname << std::endl;
+	Sleep(1000); // wait 1 second
+	TypeText(L"Qrelation.Engine [ERROR] =\n"
+		      "[Qrelation.Detect_Deception]\n\n", 10);
+	Sleep(1000); // wait 1 second
+	TypeText(L"Qrelation.Engine->Access.User_Data =\n"
+		      "[USER NAME DOES NOT MATCH HISTORY RECORD]\n\n", 10);
+	TypeText(L"Qrelation.Engine->Confirm.User_Existance...\n", 10);
+	TypeText(L"Please wait...\n", 10);
+	TypeText(L"-------------------------------------------", 1); std::wcout << std::endl;
+	Sleep(1000); // wait 1 second
+
+	system("pause");
+
+	PrintNumbers();
+	TypeText(L"Qrelation.Engine->Access.User_Data\n"
+		      "User.Data[Death_Record] == {True}\n", 10);
+	TypeText(L"Return: \n"
+		      "Access.User[Death_Record] == {True}...\n\n", 10);
+	TypeText(L"Qrelation.Analyze...\n", 10);
+	TypeText(L"Death_Record[Date, Cause]\n", 10);
+	TypeText(L"Death_Record->Get_Date = ", 10); 
+	TypeText(date, 10);
+	Sleep(5000); // wait 3 seconds
+	EraseStringFromConsole(date,10);
+	TypeText(L"\n[FATAL ERROR = Qrelation.Conceal_Future]\n\n", 10);
+	Sleep(500);
+	TypeText(L"Death_Record->Get_Cause = \n", 10);
+	Sleep(1000); // wait 1 second
+	TypeText(L"[FATAL ERROR = Qrelation.Conceal_Future]\n\n", 10);
+	Sleep(1000); // wait 1 second
+	TypeText(L"...\n", 50);
+	Sleep(1000); // wait 1 second
+	TypeText(L"Name Confirmed!\n", 10);
+	TypeText(L"-------------------------------------------", 1); std::wcout << std::endl;
+	system("pause");
+
+
 
 	//2. Ask user to select a class
 	int ChosenClass;
@@ -426,10 +468,10 @@ void PlayerCharacter::CharacterCreator()
 		TypeText(L"Welcome ", 1); std::cout << inputname << std::endl;
 		TypeText(L"Choose your class: ", 1); std::wcout << std::endl;
 		TypeText(L"-------------------------------------------", 1); std::wcout << std::endl;
-		TypeText(L"1. Brawler", 1); std::wcout << std::endl;
-		TypeText(L"2. Scourge", 1); std::wcout << std::endl;
-		TypeText(L"3. Swindler", 1); std::wcout << std::endl;
-		TypeText(L"4. Jester", 1); std::wcout << std::endl;
+		TypeText(L"[1] Warrior", 1); std::wcout << std::endl;
+		TypeText(L"[2] Mage", 1); std::wcout << std::endl;
+		TypeText(L"[3] Archer", 1); std::wcout << std::endl;
+		TypeText(L"[4] Cleric", 1); std::wcout << std::endl;
 		TypeText(L"-------------------------------------------", 1); std::wcout << std::endl;
 		std::cin >> choice;
 		std::cin.ignore();
@@ -441,122 +483,41 @@ void PlayerCharacter::CharacterCreator()
 		switch (choice)
 		{
 		case 1:
-			system("cls");
-			TypeText(L"Brawler", 1); std::wcout << std::endl;
-			TypeText(L"-------------------------------------------", 1); std::wcout << std::endl;
-			TypeText(L"The Brawler is a strength based class.\n"
-				      "Focused on melee it comes with bonus\n" 
-				      "to strength but a weakness to magic.\n", 1); std::wcout << std::endl;
-			TypeText(L"-------------------------------------------", 1); std::wcout << std::endl;
-			TypeText(L"Strength: 15", 1); std::wcout << std::endl;
-			TypeText(L"Dexterity: 10", 1); std::wcout << std::endl;
-			TypeText(L"Wisdom: 5", 1); std::wcout << std::endl;
-			TypeText(L"Charisma: 10", 1); std::wcout << std::endl;
-			TypeText(L"-------------------------------------------", 1); std::wcout << std::endl;
-			TypeText(L"Starting Eqiupment: ", 1); std::wcout << std::endl;
-			TypeText(L"Hard Leather Tunic", 1); std::wcout << std::endl;
-			TypeText(L"Hard Leather Pants", 1); std::wcout << std::endl;
-			TypeText(L"Hard Leather Boots", 1); std::wcout << std::endl;
-			TypeText(L"Iron Fists", 1); std::wcout << std::endl;
-			TypeText(L"10 Health Potions", 1); std::wcout << std::endl;
-			TypeText(L"-------------------------------------------", 1); std::wcout << std::endl;
-			TypeText(L"Confirm? (Y/N)", 1); std::wcout << std::endl;
-
 			
+			BrawlerPrint();	
+
 			std::getline(std::cin, Confirm);
 			confirmed = Confirm == "Y" || Confirm == "y";
 			if (!confirmed)
 				continue;
 			break;
-
 		case 2:
-			system("cls");
-			TypeText(L"Scourge", 1); std::wcout << std::endl;
-			TypeText(L"-------------------------------------------", 1); std::wcout << std::endl;
-			TypeText(L"The Scourge is a Mage type class.\n" 
-				      "Focused on magic it comes with a\n" 
-				      "bonus to wisdom but a weakness to melee.\n", 1); std::wcout << std::endl;
-			TypeText(L"-------------------------------------------", 1); std::wcout << std::endl;
-			TypeText(L"Strength: 5", 1); std::wcout << std::endl;
-			TypeText(L"Dexterity: 10", 1); std::wcout << std::endl;
-			TypeText(L"Wisdom: 15", 1); std::wcout << std::endl;
-			TypeText(L"Charisma: 10", 1); std::wcout << std::endl;
-			TypeText(L"-------------------------------------------", 1); std::wcout << std::endl;
-			TypeText(L"Starting Eqiupment: ", 1); std::wcout << std::endl;
-			TypeText(L"Silk Robe", 1); std::wcout << std::endl;
-			TypeText(L"Silk Pants", 1); std::wcout << std::endl;
-			TypeText(L"Silk", 1); std::wcout << std::endl;
-			TypeText(L"Staff", 1); std::wcout << std::endl;
-			TypeText(L"5 Health Potions", 1); std::wcout << std::endl;
-			TypeText(L"5 Mana Potions", 1); std::wcout << std::endl;
-			TypeText(L"-------------------------------------------", 1); std::wcout << std::endl;
-			TypeText(L"Confirm? (Y/N)", 1); std::wcout << std::endl;
-
+			
+			ScourgePrint();
 			
 			std::getline(std::cin, Confirm);
 			confirmed = Confirm == "Y" || Confirm == "y";
 			if (!confirmed)
 				continue;
 			break;
-
 		case 3:
-			system("cls");
-			TypeText(L"Swindler", 1); std::wcout << std::endl;
-			TypeText(L"-------------------------------------------", 1); std::wcout << std::endl;
-			TypeText(L"The Swindler is a Dexterity based class.\n"
-				      "Focused on ranged it comes with bonus to\n"
-				      "dexterity but a weakness to melee.\n", 1); std::wcout << std::endl;
-			TypeText(L"-------------------------------------------", 1); std::wcout << std::endl;
-			TypeText(L"Strength: 10", 1); std::wcout << std::endl;
-			TypeText(L"Dexterity: 15", 1); std::wcout << std::endl;
-			TypeText(L"Wisdom: 5", 1); std::wcout << std::endl;
-			TypeText(L"Charisma: 10", 1); std::wcout << std::endl;
-			TypeText(L"-------------------------------------------", 1); std::wcout << std::endl;
-			TypeText(L"Starting Eqiupment: ", 1); std::wcout << std::endl;
-			TypeText(L"Light mail tunic", 1); std::wcout << std::endl;
-			TypeText(L"Light mail pants", 1); std::wcout << std::endl;
-			TypeText(L"Light mail boots", 1); std::wcout << std::endl;
-			TypeText(L"Short Bow", 1); std::wcout << std::endl;
-			TypeText(L"10 Health Potions", 1); std::wcout << std::endl;
-			TypeText(L"-------------------------------------------", 1); std::wcout << std::endl;
-			TypeText(L"Confirm? (Y/N)", 1); std::wcout << std::endl;
-
+			
+			SwindlerPrint();
 			
 			std::getline(std::cin, Confirm);
 			confirmed = Confirm == "Y" || Confirm == "y";
 			if (!confirmed)
 				continue;
 			break;
-
 		case 4:
-			system("cls");
-			TypeText(L"Jester", 1); std::wcout << std::endl;
-			TypeText(L"-------------------------------------------", 1); std::wcout << std::endl;
-			TypeText(L"The Jester is a Charisma based class.\n" 
-				      "Focused on support it comes with bonus\n"
-				      "to charisma but a weakness to melee.\n", 1); std::wcout << std::endl;
-			TypeText(L"-------------------------------------------", 1); std::wcout << std::endl;
-			TypeText(L"Strength: 5", 1); std::wcout << std::endl;
-			TypeText(L"Dexterity: 10", 1); std::wcout << std::endl;
-			TypeText(L"Wisdom: 10", 1); std::wcout << std::endl;
-			TypeText(L"Charisma: 15", 1); std::wcout << std::endl;
-			TypeText(L"-------------------------------------------", 1); std::wcout << std::endl;
-			TypeText(L"Starting Eqiupment: ", 1); std::wcout << std::endl;
-			TypeText(L"Cloth chest", 1); std::wcout << std::endl;
-			TypeText(L"Cloth pants", 1); std::wcout << std::endl;
-			TypeText(L"Cloth boots", 1); std::wcout << std::endl;
-			TypeText(L"Raipier", 1); std::wcout << std::endl;
-			TypeText(L"10 Health Potions", 1); std::wcout << std::endl;
-			TypeText(L"-------------------------------------------", 1); std::wcout << std::endl;
-			TypeText(L"Confirm? (Y/N)", 1); std::wcout << std::endl;
-
+			
+			JesterPrint();
 			
 			std::getline(std::cin, Confirm);
 			confirmed = Confirm == "Y" || Confirm == "y";
 			if (!confirmed)
 				continue;
 			break;
-
 		}
 
 		ChosenClass = choice;
@@ -695,6 +656,343 @@ void PlayerCharacter::CharacterCreator()
 
 		system("pause");
 	}while (!confirmed);
+}
+
+void PlayerCharacter::BrawlerPrint()
+{
+	std::wstring Brawler
+	{
+		L"You are a Fighter...\n\n" // 44 characters [ch. 50]
+		 "You fought for your king, and you fought for\n"
+		 "your country.  You fought for your family,\n"
+		 "and you fought for your friends...\n\n"
+
+		 "but most of all...\n"
+		 "You fought for the thrill of the fight.\n\n"
+		 "When you fight, you feel alive.  You know\n"
+		 "you are doing what you were born to do.\n"
+
+		 "After the war, you found yourself without\n"
+		 "a purpose...\n\n"
+
+		 "no one to fight for...\n"
+		 "no reason to fight...\n"
+		 "So you left...\n\n"
+
+		 "You've been wandering for years now...\n"
+		 "Fighting for gold, glory, and always...\n"
+		 "For the thrill...\n\n"
+
+		 "You spent so much time fighting...\n"
+		 "You don't know much else...\n"  
+		 "You've been in many battles, and won\n"
+		 "most of them.  You have been beaten\n"
+		 "before, but you always get back up.\n\n"
+
+		 "Today...\n\n"
+
+		 "You arrive in the dreary town of Dullsville.\n"
+	     "You've heard rumors of the great Dungeon...\n"
+		 "You care not about the treasure, but you\n"
+		 "know that there will be many battles to be\n"
+		 "fought.  You are ready to test yourself...\n"
+		 "To see if you are truly the greatest fighter\n"
+		 "And maybe...\n\n"
+		 "You'll be able to return home...\n\n"
+	};
+
+	system("cls");
+	TypeText(L"Warrior\n", 1);
+	TypeText(L"-------------------------------------------\n", 1); 
+	TypeText(L"The Warrior is a strength based class.\n"
+			  "They wield dual fist weapons for melee\n"
+		      "combat. They have a weakness to magic\n"
+		      "damage but have a bonus to strength.\n", 1); 
+	TypeText(L"-------------------------------------------\n", 1); 
+	TypeText(L"Confirm? (Y/N)\n", 1);
+	Sleep(5000);
+
+	TypeText(L"-------------------------------------------\n", 1); 
+	TypeText(L"Qrelation.Analyze_Code...\n", 1); 
+	Sleep(1000);
+	TypeText(L"Result: [GENERIC CLASS DETECTED]\n", 1); 
+	Sleep(1000);
+	TypeText(L"Qrelation.Engine->Refactor_Code...\n", 1); 
+	Sleep(1000);
+	system("cls");
+	PrintNumbers();
+	TypeText(L"-------------------------------------------\n", 1);
+	TypeText(L"[REFACTOR COMPLETE]\n", 1);
+	Sleep(1000);
+	system("cls");
+
+	TypeText(L"Brawler\n", 1);
+	TypeText(L"-------------------------------------------\n", 1);
+	TypeText(Brawler, 5);
+	TypeText(L"-------------------------------------------\n", 1);
+	TypeText(L"Strength: 15\n", 1);
+	TypeText(L"Dexterity: 10\n", 1);
+	TypeText(L"Wisdom: 5\n", 1);
+	TypeText(L"Charisma: 10\n", 1);
+	TypeText(L"-------------------------------------------\n", 1);
+	TypeText(L"Starting Eqiupment: \n", 1);
+	TypeText(L"Hard Leather Tunic\n", 1);
+	TypeText(L"Hard Leather Pants\n", 1);
+	TypeText(L"Hard Leather Boots\n", 1);
+	TypeText(L"Iron Fists\n", 1);
+	TypeText(L"-------------------------------------------\n", 1);
+	TypeText(L"Confirm? (Y/N)\n", 1);
+
+
+}
+void PlayerCharacter::ScourgePrint()
+{
+	std::wstring Scourge
+	{
+		L"In this country...\n"
+		 "You are an abomination...\n"
+		 "A monster...\n\n"
+
+		 "A Scourge...\n\n"
+
+		 "You are not cursed...\n"
+		 "You are not diseased...\n"
+		 "You are not a demon...\n\n"
+		 "You simply have the misfortune of being\n"
+		 "born with the ability to use magic.\n\n"
+
+		 "Thus people fear you.\n"
+		 "Magic users are branded by the church.\n"
+		 "The mark of the Scourge...\n\n"
+
+		 "Your kind are killed...\n"
+		 "Hunted...\n"
+		 "Driven from their homes...\n\n"
+		 "Forced into servitude...\n"
+
+		 "You escaped from your grim fate many\n"
+		 "years ago.\n\n"
+		 "You've been wandering ever since.\n"
+
+		 "Today...\n\n"
+
+		 "You arrive in the dreary town of Dullsville.\n"
+		 "You've heard rumors of the great Dungeon...\n"
+		 "Tales of a great magic artifact.\n"
+		 "Something that could give you power...\n"
+
+		 "Power to fight back...\n\n"
+	};
+
+	system("cls");
+	TypeText(L"Mage\n", 1);
+	TypeText(L"-------------------------------------------\n", 1);
+	TypeText(L"The Mage is a wisdon based class.\n"
+			  "They wield a staff for magic focused\n"
+			  "combat. They have a weakness to melee\n"
+			  "damage but have a bonus to wisdom.\n", 1);
+	TypeText(L"-------------------------------------------\n", 1);
+	TypeText(L"Confirm? (Y/N)\n", 1);
+	Sleep(5000);
+
+	TypeText(L"-------------------------------------------\n", 1);
+	TypeText(L"Qrelation.Analyze_Code...\n", 1);
+	Sleep(1000);
+	TypeText(L"Result: [GENERIC CLASS DETECTED]\n", 1);
+	Sleep(1000);
+	TypeText(L"Qrelation.Engine->Refactor_Code...\n", 1);
+	Sleep(1000);
+	system("cls");
+	PrintNumbers();
+	TypeText(L"-------------------------------------------\n", 1);
+	TypeText(L"[REFACTOR COMPLETE]\n", 1);
+	Sleep(1000);
+	system("cls");
+	
+	system("cls");
+	TypeText(L"Scourge\n", 1); 
+	TypeText(L"-------------------------------------------\n", 1); 
+	TypeText(Scourge, 10);
+	TypeText(L"-------------------------------------------\n", 1); 
+	TypeText(L"Strength: 5\n", 1); 
+	TypeText(L"Dexterity: 10\n", 1); 
+	TypeText(L"Wisdom: 15\n", 1); 
+	TypeText(L"Charisma: 10\n", 1); 
+	TypeText(L"-------------------------------------------", 1); 
+	TypeText(L"Starting Eqiupment: \n", 1); 
+	TypeText(L"Silk Robe\n", 1); 
+	TypeText(L"Silk Pants\n", 1);
+	TypeText(L"Silk\n", 1); 
+	TypeText(L"Staff\n", 1); 
+	TypeText(L"5 Health Potions\n", 1); 
+	TypeText(L"5 Mana Potions\n", 1); 
+	TypeText(L"-------------------------------------------", 1); 
+	TypeText(L"Confirm? (Y/N)\n", 1); 
+}
+void PlayerCharacter::SwindlerPrint()
+{
+	std::wstring Swindler
+	{
+		L"You are a liar...\n"
+		 "A cheat...\n"
+		 "A thief...\n\n"
+
+		 "A Swindler...\n\n"
+
+		 "You spent your fair share of time in jail.\n"
+		 "However, you've always managed to escape.\n\n"
+
+		 "Your last job went less than smoothly.\n"
+		 "Not only were you caught...\n"
+		 "This time you stole from the wrong Noble\n\n"
+
+		 "You were sentenced to death...\n"
+		 "No trial...\n"
+		 "No jury...\n\n"
+
+		 "And yet you managed to escape yet again...\n"
+		 "though, with a large bounty on your head.\n\n"
+
+		 "Unable to return home, you wander...\n\n"
+ 
+		 "Today...\n\n"
+
+		 "You arrive in the dreary town of Dullsville.\n"
+		 "You've heard rumors of the great Dungeon...\n"
+		 "The treaseure within...\n\n"
+
+		 "Riches that could give you a second chance.\n"
+	};
+
+	system("cls");
+	TypeText(L"Archer\n", 1);
+	TypeText(L"-------------------------------------------\n", 1);
+	TypeText(L"The Archer is a Dexterity based class.\n"
+		      "They wield a bow for ranged focused\n"
+		      "combat. They have a weakness to magic\n"
+		      "damage but have a bonus to Dexterity.\n", 1);
+	TypeText(L"-------------------------------------------\n", 1);
+	TypeText(L"Confirm? (Y/N)\n", 1);
+	Sleep(5000);
+
+	TypeText(L"-------------------------------------------\n", 1);
+	TypeText(L"Qrelation.Analyze_Code...\n", 1);
+	Sleep(1000);
+	TypeText(L"Result: [GENERIC CLASS DETECTED]\n", 1);
+	Sleep(1000);
+	TypeText(L"Qrelation.Engine->Refactor_Code...\n", 1);
+	Sleep(1000);
+	system("cls");
+	PrintNumbers();
+	TypeText(L"-------------------------------------------\n", 1);
+	TypeText(L"[REFACTOR COMPLETE]\n", 1);
+	Sleep(1000);
+	system("cls");
+	
+	system("cls");
+	TypeText(L"Swindler\n", 1); 
+	TypeText(L"-------------------------------------------\n", 1); 
+	TypeText(Swindler, 10);
+	TypeText(L"-------------------------------------------\n", 1); 
+	TypeText(L"Strength: 10\n", 1); 
+	TypeText(L"Dexterity: 15\n", 1);
+	TypeText(L"Wisdom: 5\n", 1); 
+	TypeText(L"Charisma: 10\n", 1); 
+	TypeText(L"-------------------------------------------\n", 1); 
+	TypeText(L"Starting Eqiupment: \n", 1); 
+	TypeText(L"Light mail tunic\n", 1); 
+	TypeText(L"Light mail pants\n", 1); 
+	TypeText(L"Light mail boots\n", 1); 
+	TypeText(L"Short Bow\n", 1); 
+	TypeText(L"10 Health Potions\n", 1); 
+	TypeText(L"-------------------------------------------\n", 1); 
+	TypeText(L"Confirm? (Y/N)\n", 1); 
+}
+void PlayerCharacter::JesterPrint()
+{
+	std::wstring Jester
+	{
+		L"You are a not strong...\n"
+		 "You are not wise...\n"
+		 "You are not quick...\n\n"
+
+		 "You are a Jester...\n\n"
+
+		 "You've spent your life entertaining others.\n"
+		 "You've always been a bit of a jokester.\n"
+		 "Many people say you have a gift for comedy.\n\n"
+
+		 "But you've always wanted more...\n\n"
+
+		 "You've always wanted to be an adventurer.\n"
+		 "To explore the world and see new things.\n"
+		 "To make a name for yourself.\n\n"
+
+		 "One day you got that chance...\n\n"
+
+		 "A wandering merchant came to town.\n"
+		 "He had on him a strange mask...\n"
+		 "He said it would grant certain abilities\n\n"
+
+		 "You bought the mask and put it on...\n"
+		 "You felt a strange power come over you...\n"
+		 "You found you are able to inspire people...\n"
+		 "You are able to bring out true potential...\n\n"
+
+		 "You took this as a sign...\n"
+		 "You set out on an adventure.\n\n"
+			
+		 "Today...\n\n"
+
+		 "You arrive in the dreary town of Dullsville.\n"
+		 "You've heard rumors of the great Dungeon...\n"
+		 "This was the adventure you had always wanted.\n"
+	};
+
+	system("cls");
+	TypeText(L"Cleric\n", 1);
+	TypeText(L"-------------------------------------------\n", 1);
+	TypeText(L"The Cleric is a Charisma based class.\n"
+		      "They focus on support magic to buff allies.\n" 
+		      "They have a weakness to melee damage\n"
+		      "but have a bonus to Charisma.\n", 1);
+	TypeText(L"-------------------------------------------\n", 1);
+	TypeText(L"Confirm? (Y/N)\n", 1);
+	Sleep(5000);
+
+	TypeText(L"-------------------------------------------\n", 1);
+	TypeText(L"Qrelation.Analyze_Code...\n", 1);
+	Sleep(1000);
+	TypeText(L"Result: [GENERIC CLASS DETECTED]\n", 1);
+	Sleep(1000);
+	TypeText(L"Qrelation.Engine->Refactor_Code...\n", 1);
+	Sleep(1000);
+	system("cls");
+	PrintNumbers();
+	TypeText(L"-------------------------------------------\n", 1);
+	TypeText(L"[REFACTOR COMPLETE]\n", 1);
+	Sleep(1000);
+	system("cls");
+	
+	system("cls");
+	TypeText(L"Jester\n", 1);
+	TypeText(L"-------------------------------------------\n", 1); 
+	TypeText(Jester, 10);
+	TypeText(L"-------------------------------------------\n", 1); 
+	TypeText(L"Strength: 5\n", 1); 
+	TypeText(L"Dexterity: 10\n", 1); 
+	TypeText(L"Wisdom: 10\n", 1); 
+	TypeText(L"Charisma: 15\n", 1);
+	TypeText(L"-------------------------------------------\n", 1);
+	TypeText(L"Starting Eqiupment: \n", 1); 
+	TypeText(L"Cloth chest\n", 1); 
+	TypeText(L"Cloth pants\n", 1); 
+	TypeText(L"Cloth boots\n", 1); 
+	TypeText(L"Scepter\n", 1); 
+	TypeText(L"5 Health Potions\n", 1);
+	TypeText(L"5 Mana Potions\n", 1);
+	TypeText(L"-------------------------------------------\n", 1); 
+	TypeText(L"Confirm? (Y/N)\n", 1); 
 }
 
 ////////////////////////////////// Combat functions   //////////////////////////////////

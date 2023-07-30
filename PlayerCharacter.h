@@ -69,6 +69,10 @@ public:
 //other functions
 	void CharacterCreator();     //character creator
 	void SetSelf(std::shared_ptr<PlayerCharacter> selfShared) { Self = selfShared; };  // sets the self pointer to itself)
+	void BrawlerPrint();
+	void ScourgePrint();
+	void SwindlerPrint();
+	void JesterPrint();
 
 //inventory functions
 	void AddItem(std::shared_ptr<Item> item, int quantity);      // adds an item to the player character's inventory

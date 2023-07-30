@@ -36,9 +36,9 @@ int MainMenu()
     const std::wstring Filler4(17, L'\u2588');
     const std::wstring Filler5(18, L'\u2588');
     const std::wstring MenuTitle = L"MAIN MENU";
-    const std::wstring PlayGame1 = L"1. ------->Play Game<-------";
-    const std::wstring LoadGame1 = L"2. ------->Load Game<-------";
-    const std::wstring QuitGame1 = L"3. ------->Quit Game<--------";
+    const std::wstring PlayGame1 = L"[1]------->Play Game<-------";
+    const std::wstring LoadGame1 = L"[2]------->Load Game<-------";
+    const std::wstring QuitGame1 = L"[3]------->Quit Game<-------";
 
     TypeText(Filler1, 1);
     std::wcout << "\n";
@@ -64,7 +64,7 @@ int MainMenu()
     std::wcout << std::endl;
     TypeText(Filler3, 1);
     TypeText(QuitGame1, 1);
-    TypeText(Filler2, 1);
+    TypeText(Filler3, 1);
     std::wcout << std::endl;
     TypeText(Filler1, 1);
     std::wcout << std::endl;

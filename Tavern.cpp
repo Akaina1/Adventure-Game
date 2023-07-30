@@ -9,12 +9,12 @@ void Tavern::OnEnter(std::shared_ptr<PlayerCharacter> Player) //called when the 
     //1. event check
 	// to implement later
 	//2. print out intro text
-	TypeText(L"Welcome to the Tavern!\n", 10);
-	TypeText(L"Here you can rest to save your game...\n", 10);
-	TypeText(L"Grab a drink from the bar...\n", 10);
-	TypeText(L"Talk to various NPCs to purchase items and equipment...\n", 10);
-	TypeText(L"And you can venture into the Dungeons as well... If you dare...\n", 10);
-	TypeText(L"So what will it be stranger...?\n", 30);
+	TypeText(L"Welcome to the Tavern!\n", 5);
+	TypeText(L"------------------------------------------\n", 5);
+	TypeText(L"Here you can rest to save your game...\n\n", 5);
+	TypeText(L"Grab a drink from the bar...\n\n", 5);
+	TypeText(L"Talk to various NPCs to purchase items\nand equipment...\n\n", 5);
+	TypeText(L"If you have a death wish you can\nventure into the Dungeon as well\n\n...If you dare...\n", 5);
 	//3. print out menu
 	TavernMenu();
 }
@@ -48,6 +48,7 @@ void Tavern::TavernMenu()
     TypeText(L"------------------------------------------\n", 10);
 
     std::cin >> choice;
+	system("cls");
 
 	switch (choice)
 	{

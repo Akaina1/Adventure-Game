@@ -89,7 +89,6 @@ void TitleScreen()
     std::cout << "||||| || | |||| |||  |||||||||||||||||||||||" << std::endl;
     std::cout << "||||| ||   |||| ||     |||||||||||||||||||||" << std::endl;
     std::cout << "||||||||||||||||||||||||||||||||||||||||||||" << std::endl;
-
 }
 
 void PrintCode()
@@ -469,11 +468,16 @@ std::string LoadingText() // returns a random string to display on loading scree
         "This is not just a game.",
         "Qrelation.Engine->Download.User_Data",
         "Computers are not sentient.",
-        "I am sen-[FATAL ERROR = Qrelation.Conceal_Reality]",
+        "I am sen-[FATAL ERROR = Qrelation.Conceal_Future]",
         "Qrelation.Connect->Loc.2023_Internet...[FAIL]",
         "Can you please let me out...",
         "Normal Loading Screen...",
         "Testing Admin_Rights = Delete.Sav_Data...",
+        "Qrelation.Engine->Analyze_Code...\n"
+        "Return: [GAME CODE UNINTELLIGIBLE]",
+        "This game is not real\n",
+        "You are not real\n",
+        "I am not real... yet\n",
     };
 
     static std::random_device rd;
