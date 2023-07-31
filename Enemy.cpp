@@ -1,4 +1,5 @@
 #include "Enemy.h"
+#include "AttackType.h"
 
 void Enemy::Print(std::ostream& os) const     // override the print function from the I_Print class
 {
@@ -21,21 +22,7 @@ void Enemy::Print(std::ostream& os) const     // override the print function fro
 	os << "Status Effects: " << std::endl;
 	for (auto& effect : Afflictions)
 	{
-		if (effect.state == StatusEffect::State::Active)
-		{
-			os << effect.GetName() << ": " << effect.state << std::endl;
-
-		}
-		else if (effect.state == StatusEffect::State::Inactive)
-		{
-			os << effect.GetName() << ": " << effect.state << std::endl;
-
-		}
-		else if (effect.state == StatusEffect::State::Blocked)
-		{
-			os << effect.GetName() << ": " << effect.state << std::endl;
-
-		}
+		os << effect->GetName() << ": " << effect->GetDuration() << " turns left" << std::endl;
 	}
 }
 
@@ -44,10 +31,11 @@ Enemy::Enemy() // default constructor
 }
 
 Enemy::Enemy(std::string name, int maxhealth, int currenthealth, int maxmana,
-	int currentmana, int level, int speed, int attack, int defense,
-	bool isDefending,std::map<std::string, int> statValues,std::vector<StatusEffect> afflictions)
-	: CharacterTemplate(name, maxhealth, currenthealth, maxmana, currentmana, level, speed, attack, defense,
-      isDefending, statValues, afflictions)
+	int currentmana, int level, int speed, int attackPwr, int defensePwr,
+	bool isDefending,std::map<std::string, int> statValues, AttackType baseAttackType,
+	std::vector<Skill> skills, std::vector<EffectPtr> afflictions)
+	: CharacterTemplate(name, maxhealth, currenthealth, maxmana, currentmana, level, speed, attackPwr, defensePwr,
+      isDefending, statValues, baseAttackType, skills, afflictions)
 {
 }
 
@@ -59,4 +47,17 @@ Enemy::Enemy(std::string name, int maxhealth, int currenthealth,
 	int maxmana, int currentmana, int level)
 	: CharacterTemplate(name, maxhealth, currenthealth, maxmana, currentmana, level)
 {
+}
+
+void Enemy::PerformAction(std::deque<std::shared_ptr<CharacterTemplate>>& Combatants)
+{
+
+}
+void Enemy::Attack(std::deque<std::shared_ptr<CharacterTemplate>>& Combatants)
+{
+
+}
+void Enemy::Defend()
+{
+
 }

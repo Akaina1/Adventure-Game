@@ -5,6 +5,9 @@
 #include "NPC.h"
 #include "Enemy.h"
 #include "GameSetup.h"
+#include "AttackType.h"
+#include "Skill.h"
+
 ////////////////////////////////// Default functions //////////////////////////////////
 
 PlayerCharacter::PlayerCharacter() // default constructor
@@ -17,13 +20,13 @@ PlayerCharacter::~PlayerCharacter() // destructor
 
 // constructor with parameters
 PlayerCharacter::PlayerCharacter(std::string name, int maxhealth, int currenthealth,
-	int maxmana, int currentmana, int level, int speed, int attack, int defense,
-	bool isDefending,long long experience,
-	int gold, int playerClass, std::map<std::string, int> statValues,
-	std::unordered_map<int, std::pair<std::shared_ptr<Item>, int>> inventory,
-	std::vector<StatusEffect> afflictions) :
-	CharacterTemplate(name, maxhealth, currenthealth, maxmana, currentmana, level, speed, attack, defense,
-	isDefending, statValues, afflictions), Experience(experience), Gold(gold), PlayerClass(playerClass), Inventory(inventory)
+	int maxmana, int currentmana, int level, int speed, int attackPwr, int defensePwr,
+	bool isDefending,long long experience, int gold, int playerClass, std::map<std::string, 
+	int> statValues, AttackType baseAttackType, std::vector<Skill> skills, std::unordered_map<int, 
+	std::pair<std::shared_ptr<Item>, int>> inventory, std::vector<EffectPtr> afflictions) :
+	CharacterTemplate(name, maxhealth, currenthealth, maxmana, currentmana, level, speed, attackPwr, 
+	defensePwr,	isDefending, statValues, baseAttackType, skills, afflictions), Experience(experience), 
+	Gold(gold), PlayerClass(playerClass), Inventory(inventory)
 {}
 
 void PlayerCharacter::Print(std::ostream& os) const     // override the print function from the I_Print class
@@ -60,21 +63,7 @@ void PlayerCharacter::Print(std::ostream& os) const     // override the print fu
 	os << "Status Effects: " << std::endl;
 	for (auto& effect : Afflictions)
 	{
-		if (effect.state == StatusEffect::State::Active)
-		{
-			os << effect.GetName() << ": " << effect.state << std::endl;
-
-		}
-		else if (effect.state == StatusEffect::State::Inactive)
-		{
-			os << effect.GetName() << ": " << effect.state << std::endl;
-
-		}
-		else if (effect.state == StatusEffect::State::Blocked)
-		{
-			os << effect.GetName() << ": " << effect.state << std::endl;
-
-		}
+		os << effect->GetName() << ": " << effect->GetDuration() << " turns left" << std::endl;
 	}
 }
 
@@ -742,9 +731,8 @@ void PlayerCharacter::BrawlerPrint()
 	TypeText(L"Iron Fists\n", 1);
 	TypeText(L"-------------------------------------------\n", 1);
 	TypeText(L"Confirm? (Y/N)\n", 1);
-
-
 }
+
 void PlayerCharacter::ScourgePrint()
 {
 	std::wstring Scourge
@@ -818,7 +806,7 @@ void PlayerCharacter::ScourgePrint()
 	TypeText(L"Dexterity: 10\n", 1); 
 	TypeText(L"Wisdom: 15\n", 1); 
 	TypeText(L"Charisma: 10\n", 1); 
-	TypeText(L"-------------------------------------------", 1); 
+	TypeText(L"-------------------------------------------\n", 1); 
 	TypeText(L"Starting Eqiupment: \n", 1); 
 	TypeText(L"Silk Robe\n", 1); 
 	TypeText(L"Silk Pants\n", 1);
@@ -826,9 +814,10 @@ void PlayerCharacter::ScourgePrint()
 	TypeText(L"Staff\n", 1); 
 	TypeText(L"5 Health Potions\n", 1); 
 	TypeText(L"5 Mana Potions\n", 1); 
-	TypeText(L"-------------------------------------------", 1); 
+	TypeText(L"-------------------------------------------\n", 1); 
 	TypeText(L"Confirm? (Y/N)\n", 1); 
 }
+
 void PlayerCharacter::SwindlerPrint()
 {
 	std::wstring Swindler
@@ -908,6 +897,7 @@ void PlayerCharacter::SwindlerPrint()
 	TypeText(L"-------------------------------------------\n", 1); 
 	TypeText(L"Confirm? (Y/N)\n", 1); 
 }
+
 void PlayerCharacter::JesterPrint()
 {
 	std::wstring Jester
@@ -997,7 +987,7 @@ void PlayerCharacter::JesterPrint()
 
 ////////////////////////////////// Combat functions   //////////////////////////////////
 
-void PlayerCharacter::PerformAction(std::vector<std::shared_ptr<CharacterTemplate>>& Combatants)
+void PlayerCharacter::PerformAction(std::deque<std::shared_ptr<CharacterTemplate>>& Combatants)
 {
 	int choice = 0;
 	while (choice < 1 || choice > 4)
@@ -1026,10 +1016,13 @@ void PlayerCharacter::PerformAction(std::vector<std::shared_ptr<CharacterTemplat
 	case 3:
 		CheckInventory();
 		break;
+	case 4:
+		//UseSkill();
+		break;
 	}
 };
 
-void PlayerCharacter::Attack(std::vector<std::shared_ptr<CharacterTemplate>>& Combatants)
+void PlayerCharacter::Attack(std::deque<std::shared_ptr<CharacterTemplate>>& Combatants)
 {
 	std::cout << "Choose your attack type: " << std::endl;
 	std::cout << "1. Melee" << std::endl;
@@ -1039,6 +1032,7 @@ void PlayerCharacter::Attack(std::vector<std::shared_ptr<CharacterTemplate>>& Co
 	int attackTypeChoice;
 	std::cin >> attackTypeChoice;
 	attackTypeChoice--;
+
 
 	// Ensure the player selects a valid attack type.
 	if (attackTypeChoice < 0 || attackTypeChoice > 2)
@@ -1072,7 +1066,7 @@ void PlayerCharacter::Attack(std::vector<std::shared_ptr<CharacterTemplate>>& Co
 	if (enemyChoice >= 0 && enemyChoice < enemyList.size())
 	{
 		auto enemy = enemyList[enemyChoice];
-		int damage = CalculateDamage(attackType, enemy);
+		int damage = CalculateBaseDamage(attackType, enemy);
 		enemy->TakeDamage(damage);
 
 		std::cout << "You attack " << enemy->GetName() << " for " << damage << " damage!" << std::endl;
@@ -1086,7 +1080,7 @@ void PlayerCharacter::Attack(std::vector<std::shared_ptr<CharacterTemplate>>& Co
 void PlayerCharacter::Defend()
 {
 	// increase defense by 25%
-	Defense *= 1.25;
+	DefensePwr *= 1.25;
 	// indicate that player is defending
 	IsDefending = true;
 
@@ -1111,4 +1105,115 @@ void PlayerCharacter::CheckInventory()
 		std::cout << item->GetName() << " x " << quantity << "\n";
 		std::cout << "Description: " << item->GetDescription() << "\n";
 	}
+}
+
+void PlayerCharacter::UseSkill(std::deque<std::shared_ptr<CharacterTemplate>>& Combatants)
+{
+	// display a list of available skills:
+	std::cout << "Skills: " << std::endl;
+	int skillIndex = 1;
+
+	for (const auto& skill : Skills)
+	{
+		std::cout << "[" << skillIndex << "]" << skill.GetName() << std::endl;
+		skillIndex++;
+	}
+
+	// get the player's choice
+
+	int skillChoice;
+	while (true)
+	{
+		std::cout << "Choose a skill to use : " << std::endl;
+		std::cin >> skillChoice;
+
+		if (std::cin.fail()) {
+			std::cout << "Invalid input! select a valid skill" << std::endl;
+			std::cin.clear(); // Clear the failure state
+			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Remove the bad input
+		}
+		else
+		{
+			break;
+		}
+	}
+
+	skillChoice--;
+
+	Skill selectedSkill = Skills[skillChoice];
+
+
+	// check if the player has enough mana to use the skill
+	int cost = selectedSkill.GetManaCost();
+	int currentMana = GetCurrentMana();
+
+	if (cost > currentMana)
+	{
+		std::cout << "You do not have enough mana to use that skill!" << std::endl;
+		return;
+	}
+
+	int targetIndex = 1;
+
+	//get list of enemies
+	for (auto& combatant : Combatants)
+	{
+		if (combatant->GetCurrentHealth() > 0)
+		{
+			if (combatant == shared_from_this()) // Skip the player character as a target
+				continue;
+
+			std::string targetType = (std::dynamic_pointer_cast<Enemy>(combatant) != nullptr) ? "Enemy" : "Ally";
+			std::cout << "[" << targetIndex << "] " << targetType << ": " << combatant->GetName() << std::endl;
+			targetIndex++;
+		}
+	}
+
+	int targetChoice;
+	while (true)
+	{
+		std::cout << "Choose a target: ";
+		std::cin >> targetChoice;
+
+		if (std::cin.fail() || targetChoice < 1 || targetChoice > Combatants.size() - 1)
+		{
+			std::cout << "Invalid Choice. Please select a valid target." << std::endl;
+			std::cin.clear();
+			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+		}
+		else
+		{
+			break;
+		}
+	}
+
+	targetChoice--;
+
+	// Get the selected enemy as the target
+	auto target = Combatants[targetChoice];
+
+	// Use the skill based on its type
+	if (selectedSkill.GetSkillType() == SkillType::Attack)
+	{
+		// If it's an attack skill, calculate the damage and perform the attack
+		int damage = selectedSkill.CalculateSkillDamage(shared_from_this(), target);
+		target->TakeDamage(damage);
+
+		std::cout << "You used the skill: " << selectedSkill.GetName() << std::endl;
+		std::cout << "You attack " << target->GetName() << " for " << damage << " damage!" << std::endl;
+	}
+	else if (selectedSkill.GetSkillType() == SkillType::Buff)
+	{
+		// If it's a buff skill, apply the effect to the target
+		selectedSkill.GetAddEffect()(*target);
+		std::cout << "You used the skill: " << selectedSkill.GetName() << std::endl;
+	}
+	else
+	{
+		std::cout << "This skill type is not implemented yet!" << std::endl;
+	}
+
+	// Deduct the mana cost from the player's current mana
+	UseMana(cost);
+	std::cout << "You used " << cost << " mana. Current mana: " << GetCurrentMana() << std::endl;
 }

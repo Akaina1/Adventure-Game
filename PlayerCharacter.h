@@ -1,14 +1,15 @@
 // definition for the PlayerCharacter class
 #pragma once
 #include "Main.h"
+#include "CharacterTemplate.h"
 #include "MainMenu.h"
 #include "Location.h"
 #include "Room.h"
 #include "NPC.h"
 #include "Event.h"
-#include "StatusEffect.h"
+#include "Effect.h"
 #include "Tavern.h"
-#include "CharacterTemplate.h"
+
 
 class Item;
 
@@ -28,11 +29,11 @@ public:
 	~PlayerCharacter(); // destructor
 
 	PlayerCharacter(std::string name, int maxhealth, int currenthealth,
-		int maxmana, int currentmana, int level, int speed, int attack, int defense,
-		bool isDefending, long long experience,
-		int gold, int playerClass, std::map<std::string, int> statValues,
-		std::unordered_map<int, std::pair<std::shared_ptr<Item>, int>> inventory,
-		std::vector<StatusEffect> afflictions);  // constructor with parameters
+		int maxmana, int currentmana, int level, int speed, int attackPwr, int defensePwr,
+		bool isDefending, long long experience, int gold, int playerClass, 
+		std::map<std::string, int> statValues, AttackType baseAttackType,
+		std::vector<Skill> skills,std::unordered_map<int, std::pair<std::shared_ptr<Item>, int>> inventory,
+		std::vector<EffectPtr> afflictions);  // constructor with parameters
 
 	virtual void Print(std::ostream& os) const;                                    // override the print function from the I_Print class
 
@@ -43,10 +44,11 @@ public:
 
 	void ChooseMove();
 //combat functions
-	virtual void PerformAction(std::vector<std::shared_ptr<CharacterTemplate>>& Combatants) override; // override the PerformAction function from the CharacterTemplate class
-	void Attack(std::vector<std::shared_ptr<CharacterTemplate>>& Combatants); // attack a target
+	virtual void PerformAction(std::deque<std::shared_ptr<CharacterTemplate>>& Combatants) override; // override the PerformAction function from the CharacterTemplate class
+	void Attack(std::deque<std::shared_ptr<CharacterTemplate>>& Combatants); // attack a target
 	void Defend(); // defend against an attack
 	void CheckInventory(); // check the player character's inventory to use items
+	virtual void UseSkill(std::deque<std::shared_ptr<CharacterTemplate>>& Combatants) override;
 
 //class functions
 	std::string GetPlayerClassName() const;                    // returns the name of the player class

@@ -250,23 +250,23 @@ void Tavern::Drink()
 	}
 }
 
-void Tavern::ViewNpcs(std::vector<NPC> NPCList)
-{
-	// TalkToNPCs will print out the NPCs in the tavern
-	// TalkToNPCs will allow the player to choose which NPC to talk to
-	// TalkToNPCs will call the TalkToNPC function
-}
-
-void Tavern::TalkToNpc(NPC& npc)
-{
-    // TalkToNPC will print out the NPC's name and description
-    // TalkToNPC will print out the NPC's dialogue
-    // TalkToNPC will print out the NPC's options
-    // TalkToNPC will allow the player to choose which option to choose
-	// TalkToNPC will call the NPC's function based on the player's choice
-    // do event checks
-
-}
+//void Tavern::ViewNpcs(std::vector<NPC> NPCList)
+//{
+//	// TalkToNPCs will print out the NPCs in the tavern
+//	// TalkToNPCs will allow the player to choose which NPC to talk to
+//	// TalkToNPCs will call the TalkToNPC function
+//}
+//
+//void Tavern::TalkToNpc(NPC& npc)
+//{
+//    // TalkToNPC will print out the NPC's name and description
+//    // TalkToNPC will print out the NPC's dialogue
+//    // TalkToNPC will print out the NPC's options
+//    // TalkToNPC will allow the player to choose which option to choose
+//	// TalkToNPC will call the NPC's function based on the player's choice
+//    // do event checks
+//
+//}
 
 std::shared_ptr<Room> Tavern::GetConnectedRoom(int index) const
 {

@@ -1,15 +1,7 @@
 ﻿#include "Combat.h"
 
-Combat::Combat(std::shared_ptr<PlayerCharacter> player, std::vector<std::shared_ptr<CharacterTemplate>> combatants)
-    : Player{ player }, Combatants{combatants}, CurrentTurn{ 0 }, MaxTurns{ 999 }
-{
-    SpeedQueue.push(Player);
-
-    for (const auto& combatant : Combatants)
-    {
-        SpeedQueue.push(combatant);
-    }
-}; // Default constructor
+Combat::Combat(std::shared_ptr<PlayerCharacter> player, std::deque<std::shared_ptr<CharacterTemplate>> combatants)
+    : Player{ player }, Combatants{combatants}, CurrentTurn{ 0 }, MaxTurns{ 999 } {}; // Default constructor
 
 void Combat::CombatDisplay() {
     // print header
@@ -77,7 +69,7 @@ void Combat::CombatDisplay() {
 void Combat::StartCombat() // Start combat
 {
     // add room combatants to combatants vector
-    
+    CurrentTurn = 1;
   
     // Sort Combatants by speed
     std::sort(Combatants.begin(), Combatants.end(),
@@ -99,21 +91,23 @@ void Combat::CurrentAction()
 {
     while (true) // loop until break
     {
-        // Create a priority queue to sort combatants by speed
-        std::priority_queue<std::shared_ptr<CharacterTemplate>, std::vector<std::shared_ptr<CharacterTemplate>>, CompareSpeed> SpeedQueue;
-
-        // Populate the queue with the combatants
-        for (auto& combatant : Combatants) {
-            if (combatant->GetCurrentHealth() > 0) { // Only add alive combatants
-                SpeedQueue.push(combatant);
-            }
-        }
-
+       // sort combatants by speed
+        std::sort(Combatants.begin(), Combatants.end(),
+            [](const std::shared_ptr<CharacterTemplate>& a, const std::shared_ptr<CharacterTemplate>& b) {
+				return a->GetSpeed() > b->GetSpeed();
+			});
+      
         // All combatants have their turn
-        while (!SpeedQueue.empty())
+        while (!Combatants.empty())
         {
-            auto fastestCombatant = SpeedQueue.top();
-            SpeedQueue.pop();
+            auto fastestCombatant = Combatants.front();
+            Combatants.pop_front();
+
+            // Skip this combatant if they are dead
+            if (fastestCombatant->GetCurrentHealth() <= 0)
+            {
+                continue;
+            }
 
             // Combatant takes their turn
             fastestCombatant->PerformAction(Combatants); // Perform action
@@ -123,7 +117,19 @@ void Combat::CurrentAction()
             {
                 return;
             }
+
+            // Check and update effects duration for the character
+            UpdateEffectsDuration(*fastestCombatant);
+
+            // Push the combatant back into the Combatants vector
+            Combatants.push_back(fastestCombatant);
+  
         }
+
+        CurrentTurn++;
+
+        std::cout << "Turn: " << CurrentTurn << std::endl;
+        std::cout << "+----------------------------------------+" << std::endl;
     }
 }
 
@@ -131,13 +137,18 @@ void Combat::EndCombat() // End combat
 {
     if (!EnemiesAreAlive())
     {
+        std::cout << "+----------------------------------------+" << std::endl;
         std::cout << "Victory!\n";
+        std::cout << "+----------------------------------------+" << std::endl;
+
         // Implement victory rewards, experience gain, etc. here
 
     }
     else if (!AlliesAreAlive() || Player->GetCurrentHealth() <= 0)
     {
+        std::cout << "+----------------------------------------+" << std::endl;
         std::cout << "Defeat!\n";
+        std::cout << "+----------------------------------------+" << std::endl;
         // Implement defeat penalties, game over screen, etc. here
 
     }
@@ -172,6 +183,29 @@ bool Combat::AlliesAreAlive() // Check if allies are alive
 void Combat::HandleTurn() // Handle turn
 {
 
+}
+void Combat::UpdateEffectsDuration(CharacterTemplate& character) // Update effects duration
+{
+    for (auto it = character.GetAfflictions().begin(); it != character.GetAfflictions().end();)
+    {
+        if ((*it)->GetDuration() > 0)
+        {
+            (*it)->DecreaseDuration(1); // Decrement the effect's duration by 1
+            if ((*it)->GetDuration() == 0)
+            {
+                // Remove the effect from the character's Afflictions vector
+                it = character.GetAfflictions().erase(it);
+            }
+            else
+            {
+                ++it;
+            }
+        }
+        else
+        {
+            ++it;
+        }
+    }
 }
 //void CombatDisplay() // Display the combat - MIGHT implement later, very complicated
 //{

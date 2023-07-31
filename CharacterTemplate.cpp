@@ -1,7 +1,8 @@
 // Implementation for the character template class that will be a base class for all other character classes
 #include "CharacterTemplate.h"
+#include "Effect.h"
 #include "StatusEffect.h"
-
+#include "AttackType.h"
 ////////////////////////////////// Default functions //////////////////////////////////
 
 
@@ -28,12 +29,12 @@ CharacterTemplate::CharacterTemplate(std::string name, int maxhealth, int curren
 // constructor with parameters
 
 CharacterTemplate::CharacterTemplate(std::string name, int maxhealth, int currenthealth,
-	int maxmana, int currentmana, int level, int speed, int attack, int defense,
-	bool isDefending ,std::map<std::string, int> statValues,
-	std::vector<StatusEffect> afflictions) :
+	int maxmana, int currentmana, int level, int speed, int attackPwr, int defensePwr,
+	bool isDefending ,std::map<std::string, int> statValues, AttackType baseAttackType,
+	std::vector<Skill> skills, std::vector<EffectPtr> afflictions) :
 	Name(name), MaxHealth(maxhealth), CurrentHealth(currenthealth),
-	MaxMana(maxmana), CurrentMana(currentmana), Level(level), Speed(speed), Attack(attack), Defense(defense),
-	IsDefending(isDefending), StatValues(statValues), Afflictions(afflictions) {}
+	MaxMana(maxmana), CurrentMana(currentmana), Level(level), Speed(speed), AttackPwr(attackPwr), DefensePwr(defensePwr),
+	IsDefending(isDefending), StatValues(statValues), baseAttackType (baseAttackType), Skills (skills), Afflictions(afflictions) {}
 
 // destructor
 
@@ -41,20 +42,20 @@ CharacterTemplate::~CharacterTemplate()
 {
 }
 
-int CharacterTemplate::CalculateDamage(AttackType attackType, std::shared_ptr<CharacterTemplate> target)
+int CharacterTemplate::CalculateBaseDamage(AttackType baseAttackType, std::shared_ptr<CharacterTemplate> target)
 {
 	int damage = 0;
 
 	// Calculate damage based on attack type
-	switch (attackType) {
-	case Melee:
-		damage = (this->Attack + (this->StatValues["Strength"])    ) - target->Defense;
+	switch (baseAttackType) {
+	case AttackType::Melee:
+		damage = (this->AttackPwr + (this->StatValues["Strength"])    ) - target->DefensePwr;
 		break;
-	case Ranged:
-		damage = (this->Attack + this->StatValues["Dexterity"]) - target->Defense;
+	case AttackType::Ranged:
+		damage = (this->AttackPwr + this->StatValues["Dexterity"]) - target->DefensePwr;
 		break;
-	case Magic:
-		damage = (this->Attack + this->StatValues["Wisdom"]) - target->Defense;
+	case AttackType::Magic:
+		damage = (this->AttackPwr + this->StatValues["Wisdom"]) - target->DefensePwr;
 		break;
 	}
 
@@ -125,69 +126,48 @@ void CharacterTemplate::UseMana(int cost) // uses mana from the player character
 
 ////////////////////////////////// Effect functions   //////////////////////////////////
 
-void CharacterTemplate::ApplyEffect(StatusEffect effect) // applies a status effect to the player character
+void CharacterTemplate::ApplyEffect(EffectPtr  effect) // applies a status effect to the player character
 {
-
-	effect.state = StatusEffect::State::Active;
-
-	effect.StatusEffect::GetAddEffect()(*this);
-
+	effect->ApplyEffect(*this);
 	std::cout << "EFFECT ADDED TO CHARACTER" << std::endl;
-
 	Afflictions.push_back(effect);
-
 };
 
-void CharacterTemplate::RemoveEffect(const std::string& effectName) // removes a status effect from the player character
+void CharacterTemplate::RemoveEffect(const std::string& effectName)
 {
-	for (auto it = Afflictions.begin(); it != Afflictions.end(); ++it)
+	for (auto it = Afflictions.begin(); it != Afflictions.end();)
 	{
-		// If the effect is the one we want to remove
-		if (it->GetName() == effectName)
+		if ((*it)->GetName() == effectName)
 		{
-			// Call the removeEffect function to undo the effect
-			it->GetRemoveEffect()(*this);
+			// Call the RemoveEffect function to undo the effect
+			(*it)->RemoveEffect(*this);
 
-			// Remove the effect from the vector
-			Afflictions.erase(it);
+			// Erase the effect from the vector and get the next valid iterator
+			it = Afflictions.erase(it);
 
 			std::cout << "EFFECT REMOVED FROM CHARACTER" << std::endl;
 			return;
 		}
+		else
+		{
+			++it;
+		}
 	}
 }
 
-void CharacterTemplate::UpdateEffects(StatusEffect& effect) // takes in an effect to update, and a pointer to a character to access their Afflictions vector
+////////////////////////////// Skill Effect functions //////////////////////////////////
+
+bool CharacterTemplate::CanUseSkills() const
 {
-	// check if the effect is in the vector
-	for (auto& affliction : Afflictions)
+	for (const auto& effect : Afflictions)
 	{
-		if (affliction.GetId() == effect.GetId())
+		if (effect->GetName() == "Silenced")
 		{
-			// if the effect is in the vector check if the effect is active or not
-			if (affliction.state == StatusEffect::State::Active)
-			{
-				RemoveEffect(affliction.GetName());
-			}
-			else if (affliction.state == StatusEffect::State::Inactive)
-			{
-				ApplyEffect(affliction);
-			}
-			else if (affliction.state == StatusEffect::State::Blocked)
-			{
-				std::cout << "CAN'T UPDATE BLOCKED EFFECT" << std::endl;
-			}
-			return;
-
+			return false;
 		}
-		
-
 	}
 
-	if (effect.state == StatusEffect::State::Active)
-	{
-			ApplyEffect(effect);
-	}
+	return true;
 }
 
 ////////////////////////////////// Stat functions    //////////////////////////////////
@@ -227,4 +207,3 @@ void CharacterTemplate::RemoveStat(std::string statName, int value)
 		std::cout << "Stat not found" << std::endl;
 	}
 }
-

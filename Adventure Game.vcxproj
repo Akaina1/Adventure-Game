@@ -132,6 +132,7 @@
     <ClCompile Include="CharacterTemplate.cpp" />
     <ClCompile Include="Combat.cpp" />
     <ClCompile Include="Dungeon.cpp" />
+    <ClCompile Include="Effect.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Event.cpp" />
     <ClCompile Include="EventsList.cpp" />
@@ -144,14 +145,17 @@
     <ClCompile Include="NPC.cpp" />
     <ClCompile Include="PlayerCharacter.cpp" />
     <ClCompile Include="Room.cpp" />
+    <ClCompile Include="Skill.cpp" />
     <ClCompile Include="StatusEffect.cpp" />
     <ClCompile Include="Tavern.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AttackType.h" />
     <ClInclude Include="BossEnemy.h" />
     <ClInclude Include="CharacterTemplate.h" />
     <ClInclude Include="Combat.h" />
     <ClInclude Include="Dungeon.h" />
+    <ClInclude Include="Effect.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Event.h" />
     <ClInclude Include="EventsList.h" />
@@ -165,6 +169,7 @@
     <ClInclude Include="NPC.h" />
     <ClInclude Include="PlayerCharacter.h" />
     <ClInclude Include="Room.h" />
+    <ClInclude Include="Skill.h" />
     <ClInclude Include="StatusEffect.h" />
     <ClInclude Include="Tavern.h" />
   </ItemGroup>

@@ -12,7 +12,7 @@ class Tavern : public Location
 private:
 	std::string Name {"The Tavern"};
     std::string Description {"A Place to Rest, Relax, Drink and forget about the monsters below us..."};
-    std::vector <NPC> NPCList;
+    //std::vector <NPC> NPCList;
     std::vector<std::shared_ptr<Room>> connectedRooms;
     std::vector<std::shared_ptr<Location >> connectedLocations;
     std::shared_ptr<Location> dungeonEntrance;
@@ -40,8 +40,8 @@ public:
     void TavernMenu(); // displays the menu of options for the player to choose from while in the Tavern.
     void Rest(); // players can rest in the Tavern to regain health, will cost gold.
     void Drink(); // players can drink in the Tavern, will cost gold.
-    void ViewNpcs(std::vector<NPC> NPCList); // players can view the NPC's in the Tavern, some NPCs will sell items, others can upgrade gear, etc.
-    void TalkToNpc(NPC& npc); // allows player to talk to selected NPC from the list of NPC's in the Tavern.
+    //void ViewNpcs(std::vector<NPC> NPCList); // players can view the NPC's in the Tavern, some NPCs will sell items, others can upgrade gear, etc.
+    //void TalkToNpc(NPC& npc); // allows player to talk to selected NPC from the list of NPC's in the Tavern.
 };
 
 

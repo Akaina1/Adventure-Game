@@ -4,7 +4,7 @@
 #include "PlayerCharacter.h"
 #include "Enemy.h"
 #include "Item.h"
-#include "StatusEffect.h"
+
 
 class Combat
 {
@@ -12,7 +12,7 @@ private:
 	bool InCombat = false; // First thing to check is if the player is in combat
 	bool IsPlayerTurn = false; // If the player is in combat, is it their turn?
 	std::shared_ptr<PlayerCharacter> Player; // player character
-	std::vector<std::shared_ptr<CharacterTemplate>> Combatants; // Vector of all combatants
+	std::deque<std::shared_ptr<CharacterTemplate>> Combatants; // Vector of all combatants
 	int CurrentTurn; // Current turn in combat
 	int MaxTurns; // Max turns in combat before Player death
 	struct CompareSpeed {
@@ -26,10 +26,9 @@ private:
 			return a->GetSpeed() > b->GetSpeed();
 		}
 	};
-	std::priority_queue<std::shared_ptr<CharacterTemplate>, std::vector<std::shared_ptr<CharacterTemplate>>, CompareSpeed> SpeedQueue;
 
 public:
-	Combat(std::shared_ptr<PlayerCharacter> player, std::vector<std::shared_ptr<CharacterTemplate>> combatants); // Default constructor
+	Combat(std::shared_ptr<PlayerCharacter> player, std::deque<std::shared_ptr<CharacterTemplate>> combatants); // Default constructor
 	~Combat() {} // Destructor
 
 	void StartCombat(); // Start combat
@@ -43,6 +42,8 @@ public:
 	bool AlliesAreAlive(); // Check if allies are alive
 
 	void PerformAction(); // Perform action
+
+	void UpdateEffectsDuration(CharacterTemplate& character); // Update status effect duration
 
 };
 
