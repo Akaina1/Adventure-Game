@@ -19,6 +19,7 @@
 //todays goals:
 // 1. create AI system for enemies and NPCs 
 // 2. integrate turn stystem into features that are time-dependent
+// 3. fix combat system - error with deafet condition after 1 attack
 
 
 // Testing functions currently
@@ -32,8 +33,7 @@ int main()
 
     std::shared_ptr<PlayerCharacter> player = std::make_shared<PlayerCharacter>();
     std::shared_ptr<Location> startingLocation = SetupGame(player);
-    player->CharacterCreator(); // works as intended
-
+    
     //PrintIntro();
 
     int Selection = MainMenu();

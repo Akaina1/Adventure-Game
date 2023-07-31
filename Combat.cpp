@@ -71,25 +71,28 @@ void Combat::StartCombat() // Start combat
     // add room combatants to combatants vector
     CurrentTurn = 1;
   
-    // Sort Combatants by speed
-    std::sort(Combatants.begin(), Combatants.end(),
-        [](const std::shared_ptr<CharacterTemplate>& a, const std::shared_ptr<CharacterTemplate>& b) {
-            return a->GetSpeed() > b->GetSpeed();
-        });
-
     // Call combat display
     CombatDisplay();
 
     // Main combat loop
-    CurrentAction();
+    bool victory = CurrentAction();
 
-    // End combat
-    EndCombat();
+    // End combat if there is a victory or defeat
+    if (victory)
+    {
+        // Implement victory rewards, experience gain, etc. here
+    }
+    else
+    {
+      // Implement defeat penalties, game over screen, etc. here
+    }
 }
 
-void Combat::CurrentAction()
+bool Combat::CurrentAction()
 {
-    while (true) // loop until break
+    bool anyCombatantAlive = true;
+
+    while (anyCombatantAlive) // loop until break
     {
        // sort combatants by speed
         std::sort(Combatants.begin(), Combatants.end(),
@@ -97,61 +100,62 @@ void Combat::CurrentAction()
 				return a->GetSpeed() > b->GetSpeed();
 			});
       
-        // All combatants have their turn
-        while (!Combatants.empty())
-        {
-            auto fastestCombatant = Combatants.front();
-            Combatants.pop_front();
+        std::deque<std::shared_ptr<CharacterTemplate>> combatantsForNextTurn;
 
+        anyCombatantAlive = false; // Assume no combatant is alive at the beginning of the loop
+
+        // All combatants have their turn
+        for (const auto& combatant : Combatants)
+        {
             // Skip this combatant if they are dead
-            if (fastestCombatant->GetCurrentHealth() <= 0)
+            if (combatant->GetCurrentHealth() <= 0)
             {
                 continue;
             }
 
             // Combatant takes their turn
-            fastestCombatant->PerformAction(Combatants); // Perform action
-
-            // If all allies or enemies are dead, end combat
-            if (!AlliesAreAlive() || !EnemiesAreAlive())
-            {
-                return;
-            }
+            combatant->PerformAction(Combatants); // Perform action
 
             // Check and update effects duration for the character
-            UpdateEffectsDuration(*fastestCombatant);
+            UpdateEffectsDuration(*combatant);
+
+            anyCombatantAlive = true; // At least one combatant is still alive
 
             // Push the combatant back into the Combatants vector
-            Combatants.push_back(fastestCombatant);
-  
+            combatantsForNextTurn.push_back(combatant);
         }
+
+        // Swap the vectors for the next turn
+        Combatants.swap(combatantsForNextTurn);
 
         CurrentTurn++;
 
+        std::cout << "+----------------------------------------+" << std::endl;
         std::cout << "Turn: " << CurrentTurn << std::endl;
         std::cout << "+----------------------------------------+" << std::endl;
-    }
-}
+   
 
-void Combat::EndCombat() // End combat
-{
+    // If all allies or enemies are dead, end combat
     if (!EnemiesAreAlive())
     {
+        // Display victory message or perform other victory-related actions
         std::cout << "+----------------------------------------+" << std::endl;
         std::cout << "Victory!\n";
         std::cout << "+----------------------------------------+" << std::endl;
 
-        // Implement victory rewards, experience gain, etc. here
-
+        return true; // Signal that combat should end
     }
     else if (!AlliesAreAlive() || Player->GetCurrentHealth() <= 0)
     {
+        // Display defeat message or perform other defeat-related actions
         std::cout << "+----------------------------------------+" << std::endl;
         std::cout << "Defeat!\n";
         std::cout << "+----------------------------------------+" << std::endl;
-        // Implement defeat penalties, game over screen, etc. here
 
+        return false; // Signal that combat should end
     }
+  }
+   return false;
 }
 
 bool Combat::EnemiesAreAlive() // Check if enemies are alive

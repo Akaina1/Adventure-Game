@@ -169,7 +169,7 @@ std::string PlayerCharacter::GetPlayerClassName() const // returns the name of t
 	}
 	else if (Class == 4)
 	{
-		return "Ranger";
+		return "Jester";
 	}
 	else
 	{
@@ -644,6 +644,7 @@ void PlayerCharacter::CharacterCreator()
 		TypeText(L"-------------------------------------------", 1); std::wcout << std::endl;
 
 		system("pause");
+		system("cls");
 	}while (!confirmed);
 }
 
@@ -996,7 +997,7 @@ void PlayerCharacter::PerformAction(std::deque<std::shared_ptr<CharacterTemplate
 		std::cout << "[1] Attack\n";
 		std::cout << "[2] Defend\n";
 		std::cout << "[3] Use Item\n";
-		std::cout << "[4] Run Away\n";
+		std::cout << "[4] Use Skill\n";
 		std::cin >> choice;
 
 		if (std::cin.fail()) {
@@ -1017,44 +1018,41 @@ void PlayerCharacter::PerformAction(std::deque<std::shared_ptr<CharacterTemplate
 		CheckInventory();
 		break;
 	case 4:
-		//UseSkill();
+		UseSkill(Combatants);
 		break;
 	}
 };
 
 void PlayerCharacter::Attack(std::deque<std::shared_ptr<CharacterTemplate>>& Combatants)
 {
-	std::cout << "Choose your attack type: " << std::endl;
-	std::cout << "1. Melee" << std::endl;
-	std::cout << "2. Ranged" << std::endl;
-	std::cout << "3. Magic" << std::endl;
+    std::cout << "Choose your attack type: " << std::endl;
+    std::cout << "1. Melee" << std::endl;
+    std::cout << "2. Ranged" << std::endl;
+    std::cout << "3. Magic" << std::endl;
 
-	int attackTypeChoice;
-	std::cin >> attackTypeChoice;
-	attackTypeChoice--;
+    int attackTypeChoice;
+    std::cin >> attackTypeChoice;
+    attackTypeChoice--;
 
+    // Ensure the player selects a valid attack type.
+    if (attackTypeChoice < 0 || attackTypeChoice > 2)
+    {
+        std::cout << "Invalid attack type!" << std::endl;
+        return;
+    }
 
-	// Ensure the player selects a valid attack type.
-	if (attackTypeChoice < 0 || attackTypeChoice > 2)
-	{
-		std::cout << "Invalid attack type!" << std::endl;
-		return;
-	}
-
-	// Cast the integer to the corresponding AttackType.
+    // Cast the integer to the corresponding AttackType.
 	AttackType attackType = static_cast<AttackType>(attackTypeChoice);
 
 	std::cout << "Choose an enemy to attack: " << std::endl;
 
 	int index = 0;
-	std::vector<std::shared_ptr<Enemy>> enemyList;
 
-	// Generate a list of enemies
-	for (auto& combatant : Combatants) {
+	// Generate a list of enemies and display them
+	for (const auto& combatant : Combatants) {
 		auto enemy = std::dynamic_pointer_cast<Enemy>(combatant);
 		if (enemy != nullptr && enemy->GetCurrentHealth() > 0) {
 			std::cout << index + 1 << ". " << enemy->GetName() << std::endl;
-			enemyList.push_back(enemy);
 			index++;
 		}
 	}
@@ -1063,13 +1061,22 @@ void PlayerCharacter::Attack(std::deque<std::shared_ptr<CharacterTemplate>>& Com
 	std::cin >> enemyChoice;
 	enemyChoice--;
 
-	if (enemyChoice >= 0 && enemyChoice < enemyList.size())
+	if (enemyChoice >= 0 && enemyChoice < index)
 	{
-		auto enemy = enemyList[enemyChoice];
-		int damage = CalculateBaseDamage(attackType, enemy);
-		enemy->TakeDamage(damage);
-
-		std::cout << "You attack " << enemy->GetName() << " for " << damage << " damage!" << std::endl;
+		// Find the selected enemy from the Combatants vector
+		int enemyCount = 0;
+		for (const auto& combatant : Combatants) {
+			auto enemy = std::dynamic_pointer_cast<Enemy>(combatant);
+			if (enemy != nullptr && enemy->GetCurrentHealth() > 0) {
+				if (enemyCount == enemyChoice) {
+					int damage = CalculateBaseDamage(attackType, enemy);
+					enemy->TakeDamage(damage);
+					std::cout << "You attack " << enemy->GetName() << " for " << damage << " damage!" << std::endl;
+					break;
+				}
+				enemyCount++;
+			}
+		}
 	}
 	else
 	{

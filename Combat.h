@@ -31,10 +31,9 @@ public:
 	Combat(std::shared_ptr<PlayerCharacter> player, std::deque<std::shared_ptr<CharacterTemplate>> combatants); // Default constructor
 	~Combat() {} // Destructor
 
-	void StartCombat(); // Start combat
-	void EndCombat(); // End combat
+	void StartCombat(); // Start combat loop
 
-    void CurrentAction(); // Current Character action
+    bool CurrentAction(); // Current Character action
 	
 	void HandleTurn(); // Handle turn
 	void CombatDisplay(); // Display combat
