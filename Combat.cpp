@@ -1,6 +1,7 @@
 ﻿#include "Combat.h"
 
 
+
 Combat::Combat(std::shared_ptr<PlayerCharacter> player, std::deque<std::shared_ptr<CharacterTemplate>> combatants)
     : Player{ player }, Combatants{combatants}, CurrentTurn{ 0 }, MaxTurns{ 999 } {}; // Default constructor
 
@@ -23,8 +24,12 @@ void Combat::CombatDisplay() {
         auto player = std::dynamic_pointer_cast<PlayerCharacter>(combatant);
         if (player != nullptr) {
             std::cout << "Name: " << player->GetName() << std::endl;
+            std::cout << "Level: " << player->GetCharacterLevel() << std::endl;
             std::cout << "Health: " << player->GetCurrentHealth() << "/" << player->GetMaxHealth() << std::endl;
             std::cout << "Mana: " << player->GetCurrentMana() << "/" << player->GetMaxMana() << std::endl;
+            std::cout << "Attack: " << player->GetAttackPwr() << std::endl;
+            std::cout << "Defence: " << player->GetDefencePwr() << std::endl;
+            std::cout << "Speed: " << player->GetSpeed() << std::endl;
             std::cout << "=========================================" << std::endl;
         }
         //else {
@@ -39,15 +44,13 @@ void Combat::CombatDisplay() {
         auto ally = std::dynamic_pointer_cast<NPC>(combatant);
         if (ally != nullptr) {
             std::cout << "Name: " << ally->GetName() << std::endl;
+            std::cout << "Level: " << ally->GetCharacterLevel() << std::endl;
             std::cout << "Health: " << ally->GetCurrentHealth() << "/" << ally->GetMaxHealth() << std::endl;
             std::cout << "Mana: " << ally->GetCurrentMana() << "/" << ally->GetMaxMana() << std::endl;
+            std::cout << "Attack: " << ally->GetAttackPwr() << std::endl;
+			std::cout << "Defence: " << ally->GetDefencePwr() << std::endl;
+            std::cout << "Speed: " << ally->GetSpeed() << std::endl;
             std::cout << "=========================================" << std::endl;
-        }
-        else
-        {
-            std::cout << "No Allies" << std::endl;
-            std::cout << "=========================================" << std::endl;
-            continue;
         }
     }
 
@@ -58,12 +61,17 @@ void Combat::CombatDisplay() {
         auto enemy = std::dynamic_pointer_cast<Enemy>(combatant);
         if (enemy != nullptr) {
             std::cout << "Name: " << enemy->GetName() << std::endl;
+            std::cout << "Level: " << enemy->GetCharacterLevel() << std::endl;
             std::cout << "Health: " << enemy->GetCurrentHealth() << "/" << enemy->GetMaxHealth() << std::endl;
             std::cout << "Mana: " << enemy->GetCurrentMana() << "/" << enemy->GetMaxMana() << std::endl;
+            std::cout << "Attack: " << enemy->GetAttackPwr() << std::endl;
+			std::cout << "Defence: " << enemy->GetDefencePwr() << std::endl;
+            std::cout << "Speed: " << enemy->GetSpeed() << std::endl;
             std::cout << "=========================================" << std::endl;
         }
     }
-    // print footer
+    std::cout << "+----------------------------------------+" << std::endl;
+    std::cout << "Turn: " << CurrentTurn << std::endl;
     std::cout << "+----------------------------------------+" << std::endl;
 }
 
@@ -114,6 +122,8 @@ bool Combat::CurrentAction()
                 continue;
             }
 
+            combatant->ResetDefence(); // Reset defence for the combatant
+
             // Combatant takes their turn
             combatant->PerformAction(Combatants); // Perform action
 
@@ -131,10 +141,8 @@ bool Combat::CurrentAction()
 
         CurrentTurn++;
 
-        std::cout << "+----------------------------------------+" << std::endl;
-        std::cout << "Turn: " << CurrentTurn << std::endl;
-        std::cout << "+----------------------------------------+" << std::endl;
-   
+        CombatDisplay();
+ 
 
     // If all allies or enemies are dead, end combat
     if (!EnemiesAreAlive())
@@ -212,6 +220,30 @@ void Combat::UpdateEffectsDuration(CharacterTemplate& character) // Update effec
         }
     }
 }
+void Combat::AddCombatant(std::shared_ptr<CharacterTemplate> combatant) // Add combatant
+{
+    combatant->SetCombatInstance(shared_from_this()); // pass the shared_ptr of this instance of Combat
+	Combatants.push_back(combatant);
+}
+
+void Combat::InitializeCombat()
+{
+    for (auto& character : Combatants)
+    {
+        auto npc = std::dynamic_pointer_cast<NPC>(character);
+        if (npc)
+        {
+            npc->SetCombatInstance(shared_from_this());
+        }
+
+        auto enemy = std::dynamic_pointer_cast<Enemy>(character);
+        if (enemy)
+        {
+            enemy->SetCombatInstance(shared_from_this());
+        }
+    }
+}
+
 std::shared_ptr<CharacterTemplate> Combat::GetLowestHealthAlly(std::deque<std::shared_ptr<CharacterTemplate>> Combatants)
 {
     std::shared_ptr<CharacterTemplate> LowestHealthAlly = nullptr;
@@ -221,7 +253,7 @@ std::shared_ptr<CharacterTemplate> Combat::GetLowestHealthAlly(std::deque<std::s
         auto ally = std::dynamic_pointer_cast<NPC>(character);
         auto player = std::dynamic_pointer_cast<PlayerCharacter>(character);
 
-        // if ally is allive
+        // if ally is alive
         if ((ally || player) && character->GetCurrentHealth() > 0)
         {
             if(LowestHealthAlly == nullptr || character->GetCurrentHealth() < LowestHealthAlly->GetCurrentHealth())
@@ -235,7 +267,24 @@ std::shared_ptr<CharacterTemplate> Combat::GetLowestHealthAlly(std::deque<std::s
 }
 std::shared_ptr<CharacterTemplate> Combat::GetHighestHealthAlly(std::deque<std::shared_ptr<CharacterTemplate>> Combatants)
 {
+    std::shared_ptr<CharacterTemplate> HighestHealthAlly = nullptr;
 
+for (auto& character : Combatants)
+	{
+		auto ally = std::dynamic_pointer_cast<NPC>(character);
+		auto player = std::dynamic_pointer_cast<PlayerCharacter>(character);
+
+		// if ally is alive
+		if ((ally || player) && character->GetCurrentHealth() > 0)
+		{
+			if (HighestHealthAlly == nullptr || character->GetCurrentHealth() > HighestHealthAlly->GetCurrentHealth())
+			{
+				HighestHealthAlly = character;
+			}
+		}
+	}
+
+	return HighestHealthAlly;
 }
 std::shared_ptr<CharacterTemplate> Combat::GetLowestHealthEnemy(std::deque<std::shared_ptr<CharacterTemplate>> Combatants)
 {
@@ -245,7 +294,7 @@ std::shared_ptr<CharacterTemplate> Combat::GetLowestHealthEnemy(std::deque<std::
     {
         auto enemy = std::dynamic_pointer_cast<Enemy>(character);
   
-        // if ally is allive
+        // if enemy is alive
         if (enemy  && character->GetCurrentHealth() > 0)
         {
             if (LowestHealthEnemy == nullptr || character->GetCurrentHealth() < LowestHealthEnemy->GetCurrentHealth())
@@ -259,14 +308,51 @@ std::shared_ptr<CharacterTemplate> Combat::GetLowestHealthEnemy(std::deque<std::
 }
 std::shared_ptr<CharacterTemplate> Combat::GetHighestHealthEnemy(std::deque<std::shared_ptr<CharacterTemplate>> Combatants)
 {
+    std::shared_ptr<CharacterTemplate> HighestHealthEnemy = nullptr;
 
+    for (auto& character : Combatants)
+    {
+        auto enemy = std::dynamic_pointer_cast<Enemy>(character);
+
+        // if enemy is alive
+        if (enemy && character->GetCurrentHealth() > 0)
+        {
+            if (HighestHealthEnemy == nullptr || character->GetCurrentHealth() > HighestHealthEnemy->GetCurrentHealth())
+            {
+                HighestHealthEnemy = character;
+            }
+        }
+    }
+
+    return HighestHealthEnemy;
 }
 std::shared_ptr<CharacterTemplate> Combat::GetBossEnemy(std::deque<std::shared_ptr<CharacterTemplate>> Combatants)
 {
     for (auto& character : Combatants)
     {
         auto boss = std::dynamic_pointer_cast<BossEnemy>(character);
+
+        if (boss && character->GetCurrentHealth() > 0)
+        {
+            return character;
+        }
     }
+
+    return nullptr;
+}
+std::shared_ptr<CharacterTemplate> Combat::GetPlayer(std::deque<std::shared_ptr<CharacterTemplate>> Combatants)
+{
+    for (auto& character : Combatants)
+    {
+        auto player = std::dynamic_pointer_cast<PlayerCharacter>(character);
+
+        if(player && character->GetCurrentHealth() > 0)
+	    {
+			return character;
+		}
+    }
+
+    return nullptr;
 }
 
 

@@ -46,7 +46,6 @@ public:
 //combat functions
 	virtual void PerformAction(std::deque<std::shared_ptr<CharacterTemplate>>& Combatants) override; // override the PerformAction function from the CharacterTemplate class
 	void Attack(std::deque<std::shared_ptr<CharacterTemplate>>& Combatants); // attack a target
-	void Defend(); // defend against an attack
 	void CheckInventory(); // check the player character's inventory to use items
 	virtual void UseSkill(std::deque<std::shared_ptr<CharacterTemplate>>& Combatants) override;
 

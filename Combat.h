@@ -8,7 +8,7 @@
 
 
 
-class Combat
+class Combat : public std::enable_shared_from_this<Combat>
 {
 private:
 	bool InCombat = false; // First thing to check is if the player is in combat
@@ -41,16 +41,18 @@ public:
 	void CombatDisplay(); // Display combat
 	bool EnemiesAreAlive(); // Check if enemies are alive
 	bool AlliesAreAlive(); // Check if allies are alive
-
-	void PerformAction(); // Perform action
+	int GetCurrentTurn() { return CurrentTurn; }; // Get current turn
 
 	void UpdateEffectsDuration(CharacterTemplate& character); // Update status effect duration
+	void AddCombatant(std::shared_ptr<CharacterTemplate> combatant); // Add combatant to combat)
+	virtual void InitializeCombat(); // Initialize combat
 
 	std::shared_ptr<CharacterTemplate> GetLowestHealthEnemy(std::deque<std::shared_ptr<CharacterTemplate>> Combatants); // Get lowest health enemy
 	std::shared_ptr<CharacterTemplate> GetHighestHealthEnemy(std::deque<std::shared_ptr<CharacterTemplate>> Combatants); // Get highest health enemy
 	std::shared_ptr<CharacterTemplate> GetLowestHealthAlly(std::deque<std::shared_ptr<CharacterTemplate>> Combatants); // Get lowest health ally
 	std::shared_ptr<CharacterTemplate> GetHighestHealthAlly(std::deque<std::shared_ptr<CharacterTemplate>> Combatants); // Get highest health ally
 	std::shared_ptr<CharacterTemplate> GetBossEnemy(std::deque<std::shared_ptr<CharacterTemplate>> Combatants); // Get boss enemy
+	std::shared_ptr<CharacterTemplate> GetPlayer(std::deque<std::shared_ptr<CharacterTemplate>> Combatants); // Get player
 
 };
 

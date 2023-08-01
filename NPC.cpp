@@ -1,7 +1,13 @@
 #include "NPC.h"
 #include "AttackType.h"
-#include "Effect.h"
 #include "Enemy.h"
+#include "Combat.h"
+
+enum {
+	MANA_THRESHOLD = 20, // 20%
+	LOW_HEALTH_THRESHOLD = 20, // 20%
+	HEAL_THRESHOLD = 50, // 50%
+};
 
 void NPC::Print(std::ostream& os) const     // override the print function from the I_Print class
 {
@@ -46,8 +52,8 @@ NPC::~NPC() // destructor
 }
 
 NPC::NPC(std::string name, int maxhealth, int currenthealth,
-	int maxmana, int currentmana, int level)
-	: CharacterTemplate(name, maxhealth, currenthealth, maxmana, currentmana, level)
+	int maxmana, int currentmana, int level, AttackType baseAttackType)
+	: CharacterTemplate(name, maxhealth, currenthealth, maxmana, currentmana, level, baseAttackType)
 {
 }
 
@@ -63,23 +69,124 @@ void NPC::PerformAction(std::deque<std::shared_ptr<CharacterTemplate>>& Combatan
 		//3.b. The AI will always prioritize a (class)BossEnemy type enemy over an (class)Enemy type enemy
 		//3.c. The AI will use Attack() if the AI has (CurrentMana < (MaxMana * 0.2))
 	// 4. The AI will defend if the AI has (CurrentHealth < (MaxHealth * 0.2))
+
+	//check mana levels first
+	if (CurrentMana > (MaxMana * MANA_THRESHOLD / 100))
+	{
+		UseSkill(Combatants);	
+	}
+
+	// if AI health is below 20%, defend
+	if (!skillUsed && CurrentHealth < (MaxHealth * LOW_HEALTH_THRESHOLD / 100))
+	{
+		Defend();
+		return;
+	}
+
+	// if mana is less than 20%, attack
+	if (!skillUsed || CurrentMana < (MANA_THRESHOLD / 100))
+	{
+		Attack(Combatants);
+		return;
+	}
+
+	else
+	{
+		std::cout << GetName() << " is unable to perform an action!" << std::endl;
+	}
 }
 
 void NPC::Attack(std::deque<std::shared_ptr<CharacterTemplate>>& Combatants)
 {
-	//AI chooses attack 
-    
+	// Find the target enemy
+	std::shared_ptr<CharacterTemplate> bossEnemy = combatInstance->GetBossEnemy(Combatants);
+	std::shared_ptr<CharacterTemplate> lowestHealthEnemy = combatInstance->GetLowestHealthEnemy(Combatants);
+	std::shared_ptr<CharacterTemplate> targetEnemy = bossEnemy ? bossEnemy : lowestHealthEnemy;
 
+	// Ensure the target enemy is valid and not dead.
+	if (targetEnemy && targetEnemy->GetCurrentHealth() > 0)
+	{
+		// Use the NPC's base attack type
+		AttackType attackType = BaseAttackType;
 
-}
+		// Calculate the base damage
+		int damage = CalculateBaseDamage(attackType, targetEnemy);
 
+		// Apply the damage to the enemy
+		targetEnemy->TakeDamage(damage);
 
-void NPC::Defend() 
-{
-
+		std::cout << GetName() << " attacks " << targetEnemy->GetName() << " for " << damage << " damage!" << std::endl;
+	}
+	else
+	{
+		std::cout << "Attack failed! Target enemy is invalid or already defeated." << std::endl;
+	}
 }
 
 void NPC::UseSkill(std::deque<std::shared_ptr<CharacterTemplate>>& Combatants)
 {
+	skillUsed = false;
+	std::shared_ptr<CharacterTemplate> lowestHealthAlly = combatInstance->GetLowestHealthAlly(Combatants);
 
+	// if ally has health below 50% try to heal
+	if (lowestHealthAlly && lowestHealthAlly->GetCurrentHealth() < (lowestHealthAlly->GetMaxHealth() * 0.5))
+	{
+		for (auto& skill : Skills)
+		{
+			if (skill.GetSkillType() == SkillType::Healing && CurrentMana >= skill.GetManaCost())
+			{
+				int healingAmount = skill.CalculateSkillDamage(shared_from_this(), lowestHealthAlly);
+				lowestHealthAlly->heal(healingAmount);
+
+				UseMana(skill.GetManaCost());
+
+				std::cout << this->GetName() << " used " << skill.GetName() << " on " << lowestHealthAlly->GetName() << " for " << healingAmount << " health!" << std::endl;
+				skillUsed = true;
+				return;
+			}
+		}
+	}
+
+	// if no ally has health below 50% or no healing skills available, try attack skills
+	std::shared_ptr<CharacterTemplate> bossEnemy = combatInstance->GetBossEnemy(Combatants);
+	std::shared_ptr<CharacterTemplate> lowestHealthEnemy = combatInstance->GetLowestHealthEnemy(Combatants);
+
+	std::shared_ptr<CharacterTemplate> targetEnemy = bossEnemy ? bossEnemy : lowestHealthEnemy;
+
+	if (targetEnemy)
+	{
+		for (auto& skill : Skills)
+		{
+			if (skill.GetSkillType() == SkillType::Attack && CurrentMana >= skill.GetManaCost())
+			{
+				int damage = skill.CalculateSkillDamage(shared_from_this(), targetEnemy);
+				targetEnemy->TakeDamage(damage);
+
+				UseMana(skill.GetManaCost());
+
+				std::cout << this->GetName() << " used " << skill.GetName() << " on " << targetEnemy->GetName() << " for " << damage << " health!" << std::endl;
+				skillUsed = true;
+				return;
+			}
+		}
+	}
+
+	// if no attack skills, or not enough mana, try to buff self
+	for (auto& skill : Skills)
+	{
+		if (skill.GetSkillType() == SkillType::Buff && CurrentMana >= skill.GetManaCost())
+		{
+			skill.GetAddEffect()(*shared_from_this());
+
+			UseMana(skill.GetManaCost());
+
+			std::cout << this->GetName() << " used " << skill.GetName() << " and got a buff!" << std::endl;
+			skillUsed = true;
+			return;
+		}
+	}
+
+	// if no buff skills, or not enough mana, return to PerformAction()
+	std::cout << "No Usable Skills!" << std::endl;
+	return;
 }

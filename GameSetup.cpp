@@ -12,8 +12,8 @@ std::shared_ptr<Location> SetupGame(std::shared_ptr<PlayerCharacter> player) {
     theTavern->ConnectRoom(tavernRoom2);
 
     //create enemies for Dungeon
-    std::shared_ptr<Enemy> goblin1 = std::make_shared<Enemy>("Goblin 1", 90, 100, 100, 100, 2);
-    std::shared_ptr<Enemy> goblin2 = std::make_shared<Enemy>("Goblin 2", 70, 110, 110, 110, 3);
+    std::shared_ptr<Enemy> goblin1 = std::make_shared<Enemy>("Goblin 1", 90, 100, 100, 100, 2, AttackType::Melee);
+    std::shared_ptr<Enemy> goblin2 = std::make_shared<Enemy>("Goblin 2", 70, 110, 110, 110, 3, AttackType::Melee);
     std::deque<std::shared_ptr<CharacterTemplate>> EnemiesGroup1;
 
     if (!goblin1 || !goblin2) {
@@ -30,8 +30,8 @@ std::shared_ptr<Location> SetupGame(std::shared_ptr<PlayerCharacter> player) {
         return 0;
     }
 
-    std::shared_ptr<Enemy> hydra1 = std::make_shared<Enemy>("Hydra 1", 90, 100, 100, 100, 2);
-    std::shared_ptr<Enemy> hydra2 = std::make_shared<Enemy>("Hydra 2", 70, 110, 110, 110, 3);
+    std::shared_ptr<Enemy> hydra1 = std::make_shared<Enemy>("Hydra 1", 90, 100, 100, 100, 2, AttackType::Magic);
+    std::shared_ptr<Enemy> hydra2 = std::make_shared<Enemy>("Hydra 2", 70, 110, 110, 110, 3, AttackType::Magic);
     std::deque<std::shared_ptr<CharacterTemplate>> EnemiesGroup2;
     EnemiesGroup2.push_back(hydra1);
     EnemiesGroup2.push_back(hydra2);

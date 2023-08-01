@@ -4,6 +4,7 @@
 enum class AttackType;
 class StatusEffect; // forward declaration of the status effect class
 class Effect; // forward declaration of the effect class
+class Combat; // forward declaration of the combat class
 
 #include "I_Print.h"
 #include "Main.h"
@@ -23,21 +24,23 @@ protected:
 	int AttackPwr = 1;
 	int DefensePwr = 1;
 	bool IsDefending = false;
+	int DefendUntilTurn = 0;
 	std::map<std::string, int> StatValues {
-		{"Strength", 1},
-		{ "Dexterity", 1 },
-		{ "Wisdom", 1 },
-		{ "Charisma", 1 }
+		{"Strength", 5},
+		{ "Dexterity", 5 },
+		{ "Wisdom", 5 },
+		{ "Charisma", 5 }
 	};
 	std::vector<std::shared_ptr<Effect>> Afflictions;
-	AttackType baseAttackType;
+	AttackType BaseAttackType;
 	std::vector<Skill> Skills;
+	std::weak_ptr<Combat> combat;
 
 public:
 	virtual void Print(std::ostream& os) const override; // override the print function from the I_Print class
 	CharacterTemplate(); // default constructor
 	CharacterTemplate(std::string name, int maxhealth, int currenthealth,
-		int maxmana, int currentmana, int level);
+		int maxmana, int currentmana, int level, AttackType baseAttackType);
 	CharacterTemplate(std::string name, int maxhealth, int currenthealth,
 		int maxmana, int currentmana, int level, int speed, int attack, int defence,
 		bool isDefending ,std::map<std::string, int> statValues, AttackType baseAttackType, 
@@ -83,17 +86,19 @@ public:
 	virtual void PerformAction(std::deque<std::shared_ptr<CharacterTemplate>>& Combatants) { };
 
 	virtual int CalculateBaseDamage(AttackType attackType, std::shared_ptr<CharacterTemplate> target);
-	virtual AttackType GetBaseAttackType() const { return baseAttackType; };
+	virtual AttackType GetBaseAttackType() const { return BaseAttackType; };
 
 	virtual void Attack(std::deque<std::shared_ptr<CharacterTemplate>>& Combatants) {};
-	virtual void Defend() {};
+	virtual void Defend();
+	virtual bool GetDefendStatus() {return IsDefending; };
+	virtual void ResetDefence();
 
 	virtual int GetAttackPwr() const { return AttackPwr; };
 	virtual void SetAttackPwr(int attack) { AttackPwr = attack; };
 	virtual void IncreaseAttackPwr(int attack) { AttackPwr += attack; };
 	virtual void DecreaseAttackPwr(int attack) { AttackPwr -= attack; };
 
-	virtual int GetDefensePwr() const { return DefensePwr; };
+	virtual int GetDefencePwr() const { return DefensePwr; };
 	virtual void SetDefensePwr(int defense) { DefensePwr = defense; };
 	virtual void IncreaseDefensePwr(int defense) { DefensePwr += defense; };
 	virtual void DecreaseDefensePwr(int defense) { DefensePwr -= defense; };
@@ -103,5 +108,8 @@ public:
 	virtual void AddSkill(const Skill& skill) {Skills.push_back(skill);}
 
 	std::vector<std::shared_ptr<Effect>>& GetAfflictions() { return Afflictions; };
+
+	virtual void SetCombatInstance(std::shared_ptr<Combat> combat_ptr) { combat = combat_ptr; };
+	
 };
 

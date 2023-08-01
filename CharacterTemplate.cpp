@@ -3,8 +3,8 @@
 #include "Effect.h"
 #include "StatusEffect.h"
 #include "AttackType.h"
+#include "Combat.h"
 ////////////////////////////////// Default functions //////////////////////////////////
-
 
 void CharacterTemplate::Print(std::ostream& os) const
 {
@@ -21,8 +21,8 @@ CharacterTemplate::CharacterTemplate()
 }
 
 CharacterTemplate::CharacterTemplate(std::string name, int maxhealth, int currenthealth,
-	int maxmana, int currentmana, int level)
-	: Name{ name }, MaxHealth{ 100 }, CurrentHealth{ 100 }, CurrentMana{100}, MaxMana{ 100 }, Level{ 1 }
+	int maxmana, int currentmana, int level, AttackType baseAttackType)
+	: Name{ name }, MaxHealth{ 100 }, CurrentHealth{ 100 }, CurrentMana{100}, MaxMana{ 100 }, Level{ 1 }, BaseAttackType{ baseAttackType }
 {
 }
 
@@ -34,7 +34,7 @@ CharacterTemplate::CharacterTemplate(std::string name, int maxhealth, int curren
 	std::vector<Skill> skills, std::vector<EffectPtr> afflictions) :
 	Name(name), MaxHealth(maxhealth), CurrentHealth(currenthealth),
 	MaxMana(maxmana), CurrentMana(currentmana), Level(level), Speed(speed), AttackPwr(attackPwr), DefensePwr(defensePwr),
-	IsDefending(isDefending), StatValues(statValues), baseAttackType (baseAttackType), Skills (skills), Afflictions(afflictions) {}
+	IsDefending(isDefending), StatValues(statValues), BaseAttackType (baseAttackType), Skills (skills), Afflictions(afflictions) {}
 
 // destructor
 
@@ -205,5 +205,39 @@ void CharacterTemplate::RemoveStat(std::string statName, int value)
 	else
 	{
 		std::cout << "Stat not found" << std::endl;
+	}
+}
+
+void CharacterTemplate::Defend()
+{
+	if (auto combat_ptr = combat.lock())
+	{
+		// access CurrentTurn
+		int currentTurn = combat_ptr->GetCurrentTurn();
+		// increase defense by 25%
+		DefensePwr *= 1.25;
+		// indicate that character is defending
+		IsDefending = true;
+
+		// Defend until next turn
+		DefendUntilTurn = currentTurn + 1;
+
+		std::cout << GetName() << " braces for incoming attacks, increasing their defense!" << std::endl;
+	}
+}
+
+void CharacterTemplate::ResetDefence()
+{
+	if (auto combat_ptr = combat.lock())
+	{
+		int currentTurn = combat_ptr->GetCurrentTurn();
+
+		if (IsDefending && currentTurn >= DefendUntilTurn)
+		{
+			// reset defence to base value
+			DefensePwr /= 1.25;
+			IsDefending = false;
+			std::cout << GetName() << " is no longer defending!" << std::endl;
+		}
 	}
 }

@@ -23,6 +23,7 @@ void Room::OnEnter(std::shared_ptr<PlayerCharacter> player)
         }
         std::cout << "Number of Combatants: " << Combatants.size() << std::endl;
         auto combat = std::make_shared<Combat>(player, Combatants);
+        combat->InitializeCombat();
         combat->StartCombat();
     }
     else

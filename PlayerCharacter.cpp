@@ -993,6 +993,7 @@ void PlayerCharacter::PerformAction(std::deque<std::shared_ptr<CharacterTemplate
 	int choice = 0;
 	while (choice < 1 || choice > 4)
 	{
+		std::cout << "=========================================\n";
 		std::cout << "Selection an action: \n";
 		std::cout << "[1] Attack\n";
 		std::cout << "[2] Defend\n";
@@ -1082,16 +1083,6 @@ void PlayerCharacter::Attack(std::deque<std::shared_ptr<CharacterTemplate>>& Com
 	{
 		std::cout << "Invalid choice!" << std::endl;
 	}
-}
-
-void PlayerCharacter::Defend()
-{
-	// increase defense by 25%
-	DefensePwr *= 1.25;
-	// indicate that player is defending
-	IsDefending = true;
-
-	std::cout << "You brace yourself for incoming attacks, increasing your defense!" << std::endl;
 }
 
 void PlayerCharacter::CheckInventory()
