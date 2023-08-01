@@ -4,6 +4,8 @@
 #include "PlayerCharacter.h"
 #include "Enemy.h"
 #include "Item.h"
+#include "BossEnemy.h"
+
 
 
 class Combat
@@ -43,6 +45,12 @@ public:
 	void PerformAction(); // Perform action
 
 	void UpdateEffectsDuration(CharacterTemplate& character); // Update status effect duration
+
+	std::shared_ptr<CharacterTemplate> GetLowestHealthEnemy(std::deque<std::shared_ptr<CharacterTemplate>> Combatants); // Get lowest health enemy
+	std::shared_ptr<CharacterTemplate> GetHighestHealthEnemy(std::deque<std::shared_ptr<CharacterTemplate>> Combatants); // Get highest health enemy
+	std::shared_ptr<CharacterTemplate> GetLowestHealthAlly(std::deque<std::shared_ptr<CharacterTemplate>> Combatants); // Get lowest health ally
+	std::shared_ptr<CharacterTemplate> GetHighestHealthAlly(std::deque<std::shared_ptr<CharacterTemplate>> Combatants); // Get highest health ally
+	std::shared_ptr<CharacterTemplate> GetBossEnemy(std::deque<std::shared_ptr<CharacterTemplate>> Combatants); // Get boss enemy
 
 };
 

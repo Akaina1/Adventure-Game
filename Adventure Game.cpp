@@ -19,12 +19,13 @@
 //todays goals:
 // 1. create AI system for enemies and NPCs 
 // 2. integrate turn stystem into features that are time-dependent
-// 3. fix combat system - error with deafet condition after 1 attack
+
 
 
 // Testing functions currently
 int main()
 {
+    //full startup sequence and combat loop including moving locations, buying items, and attacking enemies
     HWND console = GetConsoleWindow(); // get console window
     RECT ConsoleRect; // create a rectangle for the console window
     GetWindowRect(console, &ConsoleRect); // get the console window rectangle
@@ -66,7 +67,7 @@ int main()
     case 3:
         _setmode(_fileno(stdout), _O_TEXT);
         std::wcout << "You have selected Quit Game" << std::endl;
-        exit;
+        return 0;
     }
 
 

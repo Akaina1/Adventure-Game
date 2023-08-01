@@ -83,6 +83,7 @@ public:
 	virtual void PerformAction(std::deque<std::shared_ptr<CharacterTemplate>>& Combatants) { };
 
 	virtual int CalculateBaseDamage(AttackType attackType, std::shared_ptr<CharacterTemplate> target);
+	virtual AttackType GetBaseAttackType() const { return baseAttackType; };
 
 	virtual void Attack(std::deque<std::shared_ptr<CharacterTemplate>>& Combatants) {};
 	virtual void Defend() {};

@@ -53,51 +53,33 @@ NPC::NPC(std::string name, int maxhealth, int currenthealth,
 
 void NPC::PerformAction(std::deque<std::shared_ptr<CharacterTemplate>>& Combatants)
 {
-	int choice = 0;
-
-	switch (choice)
-	{
-	case 1:
-		Attack(Combatants);
-		break;
-	case 2:
-		Defend();
-		break;
-	}
+	// Note: NPC and PlayerCharacter classes are considered "Allies", Enemy class is considered an "Enemy"
+	// NPC AI will perform actions based on the following specifications:
+	// 1. The AI will always prioritize UseSkill() over Attack() if the AI has (CurrentMana > (MaxMana * 0.2))
+	// 2. The AI will always prioritize healing allies over attacking enemies if an ally is below 50% health
+		// 2.b. The AI will always prioritize healing the ally with the lowest health if multiple allies are below 50% health
+	// 3. The AI will always prioritize attacking enemies over healing allies if all allies are above 50% health
+		//3.a. The AI will always prioritize attacking the enemy with the lowest health
+		//3.b. The AI will always prioritize a (class)BossEnemy type enemy over an (class)Enemy type enemy
+		//3.c. The AI will use Attack() if the AI has (CurrentMana < (MaxMana * 0.2))
+	// 4. The AI will defend if the AI has (CurrentHealth < (MaxHealth * 0.2))
 }
 
 void NPC::Attack(std::deque<std::shared_ptr<CharacterTemplate>>& Combatants)
 {
-	// Determine the target to attack based on the NPC's AI logic.
-		// For example, you can choose a random target like before or implement more sophisticated decision-making.
+	//AI chooses attack 
+    
 
-	if (!Combatants.empty())
-	{
-		// Randomly choose an enemy to attack (similar to previous implementation).
-		int targetIndex = std::rand() % Combatants.size();
-		auto target = Combatants[targetIndex];
 
-		// Check if the target is an enemy and not already defeated.
-		auto enemyTarget = std::dynamic_pointer_cast<Enemy>(target);
-		if (enemyTarget != nullptr && enemyTarget->GetCurrentHealth() > 0)
-		{
-			// Determine the attack type based on the NPC's abilities or preferences.
-			// For now, let's assume the NPC always uses a melee attack (AttackType::Melee).
-			AttackType attackType = AttackType::Melee;
-
-			int damage = CalculateBaseDamage(attackType, enemyTarget);
-			enemyTarget->TakeDamage(damage);
-
-			std::cout << GetName() << " attacks " << enemyTarget->GetName() << " for " << damage << " damage!" << std::endl;
-		}
-		else
-		{
-			// The randomly chosen target is not a valid enemy, so reattempt the attack.
-			Attack(Combatants);
-		}
-	}
 }
+
+
 void NPC::Defend() 
+{
+
+}
+
+void NPC::UseSkill(std::deque<std::shared_ptr<CharacterTemplate>>& Combatants)
 {
 
 }

@@ -21,4 +21,5 @@ public:
 	virtual void PerformAction(std::deque<std::shared_ptr<CharacterTemplate>>& Combatants) override;
 	virtual void Attack(std::deque<std::shared_ptr<CharacterTemplate>>& Combatants) override;
 	virtual void Defend() override;
+	virtual void UseSkill(std::deque<std::shared_ptr<CharacterTemplate>>& Combatants) override;
 };

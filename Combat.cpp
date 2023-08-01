@@ -1,5 +1,6 @@
 ﻿#include "Combat.h"
 
+
 Combat::Combat(std::shared_ptr<PlayerCharacter> player, std::deque<std::shared_ptr<CharacterTemplate>> combatants)
     : Player{ player }, Combatants{combatants}, CurrentTurn{ 0 }, MaxTurns{ 999 } {}; // Default constructor
 
@@ -211,6 +212,96 @@ void Combat::UpdateEffectsDuration(CharacterTemplate& character) // Update effec
         }
     }
 }
+std::shared_ptr<CharacterTemplate> Combat::GetLowestHealthAlly(std::deque<std::shared_ptr<CharacterTemplate>> Combatants)
+{
+    std::shared_ptr<CharacterTemplate> LowestHealthAlly = nullptr;
+
+    for (auto& character : Combatants)
+    {
+        auto ally = std::dynamic_pointer_cast<NPC>(character);
+        auto player = std::dynamic_pointer_cast<PlayerCharacter>(character);
+
+        // if ally is allive
+        if ((ally || player) && character->GetCurrentHealth() > 0)
+        {
+            if(LowestHealthAlly == nullptr || character->GetCurrentHealth() < LowestHealthAlly->GetCurrentHealth())
+            {
+				LowestHealthAlly = character;
+			}
+        }
+    }
+
+    return LowestHealthAlly;
+}
+std::shared_ptr<CharacterTemplate> Combat::GetHighestHealthAlly(std::deque<std::shared_ptr<CharacterTemplate>> Combatants)
+{
+
+}
+std::shared_ptr<CharacterTemplate> Combat::GetLowestHealthEnemy(std::deque<std::shared_ptr<CharacterTemplate>> Combatants)
+{
+    std::shared_ptr<CharacterTemplate> LowestHealthEnemy = nullptr;
+
+    for (auto& character : Combatants)
+    {
+        auto enemy = std::dynamic_pointer_cast<Enemy>(character);
+  
+        // if ally is allive
+        if (enemy  && character->GetCurrentHealth() > 0)
+        {
+            if (LowestHealthEnemy == nullptr || character->GetCurrentHealth() < LowestHealthEnemy->GetCurrentHealth())
+            {
+                LowestHealthEnemy = character;
+            }
+        }
+    }
+
+    return LowestHealthEnemy;
+}
+std::shared_ptr<CharacterTemplate> Combat::GetHighestHealthEnemy(std::deque<std::shared_ptr<CharacterTemplate>> Combatants)
+{
+
+}
+std::shared_ptr<CharacterTemplate> Combat::GetBossEnemy(std::deque<std::shared_ptr<CharacterTemplate>> Combatants)
+{
+    for (auto& character : Combatants)
+    {
+        auto boss = std::dynamic_pointer_cast<BossEnemy>(character);
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //void CombatDisplay() // Display the combat - MIGHT implement later, very complicated
 //{
 //    _setmode(_fileno(stdout), _O_U16TEXT); // setmode for unicode output
