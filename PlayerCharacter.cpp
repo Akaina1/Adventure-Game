@@ -100,6 +100,8 @@ void PlayerCharacter::ChooseMove()
 {
 	std::shared_ptr<Location> currentLocation = GetCurrentLocation();
 	std::cout << "You are currently in " << currentLocation->GetName() << std::endl;
+	std::cout << "-------------------------------------------\n" << std::endl;
+
 
 	if (currentLocation->GetConnectedRoomsCount() == 0 && currentLocation->GetConnectedLocationsCount() > 0)
 	{
@@ -114,8 +116,9 @@ void PlayerCharacter::ChooseMove()
 		std::cout << "There are no Rooms or Locations connected to this location.\n";
 		return;
 	}
-
+	std::cout << "-------------------------------------------\n" << std::endl;
 	std::cout << "You can move to the following Locations: \n";
+	std::cout << "-------------------------------------------\n" << std::endl;
 	int count = 0;
 	for (int i = 0; i < currentLocation->GetConnectedLocationsCount(); i++)
 	{
@@ -123,14 +126,18 @@ void PlayerCharacter::ChooseMove()
 		std::cout << ++count << ": " << connectedLocation->GetName() << "\n";
 	}
 
+	std::cout << "-------------------------------------------\n" << std::endl;
 	std::cout << "You can move to the following Rooms: \n";
+	std::cout << "-------------------------------------------\n" << std::endl;
 	for (int i = 0; i < currentLocation->GetConnectedRoomsCount(); i++)
 	{
 		std::shared_ptr<Room> connectedLocation = currentLocation->GetConnectedRoom(i);
 		std::cout << ++count << ": " << connectedLocation->GetName() << "\n";
 	}
 
-	std::cout << "Enter the number of the Location or Room you want to move to: ";
+	std::cout << "-------------------------------------------\n" << std::endl;
+	std::cout << "Enter the number of the Location or Room you want to move to: \n";
+	std::cout << "-------------------------------------------\n" << std::endl;
 	int choice;
 	std::cin >> choice;
 	choice--;
@@ -242,10 +249,13 @@ void PlayerCharacter::LevelUp() // increases the level of the player character
 	CurrentHealth = MaxHealth;
 	CurrentMana = MaxMana;
 	SetSpeed(GetSpeed() + 1); // increase the speed of the player character by 1
+	IncreaseLevel(); // increase the level of the player character by 1
 
 	// display the level up message
+	std::cout << "+----------------------------------------+" << std::endl;
 	std::cout << "You have leveled up!" << std::endl;
 	std::cout << "You are now level " << Level << "!" << std::endl;
+	std::cout << "+----------------------------------------+" << std::endl;
 }
 
 long long PlayerCharacter::ExpToNextLevel() const

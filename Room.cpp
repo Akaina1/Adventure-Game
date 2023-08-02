@@ -4,10 +4,6 @@
 
 void Room::OnEnter(std::shared_ptr<PlayerCharacter> player)
 {
-
-     Combatants.push_back(player);
-    
-
     std::cout << "Number of Combatants: " << Combatants.size() << std::endl;
 
     if (!Combatants.empty())
@@ -22,18 +18,21 @@ void Room::OnEnter(std::shared_ptr<PlayerCharacter> player)
             }
         }
         std::cout << "Number of Combatants: " << Combatants.size() << std::endl;
+        Combatants.push_back(player);
         auto combat = std::make_shared<Combat>(player, Combatants);
         combat->InitializeCombat();
         combat->StartCombat();
+        player->ChooseMove();
     }
     else
     {
         std::cout << "There are no enemies in this room, you are safe for now..." << std::endl;
+        player->ChooseMove();
     }
 }
 void Room::OnExit(std::shared_ptr<PlayerCharacter> player)
 {
-
+    Combatants.clear();
 }
 
 std::shared_ptr<Room> Room::GetConnectedRoom(int index) const

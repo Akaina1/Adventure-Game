@@ -10,6 +10,10 @@ std::shared_ptr<Location> SetupGame(std::shared_ptr<PlayerCharacter> player) {
     auto tavernRoom2 = std::make_shared<Room>("Tavern Room 2", "A room filled with raucous laughter and song.");
     theTavern->ConnectRoom(tavernRoom1);
     theTavern->ConnectRoom(tavernRoom2);
+    tavernRoom1->ConnectRoom(tavernRoom2);
+    tavernRoom2->ConnectRoom(tavernRoom1);
+    tavernRoom1->ConnectLocation(theTavern);
+    tavernRoom2->ConnectLocation(theTavern);
 
     //create enemies for Dungeon
     std::shared_ptr<Enemy> goblin1 = std::make_shared<Enemy>("Goblin 1", 90, 100, 100, 100, 2, AttackType::Melee);
@@ -49,6 +53,9 @@ std::shared_ptr<Location> SetupGame(std::shared_ptr<PlayerCharacter> player) {
     theDungeon->ConnectRoom(dungeonRoom1);
     theDungeon->ConnectRoom(dungeonRoom2);
     dungeonRoom1->ConnectRoom(dungeonRoom2);
+    dungeonRoom2->ConnectRoom(dungeonRoom1);
+	dungeonRoom1->ConnectLocation(theDungeon);
+    dungeonRoom2->ConnectLocation(theDungeon);
 
     if (dungeonRoom1->GetCombatants().size() != 2) {
         std::cout << "Failed to add goblins to the room!" << std::endl;

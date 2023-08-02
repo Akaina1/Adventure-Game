@@ -17,8 +17,7 @@
 #include "Enemy.h"
 
 //todays goals:
-// 1. create AI system for enemies and NPCs 
-// 2. integrate turn stystem into features that are time-dependent
+
 
 
 

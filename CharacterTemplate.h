@@ -79,6 +79,7 @@ public:
 
 	virtual int GetCharacterLevel() const { return Level; };
 	virtual void SetCharacterLevel(int level) { Level = level; };
+	virtual void IncreaseLevel() { Level += 1; };
 
 	virtual int GetSpeed() const { return Speed; };
 	virtual void SetSpeed(int speed) { Speed = speed; };

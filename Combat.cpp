@@ -90,6 +90,12 @@ void Combat::StartCombat() // Start combat
     if (victory)
     {
         // Implement victory rewards, experience gain, etc. here
+        std::cout << "You got: " << std::endl;
+        std::cout << 50 * (Combatants.size() - 1) << " experience" << std::endl;
+        std::cout << 50 * (Combatants.size() - 1) << " gold" << std::endl;
+
+        Player->AddExperience(50 * (Combatants.size() - 1));
+        Player->AddGold(50 * (Combatants.size() - 1));
     }
     else
     {
@@ -148,6 +154,7 @@ bool Combat::CurrentAction()
     if (!EnemiesAreAlive())
     {
         // Display victory message or perform other victory-related actions
+        system("cls");
         std::cout << "+----------------------------------------+" << std::endl;
         std::cout << "Victory!\n";
         std::cout << "+----------------------------------------+" << std::endl;
@@ -157,6 +164,7 @@ bool Combat::CurrentAction()
     else if (!AlliesAreAlive() || Player->GetCurrentHealth() <= 0)
     {
         // Display defeat message or perform other defeat-related actions
+        system("cls");
         std::cout << "+----------------------------------------+" << std::endl;
         std::cout << "Defeat!\n";
         std::cout << "+----------------------------------------+" << std::endl;
@@ -204,6 +212,7 @@ void Combat::UpdateEffectsDuration(CharacterTemplate& character) // Update effec
         if ((*it)->GetDuration() > 0)
         {
             (*it)->DecreaseDuration(1); // Decrement the effect's duration by 1
+
             if ((*it)->GetDuration() == 0)
             {
                 // Remove the effect from the character's Afflictions vector
