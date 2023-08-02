@@ -29,6 +29,8 @@ private:
 		}
 	};
 
+	std::vector<std::shared_ptr<Enemy>> defeatedEnemies;
+
 public:
 	Combat(std::shared_ptr<PlayerCharacter> player, std::deque<std::shared_ptr<CharacterTemplate>> combatants); // Default constructor
 	~Combat() {} // Destructor

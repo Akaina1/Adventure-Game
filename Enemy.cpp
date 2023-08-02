@@ -3,6 +3,7 @@
 #include "Enemy.h"
 #include "Combat.h"
 
+
 enum {
 	MANA_THRESHOLD = 20, // 20%
 	LOW_HEALTH_THRESHOLD = 20, // 20%
@@ -41,9 +42,9 @@ Enemy::Enemy() // default constructor
 Enemy::Enemy(std::string name, int maxhealth, int currenthealth, int maxmana,
 	int currentmana, int level, int speed, int attackPwr, int defensePwr,
 	bool isDefending,std::map<std::string, int> statValues, AttackType baseAttackType,
-	std::vector<Skill> skills, std::vector<EffectPtr> afflictions)
+	std::vector<Skill> skills, std::vector<EffectPtr> afflictions, DropTable droptable)
 	: CharacterTemplate(name, maxhealth, currenthealth, maxmana, currentmana, level, speed, attackPwr, defensePwr,
-      isDefending, statValues, baseAttackType, skills, afflictions)
+      isDefending, statValues, baseAttackType, skills, afflictions), dropTable (droptable)
 {
 }
 
@@ -187,4 +188,30 @@ void Enemy::UseSkill(std::deque<std::shared_ptr<CharacterTemplate>>& Combatants)
 	// if no buff skills, or not enough mana, return to PerformAction()
 	std::cout << this->GetName() << " Has no Usable Skills!" << std::endl;
 	return;
+}
+
+void Enemy::DropLoot(std::shared_ptr<PlayerCharacter> player) const
+{
+	int exp = RandomBetween(dropTable.GetMinExp(), dropTable.GetMaxExp());
+	int gold = RandomBetween(dropTable.GetMinGold(), dropTable.GetMaxGold());
+
+	std::unordered_map<int, std::pair<std::shared_ptr<Item>, int>> items;
+	for (const auto& itemRange : dropTable.GetItemRanges()) {
+		int quantity = RandomBetween(itemRange.second.second.first, itemRange.second.second.second);
+		items[itemRange.first] = { itemRange.second.first, quantity };
+	}
+
+	// Do something with exp, gold, and items...
+
+	player->AddExperience(exp);
+	player->AddGold(gold);
+
+	std::cout << "+----------------------------------------+" << std::endl;
+	std::cout << "You got: " << exp << " experience!" << std::endl;
+	std::cout << "You got: " << gold << " gold!" << std::endl;
+	for (const auto& item : items)
+	{
+		player->AddItem(item.second.first, item.second.second);
+		std::cout << "You got: " << item.second.first->GetName() << " x " << item.second.second << "!" << std::endl;
+	}
 }

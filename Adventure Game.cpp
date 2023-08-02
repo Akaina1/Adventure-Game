@@ -16,6 +16,7 @@
 #include "CharacterTemplate.h"
 #include "Enemy.h"
 #include "SetupEvents.h"
+#include "GameManager.h"
 
 //todays goals:
 
@@ -31,7 +32,7 @@ int main()
     GetWindowRect(console, &ConsoleRect); // get the console window rectangle
     MoveWindow(console, ConsoleRect.left, ConsoleRect.top, 385, 900, TRUE); // set console window size
 
-
+    GameManager Qrelation; //game manager currently holds all items in game
     std::shared_ptr<PlayerCharacter> player = std::make_shared<PlayerCharacter>();
     std::shared_ptr<Location> startingLocation = SetupGame(player);
     

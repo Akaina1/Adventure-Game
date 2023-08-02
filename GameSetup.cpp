@@ -7,6 +7,8 @@
 #include "PlayerCharacter.h"
 #include "Enemy.h"
 #include "SetupEvents.h"
+#include "NPC.h"
+#include "DropTable.h"
 
 
 

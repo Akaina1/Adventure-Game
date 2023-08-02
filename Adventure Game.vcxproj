@@ -131,6 +131,7 @@
     <ClCompile Include="BossEnemy.cpp" />
     <ClCompile Include="CharacterTemplate.cpp" />
     <ClCompile Include="Combat.cpp" />
+    <ClCompile Include="DropTable.cpp" />
     <ClCompile Include="Dungeon.cpp" />
     <ClCompile Include="Effect.cpp" />
     <ClCompile Include="Enemy.cpp" />
@@ -154,6 +155,7 @@
     <ClInclude Include="BossEnemy.h" />
     <ClInclude Include="CharacterTemplate.h" />
     <ClInclude Include="Combat.h" />
+    <ClInclude Include="DropTable.h" />
     <ClInclude Include="Dungeon.h" />
     <ClInclude Include="Effect.h" />
     <ClInclude Include="Enemy.h" />
@@ -168,7 +170,10 @@
     <ClInclude Include="NPC.h" />
     <ClInclude Include="PlayerCharacter.h" />
     <ClInclude Include="Room.h" />
+    <ClInclude Include="SetupEnemies.h" />
     <ClInclude Include="SetupEvents.h" />
+    <ClInclude Include="SetupItems.h" />
+    <ClInclude Include="SetupNPCs.h" />
     <ClInclude Include="Skill.h" />
     <ClInclude Include="StatusEffect.h" />
     <ClInclude Include="Tavern.h" />

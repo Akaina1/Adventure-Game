@@ -90,12 +90,10 @@ void Combat::StartCombat() // Start combat
     if (victory)
     {
         // Implement victory rewards, experience gain, etc. here
-        std::cout << "You got: " << std::endl;
-        std::cout << 50 * (Combatants.size() - 1) << " experience" << std::endl;
-        std::cout << 50 * (Combatants.size() - 1) << " gold" << std::endl;
-
-        Player->AddExperience(50 * (Combatants.size() - 1));
-        Player->AddGold(50 * (Combatants.size() - 1));
+        for (auto& enemy : defeatedEnemies)
+        {
+            enemy->DropLoot(Player);
+        }
     }
     else
     {
@@ -106,8 +104,7 @@ void Combat::StartCombat() // Start combat
 bool Combat::CurrentAction()
 {
     bool anyCombatantAlive = true;
-    std::vector<std::shared_ptr<Enemy>> defeatedEnemies;
-
+    
     while (anyCombatantAlive) // loop until break
     {
        // sort combatants by speed

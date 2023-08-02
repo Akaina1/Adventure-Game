@@ -4,6 +4,14 @@
 #include "PlayerCharacter.h"
 
 class PlayerCharacter;
+enum class ItemType
+	{
+		CONSUMABLE,
+		WEAPON,
+		ARMOR,
+		EVENT_ITEM,
+		JUNK_ITEM
+	};
 
 class Item
 {
@@ -12,41 +20,41 @@ private:
 	std::string description;
 	int id; 
 	int price;
-	int quantity;
-	int type; // 0 - consumable, 1 - weapon, 2 - armor, 3 - event item 4 - junk item (sellable for gold)
+	//int type; // 0 - consumable, 1 - weapon, 2 - armor, 3 - event item 4 - junk item (sellable for gold)
 	std::function<void(PlayerCharacter& player)> effect; // effect of the item (for consumables)
-	
+	ItemType itemType;
 
 public:
+	
 
 	Item();	
-	Item(std::string name, std::string descrription, int id, int price, int quantity, int type, std::function<void(PlayerCharacter& player)> effect);
+	Item(std::string name, std::string descrription, int id, int price, ItemType type, std::function<void(PlayerCharacter& player)> effect); // for items with effects
+	Item(std::string name, std::string descrription, int id, int price, ItemType type); // for items with no effects
+	Item(std::string name, std::string descrription, int id, ItemType type); // for event items 
 	~Item();
 
 //getters
-	std::string GetName() const { return this->name; };
-	std::string GetDescription() const { return this->description; };
-	int GetId() { return this->id; };
-	int GetPrice() { return this->price; };
-	int GetQuantity() {return this->quantity;};
-	int GetType() { return this->type; };
-	std::function<void(PlayerCharacter& player)> GetEffect() { return this->effect; };
+	std::string GetName() const { return name; };
+	std::string GetDescription() const { return description; };
+	int GetId() { return id; };
+	int GetPrice() { return price; };
+	ItemType GetType() { return itemType; };
+	std::function<void(PlayerCharacter& player)> GetEffect() { return effect; };
 
 //setters
-	void SetName(std::string name) { this->name = name; };
-	void SetDescription(std::string description) { this->description = description; };
-	void SetId(int id) { this->id = id; };
-	void SetPrice(int price) { this->price = price; };
-	void SetQuantity(int quantity) { this->quantity = quantity; };
-	void SetType(int type) { this->type = type; };
-	void SetEffect(std::function<void(PlayerCharacter& player)> effect) { this->effect = effect; };
+	void SetName(std::string name) { name = name; };
+	void SetDescription(std::string description) { description = description; };
+	void SetId(int id) { id = id; };
+	void SetPrice(int price) { price = price; };
+	void SetType(int type) { type = type; };
+	void SetEffect(std::function<void(PlayerCharacter& player)> effect) { effect = effect; };
 
 	
 //other functions
-	void EquipItem(PlayerCharacter& player);
-	void UnequipItem(PlayerCharacter& player);
-	void SellItem(PlayerCharacter& player);
-	void BuyItem(PlayerCharacter& player);
+	void EquipItem();
+	void UnequipItem();
+	void SellItem();
+	void BuyItem();
 
 	void Print(Item& item);
 
@@ -54,12 +62,12 @@ public:
 
 	bool operator==(const Item& other) const
 	{
-		return this->name == other.name;
+		return this->id == other.id;
 	}
 
 	bool operator<(const Item& other) const
 	{
-		return this->name < other.name;
+		return this->id < other.id;
 	}
 };
 

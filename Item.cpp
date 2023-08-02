@@ -9,43 +9,39 @@ Item::~Item() // destructor
 {
 }
 
-Item::Item(std::string name, std::string description, int id, int price, int quantity, int type, std::function<void(PlayerCharacter& player)> effect) // constructor with parameters
-{
-	this->name = name;
-	this->description = description;
-	this->id = id;
-	this->price = price;
-	this->quantity = quantity;
-	this->type = type;
-	this->effect = effect;
-}
+Item::Item(std::string name, std::string description, int id, int price, ItemType type, std::function<void(PlayerCharacter& player)> effect) 
+	: name (name), description (description), id (id), price (price), itemType (type) {}// items with effects
+
+Item::Item(std::string name, std::string descrription, int id, ItemType type) 
+	: name (name), description(description), id(id), itemType (type) {} //event items
+
+Item::Item(std::string name, std::string descrription, int id, int price, ItemType type) 
+	: name(name), description(description), id(id), price(price), itemType(type) {}// items without effects
 
 void Item::Print(Item& item) // print item info
 {
 	std::cout << "Name: " << name << std::endl;
 	std::cout << "Description: " << description << std::endl;
-	std::cout << "ID: " << id << std::endl;
 	std::cout << "Price: " << price << std::endl;
 	std::cout << "Quantity: " << quantity << std::endl;
-	std::cout << "Type: " << type << std::endl;
 }
 
-void Item::EquipItem(PlayerCharacter& player)
+void Item::EquipItem()
 {
 
 }
 
-void Item::UnequipItem(PlayerCharacter& player)
+void Item::UnequipItem()
 {
 
 }
 
-void Item::SellItem(PlayerCharacter& player)
+void Item::SellItem()
 {
 
 }
 
-void Item::BuyItem(PlayerCharacter& player)
+void Item::BuyItem()
 {
 
 }
