@@ -23,6 +23,8 @@ private:
 	std::shared_ptr<Location> CurrentLocation;                // pointer to the current location of the character
 	std::weak_ptr<PlayerCharacter> Self;                       // pointer to itself
 
+	std::vector<std::shared_ptr<Event>> Events;                                // vector of events that can occur in the game
+
 public:
 //default functions
 	PlayerCharacter();          // default constructor
@@ -33,7 +35,7 @@ public:
 		bool isDefending, long long experience, int gold, int playerClass, 
 		std::map<std::string, int> statValues, AttackType baseAttackType,
 		std::vector<Skill> skills,std::unordered_map<int, std::pair<std::shared_ptr<Item>, int>> inventory,
-		std::vector<EffectPtr> afflictions);  // constructor with parameters
+		std::vector<EffectPtr> afflictions, std::vector<std::shared_ptr<Event>> events);  // constructor with parameters
 
 	virtual void Print(std::ostream& os) const;                                    // override the print function from the I_Print class
 
@@ -74,6 +76,9 @@ public:
 	void ScourgePrint();
 	void SwindlerPrint();
 	void JesterPrint();
+	std::vector<std::shared_ptr<Event>> GetEvents() {return Events;};
+	void AddEvent(std::shared_ptr<Event> event) { Events.push_back(event); };
+	void EventLog(); // print the event log
 
 //inventory functions
 	void AddItem(std::shared_ptr<Item> item, int quantity);      // adds an item to the player character's inventory
@@ -81,5 +86,6 @@ public:
 	int GetItemQuantity(std::shared_ptr<Item> item);             // returns the quantity of an item in the player character's inventory
 	void PrintInventory();                       // prints the inventory of the player character
 	void UseItem(int itemId);                    // uses an item from the player character's inventory
+	bool HasItem(int itemId);                    // checks if the player character has an item based on ID number
 };
 

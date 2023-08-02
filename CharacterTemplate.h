@@ -35,6 +35,7 @@ protected:
 	AttackType BaseAttackType;
 	std::vector<Skill> Skills;
 	std::weak_ptr<Combat> combat;
+	//std::vector<Event> Events;
 
 public:
 	virtual void Print(std::ostream& os) const override; // override the print function from the I_Print class

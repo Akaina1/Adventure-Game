@@ -16,9 +16,7 @@ void CharacterTemplate::Print(std::ostream& os) const
 
 // default constructor
 CharacterTemplate::CharacterTemplate() 
-{
-
-}
+{}
 
 CharacterTemplate::CharacterTemplate(std::string name, int maxhealth, int currenthealth,
 	int maxmana, int currentmana, int level, AttackType baseAttackType)

@@ -135,7 +135,6 @@
     <ClCompile Include="Effect.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Event.cpp" />
-    <ClCompile Include="EventsList.cpp" />
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="GameSetup.cpp" />
     <ClCompile Include="Item.cpp" />
@@ -145,6 +144,7 @@
     <ClCompile Include="NPC.cpp" />
     <ClCompile Include="PlayerCharacter.cpp" />
     <ClCompile Include="Room.cpp" />
+    <ClCompile Include="SetupEvents.cpp" />
     <ClCompile Include="Skill.cpp" />
     <ClCompile Include="StatusEffect.cpp" />
     <ClCompile Include="Tavern.cpp" />
@@ -158,7 +158,6 @@
     <ClInclude Include="Effect.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Event.h" />
-    <ClInclude Include="EventsList.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="GameSetup.h" />
     <ClInclude Include="Item.h" />
@@ -169,6 +168,7 @@
     <ClInclude Include="NPC.h" />
     <ClInclude Include="PlayerCharacter.h" />
     <ClInclude Include="Room.h" />
+    <ClInclude Include="SetupEvents.h" />
     <ClInclude Include="Skill.h" />
     <ClInclude Include="StatusEffect.h" />
     <ClInclude Include="Tavern.h" />

@@ -23,10 +23,11 @@ PlayerCharacter::PlayerCharacter(std::string name, int maxhealth, int currenthea
 	int maxmana, int currentmana, int level, int speed, int attackPwr, int defensePwr,
 	bool isDefending,long long experience, int gold, int playerClass, std::map<std::string, 
 	int> statValues, AttackType baseAttackType, std::vector<Skill> skills, std::unordered_map<int, 
-	std::pair<std::shared_ptr<Item>, int>> inventory, std::vector<EffectPtr> afflictions) :
+	std::pair<std::shared_ptr<Item>, int>> inventory, std::vector<EffectPtr> afflictions, 
+	std::vector<std::shared_ptr<Event>> events) :
 	CharacterTemplate(name, maxhealth, currenthealth, maxmana, currentmana, level, speed, attackPwr, 
 	defensePwr,	isDefending, statValues, baseAttackType, skills, afflictions), Experience(experience), 
-	Gold(gold), PlayerClass(playerClass), Inventory(inventory)
+	Gold(gold), PlayerClass(playerClass), Inventory(inventory), Events (events)
 {}
 
 void PlayerCharacter::Print(std::ostream& os) const     // override the print function from the I_Print class
@@ -398,6 +399,17 @@ void PlayerCharacter::UseItem(int itemId)
 		case 2:// Armor
 			break;
 		}
+	}
+}
+
+bool PlayerCharacter::HasItem(int itemId)
+{
+	auto it = Inventory.find(itemId);
+	if (it != Inventory.end() && it->second.second > 0) {
+		return true;
+	}
+	else {
+		return false;
 	}
 }
 
@@ -994,6 +1006,24 @@ void PlayerCharacter::JesterPrint()
 	TypeText(L"5 Mana Potions\n", 1);
 	TypeText(L"-------------------------------------------\n", 1); 
 	TypeText(L"Confirm? (Y/N)\n", 1); 
+}
+
+void PlayerCharacter::EventLog()
+{
+	for (auto& event : Events)
+	{
+		std::cout << "+----------------------------------------+" << std::endl;
+		std::cout << "|               Event Log:               |" << std::endl;
+		std::cout << "+----------------------------------------+" << std::endl;
+		
+		for (auto& event : Events)
+		{
+			if (event->GetEventStatus() != EventStatus::Inactive) 
+			{
+				std::cout << event->GetEventName() << std::endl;
+			}
+		}
+	}
 }
 
 ////////////////////////////////// Combat functions   //////////////////////////////////

@@ -15,6 +15,7 @@
 #include "Combat.h"
 #include "CharacterTemplate.h"
 #include "Enemy.h"
+#include "SetupEvents.h"
 
 //todays goals:
 
@@ -50,6 +51,13 @@ int main()
 
         player->CharacterCreator(); // works as intended
         player->SetSelf(player);
+
+        //create events and add to player
+        auto allEvents = SetupEvents(player);
+        for (const auto& event : allEvents)
+        {
+            player->AddEvent(event);
+        }
 
         system("cls");
         std::cout << "--------START GAME--------" << std::endl;
