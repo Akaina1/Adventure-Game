@@ -6,7 +6,12 @@ void Room::OnEnter(std::shared_ptr<PlayerCharacter> player)
 {
     std::cout << "Number of Combatants: " << Combatants.size() << std::endl;
 
-    if (!Combatants.empty())
+    bool hasEnemies = std::any_of(Combatants.begin(), Combatants.end(), [](std::shared_ptr<CharacterTemplate> combatant) 
+        { 
+            return std::dynamic_pointer_cast<Enemy>(combatant) && combatant->GetCurrentHealth() > 0;
+        });
+
+    if (hasEnemies)
     {
         std::cout << "Combatants' names: " << std::endl;
         for (const auto& combatant : Combatants) {
@@ -30,9 +35,12 @@ void Room::OnEnter(std::shared_ptr<PlayerCharacter> player)
         player->ChooseMove();
     }
 }
+
 void Room::OnExit(std::shared_ptr<PlayerCharacter> player)
 {
-    Combatants.clear();
+    Combatants.erase(std::remove_if(Combatants.begin(), Combatants.end(), [](std::shared_ptr<CharacterTemplate> combatant) {
+        return std::dynamic_pointer_cast<Enemy>(combatant) != nullptr && combatant->GetCurrentHealth() == 0;
+        }), Combatants.end());
 }
 
 std::shared_ptr<Room> Room::GetConnectedRoom(int index) const

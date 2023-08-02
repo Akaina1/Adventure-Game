@@ -106,6 +106,7 @@ void Combat::StartCombat() // Start combat
 bool Combat::CurrentAction()
 {
     bool anyCombatantAlive = true;
+    std::vector<std::shared_ptr<Enemy>> defeatedEnemies;
 
     while (anyCombatantAlive) // loop until break
     {
@@ -125,6 +126,12 @@ bool Combat::CurrentAction()
             // Skip this combatant if they are dead
             if (combatant->GetCurrentHealth() <= 0)
             {
+                // Check if the combatant is an enemy and if so, add it to defeatedEnemies
+                auto enemy = std::dynamic_pointer_cast<Enemy>(combatant);
+                if (enemy) {
+                    defeatedEnemies.push_back(enemy);
+                }
+
                 continue;
             }
 

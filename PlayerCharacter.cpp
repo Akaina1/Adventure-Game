@@ -1020,7 +1020,7 @@ void PlayerCharacter::EventLog()
 		{
 			if (event->GetEventStatus() != EventStatus::Inactive) 
 			{
-				std::cout << event->GetEventName() << std::endl;
+				std::cout << event->GetName() << std::endl;
 			}
 		}
 	}

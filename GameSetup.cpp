@@ -14,6 +14,14 @@ std::shared_ptr<Location> SetupGame(std::shared_ptr<PlayerCharacter> player) {
     // Create Tavern
     auto theTavern = std::make_shared<Tavern>("The Tavern", "A Place to Rest, Relax, Drink and forget about the monsters below us...", player);
 
+    //create NPC for Tavern Rooms
+    std::shared_ptr<NPC> npc1 = std::make_shared<NPC>("NPC 1", 90, 100, 100, 100, 2, AttackType::Melee);
+    std::shared_ptr<NPC> npc2 = std::make_shared<NPC>("NPC 2", 70, 110, 110, 110, 3, AttackType::Magic);
+
+    std::deque<std::shared_ptr<CharacterTemplate>> NPCGroup1;
+    NPCGroup1.push_back(npc1);
+    NPCGroup1.push_back(npc2);
+
     // Create Rooms for Tavern
     auto tavernRoom1 = std::make_shared<Room>("Tavern Room 1", "A cozy little room with a roaring fireplace.");
     auto tavernRoom2 = std::make_shared<Room>("Tavern Room 2", "A room filled with raucous laughter and song.");
@@ -24,6 +32,7 @@ std::shared_ptr<Location> SetupGame(std::shared_ptr<PlayerCharacter> player) {
     tavernRoom1->ConnectLocation(theTavern);
     tavernRoom2->ConnectLocation(theTavern);
 
+   
     //create enemies for Dungeon
     std::shared_ptr<Enemy> goblin1 = std::make_shared<Enemy>("Goblin 1", 90, 100, 100, 100, 2, AttackType::Melee);
     std::shared_ptr<Enemy> goblin2 = std::make_shared<Enemy>("Goblin 2", 70, 110, 110, 110, 3, AttackType::Melee);

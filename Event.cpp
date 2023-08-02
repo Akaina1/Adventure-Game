@@ -12,12 +12,12 @@ Event::~Event()
 }
 
 Event::Event(std::string name, int eventId, std::string description, EventStatus eventstatus, 
-	std::function<bool(std::shared_ptr<PlayerCharacter>)> activationCondition,
-	std::function<bool(std::shared_ptr<PlayerCharacter>)> victoryCondition,
-	std::function<bool(std::shared_ptr<PlayerCharacter>)> failureCondition)
+	std::function<bool()> activationCondition,
+	std::function<bool()> completeCondition,
+	std::function<bool()> failureCondition)
 	: Name (name), EventID (eventId), Description(description), eventStatus (eventstatus), 
 		ActivationCondition (activationCondition),
-	    CompletionCondition (victoryCondition),
+	    CompletionCondition (completeCondition),
 		FailureCondition (failureCondition)
 {}
 
@@ -32,7 +32,7 @@ void Event::EventHandler(std::shared_ptr<PlayerCharacter> player)
 
 	for (auto& event : player->GetEvents())
 	{
-		if(event->GetEventStatus() == EventStatus::Inactive && event->ActivationCondition(player))
+		if(event->GetEventStatus() == EventStatus::Inactive && event->ActivationCondition())
 		{
 			//if event is inactive and activation condition met, trigger event
 
@@ -40,13 +40,13 @@ void Event::EventHandler(std::shared_ptr<PlayerCharacter> player)
 		}
 		else if (event->GetEventStatus() == EventStatus::Active)
 		{
-			if (event->CompletionCondition(player))
+			if (event->CompletionCondition())
 			{
 				// event is active and completion condition met, complete event
 
 				event->EventComplete(player);
 			}
-			else if (event->FailureCondition(player))
+			else if (event->FailureCondition())
 			{
 				// event is active and failure condition met, fail the event
 

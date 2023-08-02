@@ -30,17 +30,17 @@ private:
 
 	EventStatus eventStatus; // event status, active, complete, failed, inactive
 
-	std::function<bool(std::shared_ptr<PlayerCharacter>)> ActivationCondition; // checks player for conditions to activate event
-	std::function<bool(std::shared_ptr<PlayerCharacter>)> CompletionCondition; // checks player for conditions to complete event
-	std::function<bool(std::shared_ptr<PlayerCharacter>)> FailureCondition;    // checks player for conditions to fail event
+	std::function<bool()> ActivationCondition; // checks player for conditions to activate event
+	std::function<bool()> CompletionCondition; // checks player for conditions to complete event
+	std::function<bool()> FailureCondition;    // checks player for conditions to fail event
 
 public:
 	Event();
 	~Event();
-	Event(std::string Name, int eventId, std::string description, EventStatus eventstatus, 
-		std::function<bool(std::shared_ptr<PlayerCharacter>)> activationCondition,
-		std::function<bool(std::shared_ptr<PlayerCharacter>)> victoryCondition,
-		std::function<bool(std::shared_ptr<PlayerCharacter>)> failureCondition);
+	Event(std::string Name, int eventId, std::string description, EventStatus eventstatus,
+		std::function<bool()> activationCondition, 
+		std::function<bool()> completeCondition,
+		std::function<bool()> failureCondition);
 
 	virtual void EventStart(std::shared_ptr<PlayerCharacter> player);
 
