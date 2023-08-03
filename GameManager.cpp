@@ -77,9 +77,9 @@ std::unordered_map<int, std::shared_ptr<Item>> GameManager::SetupItems()// creat
 			0001,                        // id
 			50,							 // price in gold
 			ItemType::CONSUMABLE,		 // type
-			[](PlayerCharacter& player)  // effect
+			[](std::shared_ptr<PlayerCharacter> player)  // effect
 			{
-				player.heal(20);
+				player->heal(20);
 			}
 	);
 
@@ -90,9 +90,9 @@ std::unordered_map<int, std::shared_ptr<Item>> GameManager::SetupItems()// creat
 			0002,                        // id
 			80,							 // price in gold
 			ItemType::CONSUMABLE,		 // type
-			[](PlayerCharacter& player)  // effect
+			[](std::shared_ptr<PlayerCharacter> player)  // effect
 			{
-				player.heal(50);
+				player->heal(50);
 			}
 	);
 
@@ -103,9 +103,9 @@ std::unordered_map<int, std::shared_ptr<Item>> GameManager::SetupItems()// creat
 			0003,                        // id
 			100,					     // price in gold
 			ItemType::CONSUMABLE,		 // type
-			[](PlayerCharacter& player)  // effect
+			[](std::shared_ptr<PlayerCharacter> player)  // effect
 			{
-				player.heal(80);
+				player->heal(80);
 			}
 	);
 
@@ -116,9 +116,9 @@ std::unordered_map<int, std::shared_ptr<Item>> GameManager::SetupItems()// creat
 			0004,                        // id
 			150,						 // price in gold
 			ItemType::CONSUMABLE,		 // type
-			[](PlayerCharacter& player)  // effect
+			[](std::shared_ptr<PlayerCharacter> player)  // effect
 			{
-				player.heal(120);
+				player->heal(120);
 			}
 	);
 

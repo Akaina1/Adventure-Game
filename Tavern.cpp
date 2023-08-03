@@ -3,6 +3,7 @@
 // The player will be able to return to the tavern at any time to rest and buy items. The player will also be able to upgrade their equipment at the tavern.
 // The player will be able to talk to NPCs in the tavern to gain information about the game world and the dungeon.
 #include "Tavern.h"
+#include "GameManager.h"
 
 void Tavern::OnEnter(std::shared_ptr<PlayerCharacter> Player) //called when the player enters the Tavern (overloaded for each location)
 {
@@ -149,10 +150,34 @@ void Tavern::Drink()
     // do event checks
     int choice = 0;
 	int gold = Player->GetPlayerGold();	
-	std::shared_ptr<Item> Ale = std::make_shared<Item>("Ale", "A pint of ale", 1001, 5, ItemType::CONSUMABLE, ([](PlayerCharacter& player) {player.heal(10); }));
-	std::shared_ptr<Item> Mead = std::make_shared<Item>("Mead", "A pint of mead", 1002, 10, ItemType::CONSUMABLE, ([](PlayerCharacter& player) {player.heal(15); }));
-	std::shared_ptr<Item> Wine = std::make_shared<Item>("Wine", "A glass of wine", 1003, 15, ItemType::CONSUMABLE, ([](PlayerCharacter& player) {player.heal(20); }));
-	std::shared_ptr<Item> Water = std::make_shared<Item>("Water", "A glass of water", 1004, 5, ItemType::CONSUMABLE, ([](PlayerCharacter& player) {player.heal(5); }));
+	std::shared_ptr<Item> Ale = std::make_shared<Item>("Ale", "A pint of ale", 1001, 5, ItemType::CONSUMABLE, [](std::shared_ptr<PlayerCharacter> player) {player->heal(10); });
+	std::shared_ptr<Item> Mead = std::make_shared<Item>("Mead", "A pint of mead", 1002, 10, ItemType::CONSUMABLE, [](std::shared_ptr<PlayerCharacter> player) {player->heal(15); });
+	std::shared_ptr<Item> Wine = std::make_shared<Item>("Wine", "A glass of wine", 1003, 15, ItemType::CONSUMABLE, [](std::shared_ptr<PlayerCharacter> player) {player->heal(20); });
+	std::shared_ptr<Item> Water = std::make_shared<Item>("Water", "A glass of water", 1004, 5, ItemType::CONSUMABLE, [](std::shared_ptr<PlayerCharacter> player) {player->heal(5); });
+	
+
+	if (Ale->GetEffect())
+	{
+		std::cout << "Ale has an effect!" << std::endl;
+	}
+	
+	if (Mead->GetEffect())
+	{
+		std::cout << "Mead has an effect!" << std::endl;
+	}
+
+if (Wine->GetEffect())
+	{
+		std::cout << "Wine has an effect!" << std::endl;
+	}
+
+if (Water->GetEffect())
+	{
+		std::cout << "Water has an effect!" << std::endl;
+	}
+
+
+	system("pause");
 
 	system("cls");
     TypeText(L"+-----------------------------------------+\n", 10);

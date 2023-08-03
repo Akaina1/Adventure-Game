@@ -9,8 +9,8 @@ Item::~Item() // destructor
 {
 }
 
-Item::Item(std::string name, std::string description, int id, int price, ItemType type, std::function<void(PlayerCharacter& player)> effect) 
-	: name (name), description (description), id (id), price (price), itemType (type) {}// items with effects
+Item::Item(std::string name, std::string description, int id, int price, ItemType type, std::function<void(std::shared_ptr<PlayerCharacter>)> effect)
+	: name (name), description (description), id (id), price (price), itemType (type), effect (effect) {}// items with effects
 
 Item::Item(std::string name, std::string descrription, int id, ItemType type) 
 	: name (name), description(description), id(id), itemType (type) {} //event items

@@ -21,14 +21,14 @@ private:
 	int id; 
 	int price;
 	//int type; // 0 - consumable, 1 - weapon, 2 - armor, 3 - event item 4 - junk item (sellable for gold)
-	std::function<void(PlayerCharacter& player)> effect; // effect of the item (for consumables)
+	std::function<void(std::shared_ptr<PlayerCharacter>)> effect; // effect of the item (for consumables)
 	ItemType itemType;
 
 public:
 	
 
 	Item();	
-	Item(std::string name, std::string descrription, int id, int price, ItemType type, std::function<void(PlayerCharacter& player)> effect); // for items with effects
+	Item(std::string name, std::string descrription, int id, int price, ItemType type, std::function<void(std::shared_ptr<PlayerCharacter>)> effect); // for items with effects
 	Item(std::string name, std::string descrription, int id, int price, ItemType type); // for items with no effects
 	Item(std::string name, std::string descrription, int id, ItemType type); // for event items 
 	~Item();
@@ -39,7 +39,7 @@ public:
 	int GetId() { return id; };
 	int GetPrice() { return price; };
 	ItemType GetType() { return itemType; };
-	std::function<void(PlayerCharacter& player)> GetEffect() { return effect; };
+	std::function<void(std::shared_ptr<PlayerCharacter>)> GetEffect() { return effect; };
 
 //setters
 	void SetName(std::string name) { name = name; };
@@ -47,7 +47,7 @@ public:
 	void SetId(int id) { id = id; };
 	void SetPrice(int price) { price = price; };
 	void SetType(int type) { type = type; };
-	void SetEffect(std::function<void(PlayerCharacter& player)> effect) { effect = effect; };
+	void SetEffect(std::function<void(std::shared_ptr<PlayerCharacter>)> effect) { effect = effect; };
 
 	
 //other functions

@@ -385,14 +385,18 @@ void PlayerCharacter::UseItem(int itemId)
 	if (Inventory.count(itemId) > 0 && Inventory[itemId].second > 0)
 	{
 		auto& item = Inventory[itemId].first;
+		auto playerPtr = std::dynamic_pointer_cast<PlayerCharacter>(shared_from_this());
+
 		switch (item->GetType())
 		{
-		case ItemType::CONSUMABLE:// Consumable
-
-			item->GetEffect()(*this);
-			Inventory[itemId].second--;  // decrease quantity by 1
-			if (Inventory[itemId].second == 0) {
-				Inventory.erase(itemId);  // remove from inventory if quantity is 0
+		case ItemType::CONSUMABLE: // Consumable
+			
+			if (playerPtr) {
+				item->GetEffect()(playerPtr);
+			}
+			else {
+				// Handle the error condition, possibly throw an exception
+				throw std::runtime_error("Failed to cast CharacterTemplate to PlayerCharacter");
 			}
 			break;
 
@@ -1155,7 +1159,7 @@ void PlayerCharacter::CheckInventory()
 	}
 
 	// choose an item to use or cancel
-	int itemChoice = 0;
+	int itemChoice = 0000;
 	std::cout << "Enter the ID of an item to use, or 0 to cancel: \n";
 	std::cin >> itemChoice;
 
