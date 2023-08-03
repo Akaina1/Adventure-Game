@@ -8,9 +8,9 @@ Combat::Combat(std::shared_ptr<PlayerCharacter> player, std::deque<std::shared_p
 void Combat::CombatDisplay() {
     // print header
     system("cls");
-    std::cout << "+----------------------------------------+" << std::endl;
-    std::cout << "|           PREPARE FOR COMBAT           |" << std::endl;
-    std::cout << "+----------------------------------------+" << std::endl;
+    std::cout << "+-----------------------------------------+\n";
+    std::cout << "|           PREPARE FOR COMBAT            |\n";
+    std::cout << "+-----------------------------------------+\n";
 
     std::cout << "Number of combatants: " << Combatants.size() << std::endl;
 
@@ -30,7 +30,7 @@ void Combat::CombatDisplay() {
             std::cout << "Attack: " << player->GetAttackPwr() << std::endl;
             std::cout << "Defence: " << player->GetDefencePwr() << std::endl;
             std::cout << "Speed: " << player->GetSpeed() << std::endl;
-            std::cout << "=========================================" << std::endl;
+            std::cout << "==========================================" << std::endl;
         }
         //else {
             //std::cout << "Failed to cast combatant to Enemy." << std::endl;
@@ -50,7 +50,7 @@ void Combat::CombatDisplay() {
             std::cout << "Attack: " << ally->GetAttackPwr() << std::endl;
 			std::cout << "Defence: " << ally->GetDefencePwr() << std::endl;
             std::cout << "Speed: " << ally->GetSpeed() << std::endl;
-            std::cout << "=========================================" << std::endl;
+            std::cout << "==========================================" << std::endl;
         }
     }
 
@@ -67,12 +67,12 @@ void Combat::CombatDisplay() {
             std::cout << "Attack: " << enemy->GetAttackPwr() << std::endl;
 			std::cout << "Defence: " << enemy->GetDefencePwr() << std::endl;
             std::cout << "Speed: " << enemy->GetSpeed() << std::endl;
-            std::cout << "=========================================" << std::endl;
+            std::cout << "==========================================" << std::endl;
         }
     }
-    std::cout << "+----------------------------------------+" << std::endl;
+    std::cout << "+-----------------------------------------+" << std::endl;
     std::cout << "Turn: " << CurrentTurn << std::endl;
-    std::cout << "+----------------------------------------+" << std::endl;
+    std::cout << "+-----------------------------------------+" << std::endl;
 }
 
 void Combat::StartCombat() // Start combat
@@ -93,9 +93,7 @@ void Combat::StartCombat() // Start combat
        // Implement victory rewards, experience gain, etc. here
         for (auto& enemy : defeatedEnemies)
         {
-            
             enemy->DropLoot(Player);
-
         }
     }
     else
@@ -131,7 +129,7 @@ bool Combat::CurrentAction()
         {
             std::cout << combatant->GetName() << " with speed " << combatant->GetSpeed() << "\n";
         }
-        std::cout << "+----------------------------------------+" << std::endl;
+        std::cout << "+-----------------------------------------+" << std::endl;
 
         // All combatants have their turn
         for (const auto& combatant : Combatants)
@@ -167,7 +165,7 @@ bool Combat::CurrentAction()
 
             // Check and update effects duration for the character
             std::cout << combatant->GetName() << " should have taken a turn" << std::endl;
-            std::cout << "+----------------------------------------+" << std::endl;
+            std::cout << "+-----------------------------------------+" << std::endl;
             UpdateEffectsDuration(*combatant);
 
             anyCombatantAlive = true; // At least one combatant is still alive
@@ -188,7 +186,7 @@ bool Combat::CurrentAction()
 
         CurrentTurn++;
 
-        std::cout << "+----------------------------------------+" << std::endl;
+        std::cout << "+-----------------------------------------+" << std::endl;
         system("pause");
         CombatDisplay();
  
@@ -198,9 +196,9 @@ bool Combat::CurrentAction()
     {
         // Display victory message or perform other victory-related actions
         system("cls");
-        std::cout << "+----------------------------------------+" << std::endl;
+        std::cout << "+-----------------------------------------+" << std::endl;
         std::cout << "Victory!\n";
-        std::cout << "+----------------------------------------+" << std::endl;
+        std::cout << "+-----------------------------------------+" << std::endl;
 
         // BUFFER OVERFLOW ERROR OCCURS HERE WHEN DEBUGGING
 
@@ -210,9 +208,9 @@ bool Combat::CurrentAction()
     {
         // Display defeat message or perform other defeat-related actions
         system("cls");
-        std::cout << "+----------------------------------------+" << std::endl;
+        std::cout << "+-----------------------------------------+" << std::endl;
         std::cout << "Defeat!\n";
-        std::cout << "+----------------------------------------+" << std::endl;
+        std::cout << "+-----------------------------------------+" << std::endl;
 
         return false; // Signal that combat should end
     }

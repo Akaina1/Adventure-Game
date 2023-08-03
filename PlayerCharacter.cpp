@@ -83,9 +83,9 @@ void PlayerCharacter::MoveTo(std::shared_ptr<Location> newlocation)
 	this->SetCurrentLocation(newlocation);
 	system("cls");
 	std::cout << "You are now moving to... " << newlocation->GetName() << std::endl;
-	std::cout << "-------------------------------------------\n" << std::endl;
+	std::cout << "+-----------------------------------------+\n" << std::endl;
 	std::cout << LoadingText() << std::endl;
-	std::cout << "-------------------------------------------\n" << std::endl;
+	std::cout << "+-----------------------------------------+\n" << std::endl;
 	system("pause");
 	system("cls");
 
@@ -101,44 +101,46 @@ void PlayerCharacter::ChooseMove()
 {
 	std::shared_ptr<Location> currentLocation = GetCurrentLocation();
 	std::cout << "You are currently in " << currentLocation->GetName() << std::endl;
-	std::cout << "-------------------------------------------\n" << std::endl;
+	std::cout << "+-----------------------------------------+\n" << std::endl;
 
 
 	if (currentLocation->GetConnectedRoomsCount() == 0 && currentLocation->GetConnectedLocationsCount() > 0)
 	{
 		std::cout << "There are no Rooms connected to this location.\n";
+		std::cout << "+-----------------------------------------+\n" << std::endl;
 	}
 	else if (currentLocation->GetConnectedLocationsCount() == 0 && currentLocation->GetConnectedRoomsCount() > 0)
 	{
 		std::cout << "There are no Locations connected to this location.\n";
+		std::cout << "+-----------------------------------------+\n" << std::endl;
 	}
 	else if (currentLocation->GetConnectedRoomsCount() == 0 && currentLocation->GetConnectedLocationsCount() == 0)
 	{
 		std::cout << "There are no Rooms or Locations connected to this location.\n";
+		std::cout << "+-----------------------------------------+\n" << std::endl;
 		return;
 	}
-	std::cout << "-------------------------------------------\n" << std::endl;
 	std::cout << "You can move to the following Locations: \n";
-	std::cout << "-------------------------------------------\n" << std::endl;
+	std::cout << "+-----------------------------------------+\n" << std::endl;
 	int count = 0;
 	for (int i = 0; i < currentLocation->GetConnectedLocationsCount(); i++)
 	{
 		std::shared_ptr<Location> connectedLocation = currentLocation->GetConnectedLocation(i);
-		std::cout << ++count << ": " << connectedLocation->GetName() << "\n";
+		std::cout << "[" << ++count << "]" << ": " << connectedLocation->GetName() << "\n";
 	}
 
-	std::cout << "-------------------------------------------\n" << std::endl;
+	std::cout << "+-----------------------------------------+\n" << std::endl;
 	std::cout << "You can move to the following Rooms: \n";
-	std::cout << "-------------------------------------------\n" << std::endl;
+	std::cout << "+-----------------------------------------+\n" << std::endl;
 	for (int i = 0; i < currentLocation->GetConnectedRoomsCount(); i++)
 	{
 		std::shared_ptr<Room> connectedLocation = currentLocation->GetConnectedRoom(i);
-		std::cout << ++count << ": " << connectedLocation->GetName() << "\n";
+		std::cout << "[" << ++count << "]" << ": " << connectedLocation->GetName() << "\n";
 	}
 
-	std::cout << "-------------------------------------------\n" << std::endl;
+	std::cout << "+-----------------------------------------+\n" << std::endl;
 	std::cout << "Enter the number of the Location or Room you want to move to: \n";
-	std::cout << "-------------------------------------------\n" << std::endl;
+	std::cout << "+-----------------------------------------+\n" << std::endl;
 	int choice;
 	std::cin >> choice;
 	choice--;
@@ -1141,11 +1143,39 @@ void PlayerCharacter::CheckInventory()
 
 	for (const auto& itemPair : Inventory)
 	{
+		const auto& itemId = itemPair.first;
 		const auto& item = itemPair.second.first;
 		const auto quantity = itemPair.second.second;
 
+		std::cout << "Item ID: " << itemId << "\n";
 		std::cout << item->GetName() << " x " << quantity << "\n";
 		std::cout << "Description: " << item->GetDescription() << "\n";
+		std::cout << "+-----------------------------------------+\n";
+
+	}
+
+	// choose an item to use or cancel
+	int itemChoice = 0;
+	std::cout << "Enter the ID of an item to use, or 0 to cancel: \n";
+	std::cin >> itemChoice;
+
+	if (std::cin.fail())
+	{
+		std::cin.clear(); // Clear the failure state
+		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Remove the bad input
+	}
+
+	if (itemChoice == 0)
+	{
+		return;
+	}
+	else if (Inventory.count(itemChoice) > 0)
+	{
+		UseItem(itemChoice); //ERROR CRASHES HERE
+	}
+	else
+	{
+		std::cout << "Invalid item ID.\n";
 	}
 }
 

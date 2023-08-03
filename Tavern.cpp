@@ -10,7 +10,7 @@ void Tavern::OnEnter(std::shared_ptr<PlayerCharacter> Player) //called when the 
 	// to implement later
 	//2. print out intro text
 	TypeText(L"Welcome to the Tavern!\n", 5);
-	TypeText(L"------------------------------------------\n", 5);
+	TypeText(L"+-----------------------------------------+\n", 5);
 	TypeText(L"Here you can rest to save your game...\n\n", 5);
 	TypeText(L"Grab a drink from the bar...\n\n", 5);
 	TypeText(L"Talk to various NPCs to purchase items\nand equipment...\n\n", 5);
@@ -39,13 +39,14 @@ void Tavern::TavernMenu()
 
 
     int choice = 0;
-    TypeText(L"------------------------------------------\n", 10);
+    TypeText(L"+-----------------------------------------+\n", 10);
     TypeText(L"1. Rest\n", 10);
     TypeText(L"2. Drink\n", 10);
     TypeText(L"3. Talk to NPCs\n", 10);
     TypeText(L"4. Go to the Dungeon\n", 10);
-    TypeText(L"5. Exit the game\n", 10);
-    TypeText(L"------------------------------------------\n", 10);
+	TypeText(L"5. Check Inventory\n", 10);
+    TypeText(L"6. Exit the game\n", 10);
+    TypeText(L"+-----------------------------------------+\n", 10);
 
     std::cin >> choice;
 	system("cls");
@@ -71,6 +72,10 @@ void Tavern::TavernMenu()
 
 		break;
 	case 5:
+		// check inventory
+		Player->CheckInventory();
+		break;
+	case 6:
 		// exit the game
 		break;
 	default:
@@ -144,15 +149,15 @@ void Tavern::Drink()
     // do event checks
     int choice = 0;
 	int gold = Player->GetPlayerGold();	
-	std::shared_ptr<Item> Ale = std::make_shared<Item>("Ale", "A pint of ale", 001, 5, ItemType::CONSUMABLE, ([](PlayerCharacter& player) {player.heal(10); }));
-	std::shared_ptr<Item> Mead = std::make_shared<Item>("Mead", "A pint of mead", 002, 10, ItemType::CONSUMABLE, ([](PlayerCharacter& player) {player.heal(15); }));
-	std::shared_ptr<Item> Wine = std::make_shared<Item>("Wine", "A glass of wine", 003, 15, ItemType::CONSUMABLE, ([](PlayerCharacter& player) {player.heal(20); }));
-	std::shared_ptr<Item> Water = std::make_shared<Item>("Water", "A glass of water", 004, 5, ItemType::CONSUMABLE, ([](PlayerCharacter& player) {player.heal(5); }));
+	std::shared_ptr<Item> Ale = std::make_shared<Item>("Ale", "A pint of ale", 1001, 5, ItemType::CONSUMABLE, ([](PlayerCharacter& player) {player.heal(10); }));
+	std::shared_ptr<Item> Mead = std::make_shared<Item>("Mead", "A pint of mead", 1002, 10, ItemType::CONSUMABLE, ([](PlayerCharacter& player) {player.heal(15); }));
+	std::shared_ptr<Item> Wine = std::make_shared<Item>("Wine", "A glass of wine", 1003, 15, ItemType::CONSUMABLE, ([](PlayerCharacter& player) {player.heal(20); }));
+	std::shared_ptr<Item> Water = std::make_shared<Item>("Water", "A glass of water", 1004, 5, ItemType::CONSUMABLE, ([](PlayerCharacter& player) {player.heal(5); }));
 
 	system("cls");
-    TypeText(L"------------------------------------------\n", 10);
-    TypeText(L" 'What would you like to drink stranger...?' \n", 10);
-    TypeText(L"------------------------------------------\n", 10);
+    TypeText(L"+-----------------------------------------+\n", 10);
+    TypeText(L" 'What would you like to drink stranger...?'\n", 10);
+    TypeText(L"+-----------------------------------------+\n", 10);
     TypeText(L"1. Ale - 10 Gold\n", 10);
     TypeText(L"2. Mead - 15 Gold\n", 10);
     TypeText(L"3. Wine - 20 Gold\n", 10);
