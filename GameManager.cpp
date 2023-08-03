@@ -25,7 +25,10 @@ std::shared_ptr<Enemy> GameManager::GetEnemy(const std::string& name)
 {
 	if (enemies.count(name) > 0)
 	{
-		return enemies[name];
+		// Fetch the enemy from your storage into `originalEnemy`
+		std::shared_ptr<Enemy> originalEnemy = enemies[name];
+		// Create a new copy of the enemy
+		return std::make_shared<Enemy>(*originalEnemy);
 	}
 	else
 	{
@@ -149,7 +152,7 @@ std::unordered_map<std::string, std::shared_ptr<Enemy>> GameManager::SetupEnemie
 		std::vector<EffectPtr> emptyAfflictions;
 		std::map<std::string, int> statValues = { {"Strength", 5}, {"Dexterity", 5}, {"Wisdom", 5}, {"Charisma", 5} };
 
-		std::shared_ptr<Enemy> goblin = std::make_shared<Enemy>// create goblin enemy
+		std::shared_ptr<Enemy> goblin1 = std::make_shared<Enemy>// create goblin enemy
 			(
 				"Goblin 1",                // name
 				50,                      // maxhealth
@@ -168,10 +171,47 @@ std::unordered_map<std::string, std::shared_ptr<Enemy>> GameManager::SetupEnemie
 				dropTablePtr             // dropTable
 			);
 
-		enemies[goblin->GetName()] = goblin; // add to enemies map
+		enemies[goblin1->GetName()] = goblin1; // add to enemies map
 	}
 	////////////////////////////////////////////////////////////////////////////////////////////////////
+	{
+		std::unordered_map<std::shared_ptr<Item>, std::pair<int, int>> itemRanges;
 
+		std::shared_ptr<Item> hydra_drop_1 = GetItem(0003); // get item from item manager (id 0001)
+		itemRanges[hydra_drop_1] = { 1, 3 }; // add item to droptable with a minimum of 1 and a maximum of 3
+
+		std::shared_ptr<Item> hydra_drop_2 = GetItem(0004);
+		itemRanges[hydra_drop_2] = { 1, 2 };
+
+		auto dropTablePtr = std::make_shared<DropTable>(50, 100, 20, 50, itemRanges);
+		// droptable with 50 minimum exp, 100 maximum exp, 20 minimum gold, 50 maximum gold, and the itemRanges
+
+		std::vector<Skill> emptySkills;				// add skills
+		std::vector<EffectPtr> emptyAfflictions;	// add afflictions
+		std::map<std::string, int> statValues = { {"Strength", 6}, {"Dexterity", 6}, {"Wisdom", 7}, {"Charisma", 3} }; // add stats
+
+		std::shared_ptr<Enemy> hydra2 = std::make_shared<Enemy>// create goblin enemy
+			(
+				"Hydra 2",                // name
+				80,                      // maxhealth
+				80,                      // currenthealth
+				50,                      // maxmana
+				60,                      // currentmana
+				2,                       // level
+				2,                       // speed
+				2,                       // attackPwr
+				2,                       // defensePwr
+				false,                   // isDefending
+				statValues,              // statValues
+				AttackType::Melee,       // baseAttackType
+				emptySkills,             // skills
+				emptyAfflictions,        // afflictions
+				dropTablePtr             // dropTable
+			);
+
+		enemies[hydra2->GetName()] = hydra2; // add to enemies map
+	}
+	////////////////////////////////////////////////////////////////////////////////////////////////////
 	return enemies;
 }
 
@@ -201,11 +241,18 @@ void GameManager::SetupGame(std::shared_ptr<PlayerCharacter> player)
 	//create enemies for Dungeon
 	std::shared_ptr<Enemy> goblin1 = GetEnemy("Goblin 1");
 	std::shared_ptr<Enemy> goblin2 = GetEnemy("Goblin 1");
+	std::shared_ptr<Enemy> hydra2 = GetEnemy("Hydra 2");
+	std::shared_ptr<Enemy> hydra3 = GetEnemy("Hydra 2");
+
 
 	// Create Enemy Groups for Dungeon Rooms
 	std::deque<std::shared_ptr<CharacterTemplate>> enemyGroup1;
-	enemyGroup1.push_back(goblin1);
+	enemyGroup1.push_back(hydra2);
 	enemyGroup1.push_back(goblin2);
+
+	std::deque<std::shared_ptr<CharacterTemplate>> enemyGroup2;
+	enemyGroup2.push_back(hydra3);
+	enemyGroup2.push_back(goblin1);
 
 	// Create Rooms for Tavern
 	auto tavernRoom1 = std::make_shared<Room>("Tavern Room 1", "A cozy little room with a roaring fireplace.");
@@ -225,11 +272,9 @@ void GameManager::SetupGame(std::shared_ptr<PlayerCharacter> player)
 
 	// Create Rooms for Dungeon
 	auto dungeonRoom1 = std::make_shared<Room>("Dungeon Room 1", "A room echoing with the sounds of dripping water and skittering creatures.", enemyGroup1);
-	auto dungeonRoom2 = std::make_shared<Room>("Dungeon Room 2", "A room filled with the stench of rot and decay.", enemyGroup1);
+	auto dungeonRoom2 = std::make_shared<Room>("Dungeon Room 2", "A room filled with the stench of rot and decay.", enemyGroup2);
 	theDungeon->ConnectRoom(dungeonRoom1);
 	theDungeon->ConnectRoom(dungeonRoom2);
-	dungeonRoom1->ConnectRoom(dungeonRoom2);
-	dungeonRoom2->ConnectRoom(dungeonRoom1);
 	dungeonRoom1->ConnectLocation(theDungeon);
 	dungeonRoom2->ConnectLocation(theDungeon);
 

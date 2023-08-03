@@ -68,6 +68,9 @@ void Enemy::PerformAction(std::deque<std::shared_ptr<CharacterTemplate>>& Combat
 	// 4. The AI will defend if the AI has (CurrentHealth < (MaxHealth * 0.2))
 	// 
 	//check mana levels first
+
+	std::cout << "Enemy is using PERFORM ACTION" << std::endl;
+
 	if (CurrentMana > (MaxMana * MANA_THRESHOLD / 100))
 	{
 		UseSkill(Combatants);
@@ -198,8 +201,11 @@ void Enemy::DropLoot(std::shared_ptr<PlayerCharacter> player)
 	std::cout << "You got: " << exp << " experience!" << std::endl;
 	std::cout << "You got: " << gold << " gold!" << std::endl;
 
+	std::cout << this->GetName() << " dropped: " << std::endl;
+
 	for (const auto& itemRange : dropTable->GetItemRanges())
 	{
+		
 		int quantity = RandomBetween(itemRange.second.first, itemRange.second.second);
 		player->AddItem(itemRange.first, quantity);
 		std::cout << "You got: " << itemRange.first->GetName() << " x " << quantity << "!" << std::endl;

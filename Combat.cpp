@@ -89,10 +89,13 @@ void Combat::StartCombat() // Start combat
     // End combat if there is a victory or defeat
     if (victory)
     {
-        // Implement victory rewards, experience gain, etc. here
+
+       // Implement victory rewards, experience gain, etc. here
         for (auto& enemy : defeatedEnemies)
         {
+            
             enemy->DropLoot(Player);
+
         }
     }
     else
@@ -110,34 +113,61 @@ bool Combat::CurrentAction()
        // sort combatants by speed
         std::sort(Combatants.begin(), Combatants.end(),
             [](const std::shared_ptr<CharacterTemplate>& a, const std::shared_ptr<CharacterTemplate>& b) {
+
+                std::cout << "got: " << a->GetSpeed() << " and " << b->GetSpeed() << std::endl;
+                std::cout << "from: " << a->GetName() << " and " << b->GetName() << std::endl;
+
 				return a->GetSpeed() > b->GetSpeed();
+                
 			});
       
         std::deque<std::shared_ptr<CharacterTemplate>> combatantsForNextTurn;
 
         anyCombatantAlive = false; // Assume no combatant is alive at the beginning of the loop
 
+        // Printing Combatants
+        std::cout << "\nCombatants:\n";
+        for (const auto& combatant : Combatants)
+        {
+            std::cout << combatant->GetName() << " with speed " << combatant->GetSpeed() << "\n";
+        }
+        std::cout << "+----------------------------------------+" << std::endl;
+
         // All combatants have their turn
         for (const auto& combatant : Combatants)
         {
+            std::cout << "got: " << combatant->GetName() << std::endl;
             // Skip this combatant if they are dead
             if (combatant->GetCurrentHealth() <= 0)
             {
                 // Check if the combatant is an enemy and if so, add it to defeatedEnemies
+                std::cout << combatant->GetName() << " is dead." << std::endl;
+
                 auto enemy = std::dynamic_pointer_cast<Enemy>(combatant);
-                if (enemy) {
+                if (enemy != nullptr)
+                {
                     defeatedEnemies.push_back(enemy);
+                    std::cout << "Added " << enemy->GetName() << " to defeatedEnemies" << std::endl;
+                }
+                else
+                {
+                    std::cout << "Tried to add non-enemy " << combatant->GetName() << " to defeatedEnemies" << std::endl;
                 }
 
-                continue;
+              continue;
             }
 
+            std::cout << combatant->GetName() << " is alive." << std::endl;
             combatant->ResetDefence(); // Reset defence for the combatant
 
             // Combatant takes their turn
+            std:: cout << combatant->GetName() << "'s turn." << std::endl;
+
             combatant->PerformAction(Combatants); // Perform action
 
             // Check and update effects duration for the character
+            std::cout << combatant->GetName() << " should have taken a turn" << std::endl;
+            std::cout << "+----------------------------------------+" << std::endl;
             UpdateEffectsDuration(*combatant);
 
             anyCombatantAlive = true; // At least one combatant is still alive
@@ -149,8 +179,17 @@ bool Combat::CurrentAction()
         // Swap the vectors for the next turn
         Combatants.swap(combatantsForNextTurn);
 
+        // Printing combatantsForNextTurn
+        std::cout << "\ncombatantsForNextTurn:\n";
+        for (const auto& combatant : combatantsForNextTurn)
+        {
+            std::cout << combatant->GetName() << " with speed " << combatant->GetSpeed() << "\n";
+        }
+
         CurrentTurn++;
 
+        std::cout << "+----------------------------------------+" << std::endl;
+        system("pause");
         CombatDisplay();
  
 
@@ -162,6 +201,8 @@ bool Combat::CurrentAction()
         std::cout << "+----------------------------------------+" << std::endl;
         std::cout << "Victory!\n";
         std::cout << "+----------------------------------------+" << std::endl;
+
+        // BUFFER OVERFLOW ERROR OCCURS HERE WHEN DEBUGGING
 
         return true; // Signal that combat should end
     }

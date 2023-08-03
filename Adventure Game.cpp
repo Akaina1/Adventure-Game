@@ -52,7 +52,7 @@ int main()
         TypeText(L"Starting Character Creation...\n", 20);
         system("pause");
 
-        player->CharacterCreator(); // works as intended
+        //player->CharacterCreator(); // works as intended
         player->SetSelf(player);
 
         //create events and add to player
@@ -61,6 +61,10 @@ int main()
         {
             player->AddEvent(event);
         }
+
+        player->SetAttackPwr(25);
+        player->SetSpeed(3);
+        player->AddGold(1000);
 
         system("cls");
         std::cout << "--------START GAME--------" << std::endl;
