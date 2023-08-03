@@ -8,7 +8,7 @@
 #include "Enemy.h"
 #include "MainMenu.h"
 
-std::shared_ptr<Location> SetupGame(std::shared_ptr<PlayerCharacter> player);
+//std::shared_ptr<Location> SetupGame(std::shared_ptr<PlayerCharacter> player);
 
 void PrintIntro();
 

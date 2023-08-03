@@ -155,12 +155,6 @@
     <ClInclude Include="DropTable.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SetupEnemies.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SetupNPCs.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="RandomBetween.h">
       <Filter>Header Files</Filter>
     </ClInclude>

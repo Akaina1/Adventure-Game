@@ -1,4 +1,11 @@
 #include "GameManager.h"
+#include "Location.h"
+#include "Room.h"
+#include "Tavern.h"
+#include "Dungeon.h"
+#include "PlayerCharacter.h"
+#include "SetupEvents.h"
+#include "DropTable.h"
 
 GameManager* GameManager::instance = nullptr;
 
@@ -129,11 +136,11 @@ std::unordered_map<std::string, std::shared_ptr<Enemy>> GameManager::SetupEnemie
 	{
 		std::unordered_map<std::shared_ptr<Item>, std::pair<int, int>> itemRanges;
 
-		std::shared_ptr<Item> item1 = getInstance()->GetItem(0001); // get item from item manager (id 0001)
-		itemRanges[item1] = { 1, 3 }; // add item to droptable with a minimum of 1 and a maximum of 3
+		std::shared_ptr<Item> gob_drop_1 = GetItem(0001); // get item from item manager (id 0001)
+		itemRanges[gob_drop_1] = { 1, 3 }; // add item to droptable with a minimum of 1 and a maximum of 3
 
-		std::shared_ptr<Item> item2 = getInstance()->GetItem(0002);
-		itemRanges[item2] = { 1, 2 };
+		std::shared_ptr<Item> gob_drop_2 = GetItem(0002);
+		itemRanges[gob_drop_2] = { 1, 2 };
 
 		auto dropTablePtr = std::make_shared<DropTable>(50, 100, 20, 50, itemRanges);
 		// droptable with 50 minimum exp, 100 maximum exp, 20 minimum gold, 50 maximum gold, and the itemRanges
@@ -144,7 +151,7 @@ std::unordered_map<std::string, std::shared_ptr<Enemy>> GameManager::SetupEnemie
 
 		std::shared_ptr<Enemy> goblin = std::make_shared<Enemy>// create goblin enemy
 			(
-				"Goblin",                // name
+				"Goblin 1",                // name
 				50,                      // maxhealth
 				50,                      // currenthealth
 				20,                      // maxmana
@@ -175,4 +182,58 @@ std::unordered_map<std::string, std::shared_ptr<NPC>> GameManager::SetupNPCs()
 	// Here you would create your NPC objects and add them to the 'npcs' map.
 
 	return npcs;
+}
+
+void GameManager::SetupGame(std::shared_ptr<PlayerCharacter> player)
+{
+	// Create Tavern
+	auto theTavern = std::make_shared<Tavern>("The Tavern", "A Place to Rest, Relax, Drink and forget about the monsters below us...", player);
+
+	// Create NPCs for Tavern Rooms
+	std::shared_ptr<NPC> npc1 = GetNPC("NPC 1");
+	std::shared_ptr<NPC> npc2 = GetNPC("NPC 2");
+
+	// Create NPC Groups for Tavern Rooms
+	std::deque<std::shared_ptr<CharacterTemplate>> NPCGroup1;
+	NPCGroup1.push_back(npc1);
+	NPCGroup1.push_back(npc2);
+
+	//create enemies for Dungeon
+	std::shared_ptr<Enemy> goblin1 = GetEnemy("Goblin 1");
+	std::shared_ptr<Enemy> goblin2 = GetEnemy("Goblin 1");
+
+	// Create Enemy Groups for Dungeon Rooms
+	std::deque<std::shared_ptr<CharacterTemplate>> enemyGroup1;
+	enemyGroup1.push_back(goblin1);
+	enemyGroup1.push_back(goblin2);
+
+	// Create Rooms for Tavern
+	auto tavernRoom1 = std::make_shared<Room>("Tavern Room 1", "A cozy little room with a roaring fireplace.");
+	auto tavernRoom2 = std::make_shared<Room>("Tavern Room 2", "A room filled with raucous laughter and song.");
+	theTavern->ConnectRoom(tavernRoom1);
+	theTavern->ConnectRoom(tavernRoom2);
+	tavernRoom1->ConnectRoom(tavernRoom2);
+	tavernRoom2->ConnectRoom(tavernRoom1);
+	tavernRoom1->ConnectLocation(theTavern);
+	tavernRoom2->ConnectLocation(theTavern);
+
+	// Create Dungeon
+	auto theDungeon = std::make_shared<Dungeon>("The Dungeon", "A dark, dreary dungeon teeming with dangerous creatures.", player);
+	theTavern->ConnectLocation(theDungeon);
+	theDungeon->ConnectLocation(theTavern);
+
+
+	// Create Rooms for Dungeon
+	auto dungeonRoom1 = std::make_shared<Room>("Dungeon Room 1", "A room echoing with the sounds of dripping water and skittering creatures.", enemyGroup1);
+	auto dungeonRoom2 = std::make_shared<Room>("Dungeon Room 2", "A room filled with the stench of rot and decay.", enemyGroup1);
+	theDungeon->ConnectRoom(dungeonRoom1);
+	theDungeon->ConnectRoom(dungeonRoom2);
+	dungeonRoom1->ConnectRoom(dungeonRoom2);
+	dungeonRoom2->ConnectRoom(dungeonRoom1);
+	dungeonRoom1->ConnectLocation(theDungeon);
+	dungeonRoom2->ConnectLocation(theDungeon);
+
+	// set starting location
+
+	startLocation = theTavern;
 }

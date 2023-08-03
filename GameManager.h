@@ -17,6 +17,8 @@ private:
 	std::unordered_map<std::string, std::shared_ptr<Enemy>> SetupEnemies();
 	std::unordered_map<std::string, std::shared_ptr<NPC>> SetupNPCs();
 
+	std::shared_ptr<Location> startLocation;
+
 	GameManager();
 
 public:
@@ -25,5 +27,8 @@ public:
 	std::shared_ptr<Item> GetItem (int id);
 	std::shared_ptr<Enemy> GetEnemy(const std::string& name);
 	std::shared_ptr<NPC> GetNPC(const std::string& name);
+	void SetupGame(std::shared_ptr<PlayerCharacter> player);
+	std::shared_ptr<Location> GetStartLocation() { return startLocation; };
+
 };
 

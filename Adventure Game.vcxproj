@@ -171,10 +171,8 @@
     <ClInclude Include="PlayerCharacter.h" />
     <ClInclude Include="RandomBetween.h" />
     <ClInclude Include="Room.h" />
-    <ClInclude Include="SetupEnemies.h" />
     <ClInclude Include="SetupEvents.h" />
     <ClInclude Include="SetupItems.h" />
-    <ClInclude Include="SetupNPCs.h" />
     <ClInclude Include="Skill.h" />
     <ClInclude Include="StatusEffect.h" />
     <ClInclude Include="Tavern.h" />
