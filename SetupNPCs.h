@@ -2,6 +2,7 @@
 
 #include "Main.h"
 #include "NPC.h"
+#include "GameManager.h"
 
 static std::unordered_map<std::string, std::shared_ptr<NPC>> SetupNPCs()
 {

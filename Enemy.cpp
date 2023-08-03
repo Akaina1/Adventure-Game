@@ -1,8 +1,8 @@
 #include "Enemy.h"
 #include "AttackType.h"
-#include "Enemy.h"
 #include "Combat.h"
-
+#include "GameManager.h"
+#include "RandomBetween.h"
 
 enum {
 	MANA_THRESHOLD = 20, // 20%
@@ -35,16 +35,12 @@ void Enemy::Print(std::ostream& os) const     // override the print function fro
 	}
 }
 
-Enemy::Enemy() // default constructor
-{
-}
-
 Enemy::Enemy(std::string name, int maxhealth, int currenthealth, int maxmana,
 	int currentmana, int level, int speed, int attackPwr, int defensePwr,
-	bool isDefending,std::map<std::string, int> statValues, AttackType baseAttackType,
-	std::vector<Skill> skills, std::vector<EffectPtr> afflictions, DropTable droptable)
-	: CharacterTemplate(name, maxhealth, currenthealth, maxmana, currentmana, level, speed, attackPwr, defensePwr,
-      isDefending, statValues, baseAttackType, skills, afflictions), dropTable (droptable)
+	bool isDefending, std::map<std::string, int> statValues, AttackType baseAttackType,
+	std::vector<Skill> skills, std::vector<EffectPtr> afflictions, std::shared_ptr<DropTable> droptable)
+	: CharacterTemplate(name, maxhealth, currenthealth, maxmana, currentmana, level, speed, attackPwr,
+		defensePwr, isDefending, statValues, baseAttackType, skills, afflictions), dropTable (droptable)
 {
 }
 
@@ -190,18 +186,10 @@ void Enemy::UseSkill(std::deque<std::shared_ptr<CharacterTemplate>>& Combatants)
 	return;
 }
 
-void Enemy::DropLoot(std::shared_ptr<PlayerCharacter> player) const
+void Enemy::DropLoot(std::shared_ptr<PlayerCharacter> player)
 {
-	int exp = RandomBetween(dropTable.GetMinExp(), dropTable.GetMaxExp());
-	int gold = RandomBetween(dropTable.GetMinGold(), dropTable.GetMaxGold());
-
-	std::unordered_map<int, std::pair<std::shared_ptr<Item>, int>> items;
-	for (const auto& itemRange : dropTable.GetItemRanges()) {
-		int quantity = RandomBetween(itemRange.second.second.first, itemRange.second.second.second);
-		items[itemRange.first] = { itemRange.second.first, quantity };
-	}
-
-	// Do something with exp, gold, and items...
+	int exp = RandomBetween(dropTable->GetMinExp(), dropTable->GetMaxExp());
+	int gold = RandomBetween(dropTable->GetMinGold(), dropTable->GetMaxGold());
 
 	player->AddExperience(exp);
 	player->AddGold(gold);
@@ -209,9 +197,11 @@ void Enemy::DropLoot(std::shared_ptr<PlayerCharacter> player) const
 	std::cout << "+----------------------------------------+" << std::endl;
 	std::cout << "You got: " << exp << " experience!" << std::endl;
 	std::cout << "You got: " << gold << " gold!" << std::endl;
-	for (const auto& item : items)
+
+	for (const auto& itemRange : dropTable->GetItemRanges())
 	{
-		player->AddItem(item.second.first, item.second.second);
-		std::cout << "You got: " << item.second.first->GetName() << " x " << item.second.second << "!" << std::endl;
+		int quantity = RandomBetween(itemRange.second.first, itemRange.second.second);
+		player->AddItem(itemRange.first, quantity);
+		std::cout << "You got: " << itemRange.first->GetName() << " x " << quantity << "!" << std::endl;
 	}
 }

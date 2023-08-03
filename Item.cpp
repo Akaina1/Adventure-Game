@@ -23,7 +23,6 @@ void Item::Print(Item& item) // print item info
 	std::cout << "Name: " << name << std::endl;
 	std::cout << "Description: " << description << std::endl;
 	std::cout << "Price: " << price << std::endl;
-	std::cout << "Quantity: " << quantity << std::endl;
 }
 
 void Item::EquipItem()

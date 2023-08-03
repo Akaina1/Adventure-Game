@@ -385,7 +385,7 @@ void PlayerCharacter::UseItem(int itemId)
 		auto& item = Inventory[itemId].first;
 		switch (item->GetType())
 		{
-		case 0:// Consumable
+		case ItemType::CONSUMABLE:// Consumable
 
 			item->GetEffect()(*this);
 			Inventory[itemId].second--;  // decrease quantity by 1
@@ -394,9 +394,13 @@ void PlayerCharacter::UseItem(int itemId)
 			}
 			break;
 
-		case 1:// Weapon
+		case ItemType::WEAPON:// Weapon
 			break;
-		case 2:// Armor
+		case ItemType::ARMOR:// Armor
+			break;
+		case ItemType::EVENT_ITEM:// Material
+			break;
+		case ItemType::JUNK_ITEM:// Junk
 			break;
 		}
 	}

@@ -78,7 +78,7 @@
     <ClCompile Include="SetupEvents.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="DropTable.cpp">
+    <ClCompile Include="RandomBetween.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -159,6 +159,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SetupNPCs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RandomBetween.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
