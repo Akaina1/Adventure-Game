@@ -75,6 +75,9 @@ void Tavern::TavernMenu()
 	case 5:
 		// check inventory
 		Player->CheckInventory();
+		system("pause");
+		system("cls");
+		TavernMenu();
 		break;
 	case 6:
 		// exit the game
@@ -156,7 +159,7 @@ void Tavern::Drink()
 	std::shared_ptr<Item> Water = std::make_shared<Item>("Water", "A glass of water", 1004, 5, ItemType::CONSUMABLE, [](std::shared_ptr<PlayerCharacter> player) {player->heal(5); });
 	
 
-	if (Ale->GetEffect())
+	/*if (Ale->GetEffect())
 	{
 		std::cout << "Ale has an effect!" << std::endl;
 	}
@@ -166,18 +169,18 @@ void Tavern::Drink()
 		std::cout << "Mead has an effect!" << std::endl;
 	}
 
-if (Wine->GetEffect())
+	if (Wine->GetEffect())
 	{
 		std::cout << "Wine has an effect!" << std::endl;
 	}
 
-if (Water->GetEffect())
+	if (Water->GetEffect())
 	{
 		std::cout << "Water has an effect!" << std::endl;
-	}
+	}*/
 
 
-	system("pause");
+	//system("pause");
 
 	system("cls");
     TypeText(L"+-----------------------------------------+\n", 10);

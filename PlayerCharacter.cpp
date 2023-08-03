@@ -382,33 +382,41 @@ void PlayerCharacter::PrintInventory()  // prints the inventory of the player ch
 
 void PlayerCharacter::UseItem(int itemId)
 {
-	if (Inventory.count(itemId) > 0 && Inventory[itemId].second > 0)
+	//if (Inventory.count(itemId) > 0 && Inventory[itemId].second > 0)
+	//{
+	//	auto& item = Inventory[itemId].first;
+	//	auto playerPtr = std::dynamic_pointer_cast<PlayerCharacter>(shared_from_this());
+
+	//	switch (item->GetType())
+	//	{
+	//	case ItemType::CONSUMABLE: // Consumable
+	//		
+	//		if (playerPtr) {
+	//			item->GetEffect()(playerPtr);
+	//		}
+	//		else {
+	//			// Handle the error condition, possibly throw an exception
+	//			throw std::runtime_error("Failed to cast CharacterTemplate to PlayerCharacter");
+	//		}
+	//		break;
+
+	//	case ItemType::WEAPON:// Weapon
+	//		break;
+	//	case ItemType::ARMOR:// Armor
+	//		break;
+	//	case ItemType::EVENT_ITEM:// Material
+	//		break;
+	//	case ItemType::JUNK_ITEM:// Junk
+	//		break;
+	//	}
+	//}
+	auto& item = Inventory[itemId].first;
+	auto playerPtr = std::dynamic_pointer_cast<PlayerCharacter>(shared_from_this());
+
+	if (HasItem(itemId))
 	{
-		auto& item = Inventory[itemId].first;
-		auto playerPtr = std::dynamic_pointer_cast<PlayerCharacter>(shared_from_this());
-
-		switch (item->GetType())
-		{
-		case ItemType::CONSUMABLE: // Consumable
-			
-			if (playerPtr) {
-				item->GetEffect()(playerPtr);
-			}
-			else {
-				// Handle the error condition, possibly throw an exception
-				throw std::runtime_error("Failed to cast CharacterTemplate to PlayerCharacter");
-			}
-			break;
-
-		case ItemType::WEAPON:// Weapon
-			break;
-		case ItemType::ARMOR:// Armor
-			break;
-		case ItemType::EVENT_ITEM:// Material
-			break;
-		case ItemType::JUNK_ITEM:// Junk
-			break;
-		}
+		item->GetEffect()(playerPtr);
+		RemoveItem(item, 1);
 	}
 }
 
@@ -1175,7 +1183,8 @@ void PlayerCharacter::CheckInventory()
 	}
 	else if (Inventory.count(itemChoice) > 0)
 	{
-		UseItem(itemChoice); //ERROR CRASHES HERE
+		UseItem(itemChoice);
+		return;
 	}
 	else
 	{

@@ -75,6 +75,8 @@ void CharacterTemplate::heal(int health) // heals the player character
 	{
 		CurrentHealth = MaxHealth;
 	}
+
+	std::cout << this->GetName() << " has been healed for " << health << " health!" << std::endl;
 }
 
 void CharacterTemplate::TakeDamage(int damage) // damages the player character
